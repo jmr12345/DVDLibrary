@@ -10,4 +10,15 @@
 
 @interface MovieTableViewController : UITableViewController
 
+@property (strong, nonatomic) NSArray* allTableData;
+@property (strong, nonatomic) NSMutableDictionary* filteredTableData;
+@property (strong, nonatomic) NSMutableArray* letters;
+@property (strong, nonatomic) NSMutableArray* genres;
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, assign) bool isFiltered;
+
+- (IBAction)switchToTitles:(id)sender;
+- (IBAction)switchToGenres:(id)sender;
+
 @end
