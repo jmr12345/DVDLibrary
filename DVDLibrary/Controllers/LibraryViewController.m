@@ -46,15 +46,32 @@
 - (IBAction)changeMovieLayout:(id)sender {
     UIViewController *vc = [self switchViewController];
     [self addChildViewController:vc];
-    [self transitionFromViewController:self.currentViewController toViewController:vc duration:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        [self.currentViewController.view removeFromSuperview];
-        vc.view.frame = self.view.bounds;
-        [self.view addSubview:vc.view];
-    } completion:^(BOOL finished) {
-        [vc didMoveToParentViewController:self];
-        [self.currentViewController removeFromParentViewController];
-        self.currentViewController = vc;
-    }];
+    [self.currentViewController.view removeFromSuperview];
+    vc.view.frame = self.view.bounds;
+    [self.view addSubview:vc.view];
+    [vc didMoveToParentViewController:self];
+    [self.currentViewController removeFromParentViewController];
+    self.currentViewController = vc;
+
+//    [self transitionFromViewController:self.currentViewController toViewController:vc duration:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+//        [self.currentViewController.view removeFromSuperview];
+//        vc.view.frame = self.view.bounds;
+//        [self.view addSubview:vc.view];
+//    } completion:^(BOOL finished) {
+//        [vc didMoveToParentViewController:self];
+//        [self.currentViewController removeFromParentViewController];
+//        self.currentViewController = vc;
+//    }];
+}
+
+- (IBAction)search:(id)sender {
+    MovieTableViewController *vc = (MovieTableViewController*)self.currentViewController;
+    if ([vc.searchBar isHidden]){
+        vc.searchBar.hidden = NO;
+    }
+    else {
+        vc.searchBar.hidden = YES;
+    }
 }
 
 - (UIViewController *)switchViewController{
@@ -62,7 +79,11 @@
     if ([self.movieLayout isEqual:@"Collection"]) {
         self.movieLayout = @"Table";
         vc = [self getViewController];
+        UIImage *image = [UIImage imageNamed:@"grid-26.png"];
+        [self.movieLayoutButton setImage:image];
     } else if ([self.movieLayout isEqual:@"Table"]) {
+        UIImage *image = [UIImage imageNamed:@"list-26.png"];
+        [self.movieLayoutButton setImage:image];
         self.movieLayout = @"Collection";
         vc = [self getViewController];
     }

@@ -1,5 +1,5 @@
 //
-//  MovieCollectionViewController2.m
+//  MovieCollectionViewController.m
 //  DVDLibrary
 //
 //  Created by Ming on 3/2/14.
@@ -33,6 +33,8 @@
     self.allTableData = [[MovieData alloc] init].movieData;
     
     [self.collectionView reloadData];
+    
+    self.searchBar.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning
