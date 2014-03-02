@@ -32,6 +32,8 @@
     NSArray *data = [[MovieData alloc] init].movieData;
     
     self.array = data;
+    
+    self.view.backgroundColor = [UIColor blackColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,5 +75,17 @@
     Movie *movie = [_array objectAtIndex:row];
     return movie.title;
     
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, 0, pickerView.frame.size.width-50, 44)];
+    label.backgroundColor = [UIColor purpleColor];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    Movie *movie = [self.array objectAtIndex:row];
+    label.text = movie.title;
+
+    return label;
 }
 @end
