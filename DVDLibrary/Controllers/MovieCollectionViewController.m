@@ -9,6 +9,7 @@
 #import "MovieCollectionViewController.h"
 #import "MovieCollectionViewCell.h"
 #import "Movie.h"
+#import "MovieData.h"
 
 @interface MovieCollectionViewController ()
 
@@ -29,6 +30,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+     self.allTableData = [[MovieData alloc] init].movieData;
+    
+    [self.collectionView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,20 +50,28 @@
 - (NSInteger) collectionView:(UICollectionView *)collectionView
       numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    return [self.allTableData count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+   
     static NSString *identifier = @"MovieCollectionViewCellID";
+    MovieCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    // Get movie at current position
+    Movie *movie = [[Movie alloc] init];
+   // NSString* category = [self.sections objectAtIndex:indexPath.section];
+    //NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
     
-    UIImageView *movieImageView = (UIImageView *)[cell viewWithTag:100];
+    movie = self.allTableData[indexPath.row];
     
-    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://icondock.com/wp-content/uploads/2009/03/easter-icons.jpg"]]];
-    movieImageView.image = image;
+    UIImage *image = movie.image;
     
+//    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://icondock.com/wp-content/uploads/2009/03/easter-icons.jpg"]]];
+   
+    [cell.movieImageView setImage:image];
     return cell;
+    
 }
 
 //- (UICollectionViewCell *) collectionView:(UICollectionView *)collectionView
@@ -76,6 +88,18 @@
 //    return cell;
 //
 //}
+
+#pragma mark – UICollectionViewDelegateFlowLayout
+
+
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    return CGSizeMake(50,80);
+//}
+
+- (UIEdgeInsets)collectionView:
+(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(50, 20, 50, 20);
+}
 
 
 @end

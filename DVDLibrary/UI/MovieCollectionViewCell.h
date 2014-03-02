@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MovieCollectionViewCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *movieImage;
+@property (weak, nonatomic) IBOutlet UIImageView *movieImageView;
 
 @end

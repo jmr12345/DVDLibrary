@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MovieCollectionViewController : UICollectionViewController
-
+@property (strong, nonatomic) NSArray* allTableData;
 @end
