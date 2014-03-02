@@ -1,8 +1,8 @@
 //
-//  MovieTableViewController.m
+//  MovieTableViewController2.m
 //  DVDLibrary
 //
-//  Created by Ming on 2/27/14.
+//  Created by Ming on 3/1/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
 
@@ -28,15 +28,18 @@
     self.allTableData = [[MovieData alloc] init].movieData;
     
     self.tableView.sectionFooterHeight = 0.0;
-    //self.tableView.sectionHeaderHeight = 1.0;
-    
-    self.tableView.backgroundView.backgroundColor = [UIColor blackColor];
+    self.tableView.sectionHeaderHeight = 28.0;
     
     // Update sections and data for search string (empty string shows all data)
     [self updateTableData:@""];
     
     // Reload table
     [self.tableView reloadData];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Table view data source
@@ -49,7 +52,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-     return [self.sections count];
+    return [self.sections count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -63,7 +66,7 @@
 {
     static NSString *CellIdentifier = @"MovieTableViewCellID";
     MovieTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
+    
     // Get movie at current position
     Movie *movie = [[Movie alloc] init];
     NSString* category = [self.sections objectAtIndex:indexPath.section];
@@ -114,7 +117,7 @@
                 }
                 // Add movie to its section array
                 [arrayForLetter addObject:movie];
-
+                
             } else if ([self.viewType  isEqual:@"Genres"]) {
                 // Find the genre of the movie
                 NSString* genre = movie.genre;
@@ -139,20 +142,12 @@
     [self.tableView reloadData];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.01;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
-}
-
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
     
     // Setup label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     NSString *string = [self.sections objectAtIndex:section];
@@ -161,28 +156,24 @@
     
     [view setBackgroundColor:[UIColor colorWithRed:0.098039 green:0.098039 blue:0.098039 alpha:1]];
     
-   // [view setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.5f]];
+    // [view setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.5f]];
     
     
     return view;
 }
-
-//- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-//{
-//    // Text Color
-//    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-//    [header.textLabel setTextColor:[UIColor whiteColor]];
-//    header.textLabel.textAlignment = NSTextAlignmentCenter;
-//    
-//    // Change background color
-//    header.contentView.backgroundColor = [UIColor blackColor];
-//}
 
 #pragma mark - Table view delegate
 
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
 {
     [self updateTableData:text];
+    
+    if([text length] == 0) {
+        [searchBar performSelector: @selector(resignFirstResponder)
+                        withObject: nil
+                        afterDelay: 0.1];
+    }
+
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -206,12 +197,12 @@
 - (IBAction)switchToTitles:(id)sender {
     self.viewType = @"Titles";
     [self updateTableData:@""];
-
+    
 }
 
 - (IBAction)switchToGenres:(id)sender {
     self.viewType = @"Genres";
     [self updateTableData:@""];
-
+    
 }
 @end
