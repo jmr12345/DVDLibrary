@@ -221,5 +221,6 @@
 }
 
 - (IBAction)switchView:(id)sender {
+    [ (LibraryViewController*)self.parentViewController.parentViewController viewControllerForMovieLayout:1];
 }
 @end

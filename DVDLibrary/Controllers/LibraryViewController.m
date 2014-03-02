@@ -15,22 +15,19 @@
 @implementation LibraryViewController
 
 - (void)viewDidLoad {
+    NSLog(@"library viewdidload");
     [super viewDidLoad];
     // add viewController so you can switch them later.
-    UIViewController *vc = [self viewControllerForSegmentIndex:self.typeSegmentedControl.selectedSegmentIndex];
+    UIViewController *vc = [self getViewController:0];
     [self addChildViewController:vc];
     vc.view.frame = self.view.bounds;
     [self.view addSubview:vc.view];
     self.currentViewController = vc;
-    
-    [self.typeSegmentedControl addTarget:self
-                         action:@selector(segmentChanged:)
-               forControlEvents:UIControlEventValueChanged];
 }
 
 
-- (IBAction)segmentChanged:(UISegmentedControl *)sender {
-    UIViewController *vc = [self viewControllerForSegmentIndex:sender.selectedSegmentIndex];
+- (void)viewControllerForMovieLayout:(NSInteger)index {
+    UIViewController *vc = [self getViewController:index];
     [self addChildViewController:vc];
     [self transitionFromViewController:self.currentViewController toViewController:vc duration:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [self.currentViewController.view removeFromSuperview];
@@ -41,12 +38,12 @@
         [self.currentViewController removeFromParentViewController];
         self.currentViewController = vc;
     }];
-    self.navigationItem.title = vc.title;
+    //self.navigationItem.title = vc.title;
 }
 
-- (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {
+- (UIViewController *)getViewController:(NSInteger)index {
     UIViewController *vc;
-    switch (index) {
+        switch (index) {
         case 0:
             vc = [self.storyboard instantiateViewControllerWithIdentifier:@"Nav1"];
             break;

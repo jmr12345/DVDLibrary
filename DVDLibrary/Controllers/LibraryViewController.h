@@ -10,8 +10,7 @@
 
 @interface LibraryViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *typeSegmentedControl;
-@property (strong, nonatomic) NSArray *viewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
+- (void)viewControllerForMovieLayout:(NSInteger)index;
 
 @end
