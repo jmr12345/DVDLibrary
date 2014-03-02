@@ -1,5 +1,5 @@
 //
-//  MovieTableViewController2.m
+//  MovieTableViewController.m
 //  DVDLibrary
 //
 //  Created by Ming on 3/1/14.
@@ -29,6 +29,14 @@
     
     self.tableView.sectionFooterHeight = 0.0;
     self.tableView.sectionHeaderHeight = 28.0;
+    
+    self.tableView.tableFooterView = [[UIView alloc] init];
+  
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundView = [[UIView alloc] init];
+    self.tableView.backgroundView.backgroundColor = [UIColor blackColor];
+    
+    self.searchBar.hidden = YES;
     
     // Update sections and data for search string (empty string shows all data)
     [self updateTableData:@""];
@@ -154,11 +162,8 @@
     [label setText:string];
     [view addSubview:label];
     
-    [view setBackgroundColor:[UIColor colorWithRed:0.098039 green:0.098039 blue:0.098039 alpha:1]];
-    
-    // [view setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.5f]];
-    
-    
+    [view setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
+
     return view;
 }
 
@@ -176,9 +181,20 @@
 
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+    searchBar.hidden = YES;
+}
+
+- (void)changeSections {
+    if ([self.viewType  isEqual:@"Titles"]) {
+        self.viewType = @"Genres";
+        [self updateTableData:@""];
+    } else if ([self.viewType  isEqual:@"Genres"]) {
+        self.viewType = @"Titles";
+        [self updateTableData:@""];
+    }
 }
 
 ///*
@@ -194,15 +210,4 @@
 //
 // */
 //
-- (IBAction)switchToTitles:(id)sender {
-    self.viewType = @"Titles";
-    [self updateTableData:@""];
-    
-}
-
-- (IBAction)switchToGenres:(id)sender {
-    self.viewType = @"Genres";
-    [self updateTableData:@""];
-    
-}
 @end

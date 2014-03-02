@@ -10,8 +10,12 @@
 
 @interface LibraryViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *typeSegmentedControl;
-@property (strong, nonatomic) NSArray *viewControllers;
 @property (strong, nonatomic) UIViewController *currentViewController;
+@property (weak, nonatomic) IBOutlet UIButton *categoryButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *movieLayoutButton;
+
+- (IBAction)changeSections:(id)sender;
+- (IBAction)changeMovieLayout:(id)sender;
+- (IBAction)search:(id)sender;
 
 @end
