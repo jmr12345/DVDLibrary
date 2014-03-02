@@ -1,5 +1,5 @@
 //
-//  MovieTableViewController2.h
+//  MovieTableViewController.h
 //  DVDLibrary
 //
 //  Created by Ming on 3/1/14.
