@@ -11,6 +11,9 @@
 @interface LibraryViewController : UIViewController
 
 @property (strong, nonatomic) UIViewController *currentViewController;
-- (void)viewControllerForMovieLayout:(NSInteger)index;
+@property (weak, nonatomic) IBOutlet UIButton *categoryButton;
+
+- (IBAction)changeSections:(id)sender;
+- (IBAction)changeMovieLayout:(id)sender;
 
 @end

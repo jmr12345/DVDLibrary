@@ -7,27 +7,44 @@
 //
 
 #import "LibraryViewController.h"
+#import "MovieTableViewController.h"
 
 @interface LibraryViewController ()
+
+@property (strong,nonatomic) NSString *movieLayout;
+@property (strong,nonatomic) NSString *category;
 
 @end
 
 @implementation LibraryViewController
 
 - (void)viewDidLoad {
-    NSLog(@"library viewdidload");
     [super viewDidLoad];
-    // add viewController so you can switch them later.
-    UIViewController *vc = [self getViewController:0];
+    
+    // Shows tableView categorized by title
+    self.movieLayout = @"Table";
+    self.category = @"Titles";
+    
+    UIViewController *vc = [self getViewController];
     [self addChildViewController:vc];
     vc.view.frame = self.view.bounds;
     [self.view addSubview:vc.view];
     self.currentViewController = vc;
 }
 
+- (IBAction)changeSections:(id)sender {
+    [(MovieTableViewController*)self.currentViewController changeSections];
+    if ([self.category isEqual:@"Titles"]) {
+        self.category = @"Genres";
+        [self.categoryButton setTitle:@"By: Genres" forState:UIControlStateNormal];
+    } else if ([self.category isEqual:@"Genres"]) {
+        self.category = @"Titles";
+        [self.categoryButton setTitle:@"By: Titles" forState:UIControlStateNormal];
+    }
+}
 
-- (void)viewControllerForMovieLayout:(NSInteger)index {
-    UIViewController *vc = [self getViewController:index];
+- (IBAction)changeMovieLayout:(id)sender {
+    UIViewController *vc = [self switchViewController];
     [self addChildViewController:vc];
     [self transitionFromViewController:self.currentViewController toViewController:vc duration:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [self.currentViewController.view removeFromSuperview];
@@ -38,20 +55,29 @@
         [self.currentViewController removeFromParentViewController];
         self.currentViewController = vc;
     }];
-    //self.navigationItem.title = vc.title;
 }
 
-- (UIViewController *)getViewController:(NSInteger)index {
+- (UIViewController *)switchViewController{
     UIViewController *vc;
-        switch (index) {
-        case 0:
-            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"Nav1"];
-            break;
-        case 1:
-            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieCollectionViewController2ID"];
-            break;
+    if ([self.movieLayout isEqual:@"Collection"]) {
+        self.movieLayout = @"Table";
+        vc = [self getViewController];
+    } else if ([self.movieLayout isEqual:@"Table"]) {
+        self.movieLayout = @"Collection";
+        vc = [self getViewController];
     }
     return vc;
 }
+
+- (UIViewController *)getViewController{
+    UIViewController *vc;
+    if ([self.movieLayout isEqual:@"Table"]) {
+        vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieTableViewControllerID"];
+    } else if ([self.movieLayout isEqual:@"Collection"]) {
+        vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieCollectionViewControllerID"];
+    }
+    return vc;
+}
+
 
 @end

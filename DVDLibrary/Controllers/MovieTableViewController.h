@@ -19,8 +19,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *categoryButton;
 @property (nonatomic, assign) bool isFiltered;
 
-- (IBAction)switchToTitles:(id)sender;
-- (IBAction)switchToGenres:(id)sender;
-- (IBAction)changeSections:(id)sender;
-- (IBAction)switchView:(id)sender;
+- (void)changeSections;
 @end
