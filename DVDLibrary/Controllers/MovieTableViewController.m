@@ -25,100 +25,56 @@
     
     self.viewType = @"Titles";
     
-    self.searchBar.delegate = (id)self;
-    
     self.allTableData = [[MovieData alloc] init].movieData;
-    
     
     self.tableView.sectionFooterHeight = 0.0;
     self.tableView.sectionHeaderHeight = 30.0;
     
+    // Update sections and data for search string (empty string shows all data)
     [self updateTableData:@""];
+    
+    // Reload table
     [self.tableView reloadData];
 }
-
-//-(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section {
-//    return 20;
-//}
-
-//-(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section {
-//    return 0;
-//}
-//
-//
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return 50;
-//}
 
 #pragma mark - Table view data source
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString* key = @"";
-    
-    if ([self.viewType  isEqual:@"Titles"]) {
-       key = [self.letters objectAtIndex:section];
-    } else if ([self.viewType  isEqual:@"Genres"]) {
-       key = [self.genres objectAtIndex:section];
-    }
-    
+    NSString* key = [self.sections objectAtIndex:section];
     return key;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([self.viewType  isEqual:@"Titles"]) {
-        return [self.letters count];
-    } else if ([self.viewType  isEqual:@"Genres"]) {
-        return [self.genres count];
-    }
-    return 0;
+     return [self.sections count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([self.viewType  isEqual:@"Titles"]) {
-        NSString* letter = [self.letters objectAtIndex:section];
-        NSArray* arrayForLetter = (NSArray*)[self.filteredTableData objectForKey:letter];
-        return [arrayForLetter count];
-    } else if ([self.viewType  isEqual:@"Genres"]) {
-        NSString* genre = [self.genres objectAtIndex:section];
-        NSArray* arrayForGenres = (NSArray*)[self.filteredTableData objectForKey:genre];
-        return [arrayForGenres count];
-    }
-    return 0;
+    NSString* category = [self.sections objectAtIndex:section];
+    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    return [arrayForSection count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"MovieTableViewCellID";
     MovieTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    if (cell == nil) {
-        cell = [[MovieTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    
+
+    // Get movie at current position
     Movie *movie = [[Movie alloc] init];
+    NSString* category = [self.sections objectAtIndex:indexPath.section];
+    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    movie = (Movie *)[arrayForSection objectAtIndex:indexPath.row];
     
-    if ([self.viewType  isEqual:@"Titles"]) {
-        NSString* letter = [self.letters objectAtIndex:indexPath.section];
-        NSArray* arrayForLetter = (NSArray*)[self.filteredTableData objectForKey:letter];
-        movie = (Movie *)[arrayForLetter objectAtIndex:indexPath.row];
-    } else if ([self.viewType  isEqual:@"Genres"]) {
-        NSString* genre = [self.genres objectAtIndex:indexPath.section];
-        NSArray* arrayForGenre = (NSArray*)[self.filteredTableData objectForKey:genre];
-        movie = (Movie *)[arrayForGenre objectAtIndex:indexPath.row];
-    }
-  
-    NSLog(@"%@",movie.title);
-    
+    // Configure cell appearance
     cell.label.text = movie.title;
     [cell.movieImageView setImage:movie.image];
     return cell;
 }
 
+// Update sections and data for search string (empty String shows all data)
 -(void)updateTableData:(NSString*)searchString
 {
     self.filteredTableData = [[NSMutableDictionary alloc] init];
@@ -128,79 +84,84 @@
         bool isMatch = false;
         if(searchString.length == 0)
         {
-            // If our search string is empty, everything is a match
+            // If empty string, show everything
             isMatch = true;
         }
         else
         {
-            // If we have a search string, check to see if it matches the movie title
-            NSRange nameRange = [movie.title rangeOfString:searchString options:NSCaseInsensitiveSearch];
-            //NSRange descriptionRange = [food.description rangeOfString:searchString options:NSCaseInsensitiveSearch];
-            if(nameRange.location != NSNotFound)
+            // Else, check to see if search string matches a movie title
+            NSRange titleRange = [movie.title rangeOfString:searchString options:NSCaseInsensitiveSearch];
+            if(titleRange.location != NSNotFound)
                 isMatch = true;
         }
         
-        // If we have a match...
+        // If there is a match
         if(isMatch)
         {
             if ([self.viewType  isEqual:@"Titles"]) {
-                // Find the first letter of the title's name. This will be its group.
+                // Find first letter of movie title
                 NSString* firstLetter = [movie.title substringToIndex:1];
                 
-                // Check to see if we already have an array for this group
+                // Check to see if an array for the letter already exists
                 NSMutableArray* arrayForLetter = (NSMutableArray*)[self.filteredTableData objectForKey:firstLetter];
                 if(arrayForLetter == nil)
                 {
-                    // If we don't, create one, and add it to our dictionary
+                    // If none exists, create one, and add it to dictionary
                     arrayForLetter = [[NSMutableArray alloc] init];
                     [self.filteredTableData setValue:arrayForLetter forKey:firstLetter];
                 }
-                
-                // Finally, add the food to this group's array
+                // Add movie to its section array
                 [arrayForLetter addObject:movie];
 
             } else if ([self.viewType  isEqual:@"Genres"]) {
-                // Find the genre of the movie. This will be its group.
+                // Find the genre of the movie
                 NSString* genre = movie.genre;
                 
-                // Check to see if we already have an array for this group
+                // Check to see if an array for genre already exists
                 NSMutableArray* arrayForGenre = (NSMutableArray*)[self.filteredTableData objectForKey:genre];
                 if(arrayForGenre == nil)
                 {
-                    // If we don't, create one, and add it to our dictionary
+                    // If none exists, create one, and add it to dictionary
                     arrayForGenre = [[NSMutableArray alloc] init];
                     [self.filteredTableData setValue:arrayForGenre forKey:genre];
                 }
-                
-                // Finally, add the movie to this group's array
+                // Add movie to its section array
                 [arrayForGenre addObject:movie];
             }
-
         }
     }
+    // Create array of all sections
+    self.sections = [[[self.filteredTableData allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
     
-    if ([self.viewType  isEqual:@"Titles"]) {
-        self.letters = [[[self.filteredTableData allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
-    } else if ([self.viewType  isEqual:@"Genres"]) {
-        self.genres = [[[self.filteredTableData allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
-    }
-    
-    // Finally, refresh the table
+    // Reload table
     [self.tableView reloadData];
 }
 
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
+//    
+//    // Setup label
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width, 18)];
+//    label.textColor = [UIColor whiteColor];
+//    NSString *string = [self.sections objectAtIndex:section];
+//    [label setText:string];
+//    [view addSubview:label];
+//    
+//    [view setBackgroundColor:[UIColor blackColor]];
+//    
+//    
+//    return view;
+//}
+
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
-    // Background color
-    //view.tintColor = [UIColor blackColor];
-    
     // Text Color
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     [header.textLabel setTextColor:[UIColor whiteColor]];
     
-    // Another way to set the background color
-    // Note: does not preserve gradient effect of original header
-     header.contentView.backgroundColor = [UIColor blackColor];
+    // Change background color
+    header.contentView.backgroundColor = [UIColor blackColor];
 }
 
 #pragma mark - Table view delegate

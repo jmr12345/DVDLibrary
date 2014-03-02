@@ -30,7 +30,7 @@
     movie1.description = @"This is the description of the movie.";
     
     Movie *movie2 = [[Movie alloc] init];
-    movie2.title = @"Monsters Inc";
+    movie2.title = @"Monsters, Inc.";
     UIImage *image2 = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://ia.media-imdb.com/images/M/MV5BMTY1NTI0ODUyOF5BMl5BanBnXkFtZTgwNTEyNjQ0MDE@._V1_SX214_.jpg"]]];
     movie2.image = image2;
     movie2.genre = @"Animation";

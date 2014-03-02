@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) NSArray* allTableData;
 @property (strong, nonatomic) NSMutableDictionary* filteredTableData;
+@property (strong, nonatomic) NSMutableArray* sections;
+
 @property (strong, nonatomic) NSMutableArray* letters;
 @property (strong, nonatomic) NSMutableArray* genres;
 
