@@ -10,6 +10,7 @@
 #import "MovieTableViewCell.h"
 #import "Movie.h"
 #import "MovieData.h"
+#import "LibraryViewController.h"
 
 @interface MovieTableViewController ()
 
@@ -204,5 +205,21 @@
     self.viewType = @"Genres";
     [self updateTableData:@""];
     
+}
+
+- (IBAction)changeSections:(id)sender {
+    if ([self.viewType  isEqual:@"Titles"]) {
+        self.viewType = @"Genres";
+        [self updateTableData:@""];
+        [self.categoryButton setTitle:@"By: Genres" forState:UIControlStateNormal];
+
+    } else if ([self.viewType  isEqual:@"Genres"]) {
+        self.viewType = @"Titles";
+        [self updateTableData:@""];
+        [self.categoryButton setTitle:@"By: Titles" forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)switchView:(id)sender {
 }
 @end

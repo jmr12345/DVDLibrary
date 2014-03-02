@@ -16,8 +16,11 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *categoryButton;
 @property (nonatomic, assign) bool isFiltered;
 
 - (IBAction)switchToTitles:(id)sender;
 - (IBAction)switchToGenres:(id)sender;
+- (IBAction)changeSections:(id)sender;
+- (IBAction)switchView:(id)sender;
 @end

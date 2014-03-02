@@ -22,6 +22,7 @@
 		3A6E833118BEBD0100F7210C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6E831318BEBD0100F7210C /* UIKit.framework */; };
 		3A6E833918BEBD0100F7210C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A6E833718BEBD0100F7210C /* InfoPlist.strings */; };
 		3A6E833B18BEBD0100F7210C /* DVDLibraryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A6E833A18BEBD0100F7210C /* DVDLibraryTests.m */; };
+		3A8597F518C3A4EC000A918E /* MovieCollectionViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A8597F418C3A4EC000A918E /* MovieCollectionViewController2.m */; };
 		3A92B81918C306FC00F20F41 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A92B81818C306FC00F20F41 /* LibraryViewController.m */; };
 		3ABBC8CE18C023BA005EFF0E /* MovieTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */; };
 		3AEDE90D18C2C174001C235C /* MovieTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEDE90C18C2C174001C235C /* MovieTableViewController.m */; };
@@ -62,6 +63,8 @@
 		3A6E833618BEBD0100F7210C /* DVDLibraryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DVDLibraryTests-Info.plist"; sourceTree = "<group>"; };
 		3A6E833818BEBD0100F7210C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3A6E833A18BEBD0100F7210C /* DVDLibraryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DVDLibraryTests.m; sourceTree = "<group>"; };
+		3A8597F318C3A4EC000A918E /* MovieCollectionViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieCollectionViewController2.h; sourceTree = "<group>"; };
+		3A8597F418C3A4EC000A918E /* MovieCollectionViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieCollectionViewController2.m; sourceTree = "<group>"; };
 		3A92B81718C306FC00F20F41 /* LibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
 		3A92B81818C306FC00F20F41 /* LibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieTableViewCell.m; path = DVDLibrary/UI/MovieTableViewCell.m; sourceTree = SOURCE_ROOT; };
@@ -201,6 +204,8 @@
 			children = (
 				3AEDE90B18C2C174001C235C /* MovieTableViewController.h */,
 				3AEDE90C18C2C174001C235C /* MovieTableViewController.m */,
+				3A8597F318C3A4EC000A918E /* MovieCollectionViewController2.h */,
+				3A8597F418C3A4EC000A918E /* MovieCollectionViewController2.m */,
 				A5DF858518C0FE8B00F16C87 /* MovieCollectionViewController.m */,
 				A5DF858718C0FE8B00F16C87 /* MovieCollectionViewController.h */,
 				3A92B81718C306FC00F20F41 /* LibraryViewController.h */,
@@ -314,6 +319,7 @@
 				3A6E832018BEBD0100F7210C /* AppDelegate.m in Sources */,
 				3ABBC8CE18C023BA005EFF0E /* MovieTableViewCell.m in Sources */,
 				A5DF858318C0FE8300F16C87 /* Movie.m in Sources */,
+				3A8597F518C3A4EC000A918E /* MovieCollectionViewController2.m in Sources */,
 				3A349AD818C28278007759CE /* SuggestionViewController.m in Sources */,
 				3A6E831C18BEBD0100F7210C /* main.m in Sources */,
 				A5DF858918C0FE8B00F16C87 /* MovieCollectionViewController.m in Sources */,

@@ -48,10 +48,10 @@
     UIViewController *vc;
     switch (index) {
         case 0:
-            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieTableViewControllerID"];
+            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"Nav1"];
             break;
         case 1:
-            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieCollectionViewControllerID"];
+            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieCollectionViewController2ID"];
             break;
     }
     return vc;
