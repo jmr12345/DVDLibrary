@@ -7,8 +7,12 @@
 //
 
 #import "LibraryViewController.h"
+#import "MovieTableViewController.h"
 
 @interface LibraryViewController ()
+
+@property (strong,nonatomic) NSString *movieLayout;
+@property (strong,nonatomic) NSString *category;
 
 @end
 
@@ -16,45 +20,85 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // add viewController so you can switch them later.
-    UIViewController *vc = [self viewControllerForSegmentIndex:self.typeSegmentedControl.selectedSegmentIndex];
+    
+    // Shows tableView categorized by title
+    self.movieLayout = @"Table";
+    self.category = @"Titles";
+    
+    UIViewController *vc = [self getViewController];
     [self addChildViewController:vc];
     vc.view.frame = self.view.bounds;
     [self.view addSubview:vc.view];
     self.currentViewController = vc;
-    
-    [self.typeSegmentedControl addTarget:self
-                         action:@selector(segmentChanged:)
-               forControlEvents:UIControlEventValueChanged];
 }
 
+- (IBAction)changeSections:(id)sender {
+    [(MovieTableViewController*)self.currentViewController changeSections];
+    if ([self.category isEqual:@"Titles"]) {
+        self.category = @"Genres";
+        [self.categoryButton setTitle:@"By: Genres" forState:UIControlStateNormal];
+    } else if ([self.category isEqual:@"Genres"]) {
+        self.category = @"Titles";
+        [self.categoryButton setTitle:@"By: Titles" forState:UIControlStateNormal];
+    }
+}
 
-- (IBAction)segmentChanged:(UISegmentedControl *)sender {
-    UIViewController *vc = [self viewControllerForSegmentIndex:sender.selectedSegmentIndex];
+- (IBAction)changeMovieLayout:(id)sender {
+    UIViewController *vc = [self switchViewController];
     [self addChildViewController:vc];
-    [self transitionFromViewController:self.currentViewController toViewController:vc duration:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        [self.currentViewController.view removeFromSuperview];
-        vc.view.frame = self.view.bounds;
-        [self.view addSubview:vc.view];
-    } completion:^(BOOL finished) {
-        [vc didMoveToParentViewController:self];
-        [self.currentViewController removeFromParentViewController];
-        self.currentViewController = vc;
-    }];
-    self.navigationItem.title = vc.title;
+    [self.currentViewController.view removeFromSuperview];
+    vc.view.frame = self.view.bounds;
+    [self.view addSubview:vc.view];
+    [vc didMoveToParentViewController:self];
+    [self.currentViewController removeFromParentViewController];
+    self.currentViewController = vc;
+
+//    [self transitionFromViewController:self.currentViewController toViewController:vc duration:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+//        [self.currentViewController.view removeFromSuperview];
+//        vc.view.frame = self.view.bounds;
+//        [self.view addSubview:vc.view];
+//    } completion:^(BOOL finished) {
+//        [vc didMoveToParentViewController:self];
+//        [self.currentViewController removeFromParentViewController];
+//        self.currentViewController = vc;
+//    }];
 }
 
-- (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {
+- (IBAction)search:(id)sender {
+    MovieTableViewController *vc = (MovieTableViewController*)self.currentViewController;
+    if ([vc.searchBar isHidden]){
+        vc.searchBar.hidden = NO;
+    }
+    else {
+        vc.searchBar.hidden = YES;
+    }
+}
+
+- (UIViewController *)switchViewController{
     UIViewController *vc;
-    switch (index) {
-        case 0:
-            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieTableViewControllerID"];
-            break;
-        case 1:
-            vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieCollectionViewControllerID"];
-            break;
+    if ([self.movieLayout isEqual:@"Collection"]) {
+        self.movieLayout = @"Table";
+        vc = [self getViewController];
+        UIImage *image = [UIImage imageNamed:@"grid-26.png"];
+        [self.movieLayoutButton setImage:image];
+    } else if ([self.movieLayout isEqual:@"Table"]) {
+        UIImage *image = [UIImage imageNamed:@"list-26.png"];
+        [self.movieLayoutButton setImage:image];
+        self.movieLayout = @"Collection";
+        vc = [self getViewController];
     }
     return vc;
 }
+
+- (UIViewController *)getViewController{
+    UIViewController *vc;
+    if ([self.movieLayout isEqual:@"Table"]) {
+        vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieTableViewControllerID"];
+    } else if ([self.movieLayout isEqual:@"Collection"]) {
+        vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieCollectionViewControllerID"];
+    }
+    return vc;
+}
+
 
 @end

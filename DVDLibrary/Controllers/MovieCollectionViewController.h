@@ -2,12 +2,16 @@
 //  MovieCollectionViewController.h
 //  DVDLibrary
 //
-//  Created by Ming on 2/27/14.
+//  Created by Ming on 3/2/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface MovieCollectionViewController : UICollectionViewController
+@interface MovieCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (strong, nonatomic) NSArray* allTableData;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIToolbar *searchBar;
+
+-(void)changeSections;
 @end

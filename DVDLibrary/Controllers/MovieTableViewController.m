@@ -1,5 +1,5 @@
 //
-//  MovieTableViewController2.m
+//  MovieTableViewController.m
 //  DVDLibrary
 //
 //  Created by Ming on 3/1/14.
@@ -10,6 +10,7 @@
 #import "MovieTableViewCell.h"
 #import "Movie.h"
 #import "MovieData.h"
+#import "DetailViewController.h"
 
 @interface MovieTableViewController ()
 
@@ -29,6 +30,14 @@
     
     self.tableView.sectionFooterHeight = 0.0;
     self.tableView.sectionHeaderHeight = 28.0;
+    
+    self.tableView.tableFooterView = [[UIView alloc] init];
+  
+    self.tableView.backgroundView = nil;
+    self.tableView.backgroundView = [[UIView alloc] init];
+    self.tableView.backgroundView.backgroundColor = [UIColor blackColor];
+    
+    self.searchBar.hidden = YES;
     
     // Update sections and data for search string (empty string shows all data)
     [self updateTableData:@""];
@@ -154,11 +163,8 @@
     [label setText:string];
     [view addSubview:label];
     
-    [view setBackgroundColor:[UIColor colorWithRed:0.098039 green:0.098039 blue:0.098039 alpha:1]];
-    
-    // [view setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.5f]];
-    
-    
+    [view setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
+
     return view;
 }
 
@@ -176,33 +182,40 @@
 
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
+    searchBar.hidden = YES;
 }
 
-///*
-///*
-//#pragma mark - Navigation
-//
-//// In a story board-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    // Get the new view controller using [segue destinationViewController].
-//    // Pass the selected object to the new view controller.
-//}
-//
-// */
-//
-- (IBAction)switchToTitles:(id)sender {
-    self.viewType = @"Titles";
-    [self updateTableData:@""];
-    
+- (void)changeSections {
+    if ([self.viewType  isEqual:@"Titles"]) {
+        self.viewType = @"Genres";
+        [self updateTableData:@""];
+    } else if ([self.viewType  isEqual:@"Genres"]) {
+        self.viewType = @"Titles";
+        [self updateTableData:@""];
+    }
 }
 
-- (IBAction)switchToGenres:(id)sender {
-    self.viewType = @"Genres";
-    [self updateTableData:@""];
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get destination view controller
+    DetailViewController *dvc = [segue destinationViewController];
     
+    // Get selected indexPath
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    
+    // Get movie at current position
+    Movie *selectedMovie = [[Movie alloc] init];
+    NSString* category = [self.sections objectAtIndex:selectedIndexPath.section];
+    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
+
+    // Pass movie to detail view controller
+    dvc.movie = selectedMovie;
 }
+
 @end

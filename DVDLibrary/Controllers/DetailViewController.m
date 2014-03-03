@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "Movie.h"
 
 @interface DetailViewController ()
 
@@ -26,7 +27,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	
+    self.movieImageView.image = self.movie.image;
+    self.titleLabel.text = self.movie.title;
 }
 
 - (void)didReceiveMemoryWarning
