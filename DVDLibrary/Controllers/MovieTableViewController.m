@@ -10,6 +10,7 @@
 #import "MovieTableViewCell.h"
 #import "Movie.h"
 #import "MovieData.h"
+#import "DetailViewController.h"
 
 @interface MovieTableViewController ()
 
@@ -197,17 +198,24 @@
     }
 }
 
-///*
-///*
-//#pragma mark - Navigation
-//
-//// In a story board-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    // Get the new view controller using [segue destinationViewController].
-//    // Pass the selected object to the new view controller.
-//}
-//
-// */
-//
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get destination view controller
+    DetailViewController *dvc = [segue destinationViewController];
+    
+    // Get selected indexPath
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    
+    // Get movie at current position
+    Movie *selectedMovie = [[Movie alloc] init];
+    NSString* category = [self.sections objectAtIndex:selectedIndexPath.section];
+    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
+
+    // Pass movie to detail view controller
+    dvc.movie = selectedMovie;
+}
+
 @end

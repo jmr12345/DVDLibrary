@@ -32,8 +32,6 @@
     NSArray *data = [[MovieData alloc] init].movieData;
     
     self.array = data;
-    
-    self.view.backgroundColor = [UIColor blackColor];
 }
 
 - (void)didReceiveMemoryWarning
