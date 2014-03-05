@@ -129,7 +129,7 @@
                 
             } else if ([self.viewType  isEqual:@"Genres"]) {
                 // Find the genre of the movie
-                NSString* genre = movie.genre;
+                NSString* genre = [movie.genre objectAtIndex:0];
                 
                 // Check to see if an array for genre already exists
                 NSMutableArray* arrayForGenre = (NSMutableArray*)[self.filteredTableData objectForKey:genre];
