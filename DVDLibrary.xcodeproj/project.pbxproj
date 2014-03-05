@@ -35,6 +35,11 @@
 		3AEDE90D18C2C174001C235C /* MovieTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEDE90C18C2C174001C235C /* MovieTableViewController.m */; };
 		85EDCAD918C6CBA7006133FD /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EDCAD818C6CBA7006133FD /* SearchViewController.m */; };
 		85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCADC18C6D06D006133FD /* Settings.bundle */; };
+		85EDCAE518C6DD2E006133FD /* movieIcon-58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCAE218C6DD2E006133FD /* movieIcon-58x58.png */; };
+		85EDCAE618C6DD2E006133FD /* movieIcon-80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCAE318C6DD2E006133FD /* movieIcon-80x80.png */; };
+		85EDCAE718C6DD2E006133FD /* movieIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCAE418C6DD2E006133FD /* movieIcon.png */; };
+		85EDCAE918C6DD92006133FD /* movieMontage.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCAE818C6DD92006133FD /* movieMontage.png */; };
+		85EDCAED18C6DED7006133FD /* movieMontage-640x960.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCAEC18C6DED7006133FD /* movieMontage-640x960.png */; };
 		A5DF858318C0FE8300F16C87 /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = A5DF858218C0FE8300F16C87 /* Movie.m */; };
 		A5DF858C18C118F300F16C87 /* MovieCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5DF858B18C118F300F16C87 /* MovieCollectionViewCell.m */; };
 /* End PBXBuildFile section */
@@ -89,6 +94,11 @@
 		85EDCAD718C6CBA7006133FD /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		85EDCAD818C6CBA7006133FD /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		85EDCADC18C6D06D006133FD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		85EDCAE218C6DD2E006133FD /* movieIcon-58x58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movieIcon-58x58.png"; sourceTree = "<group>"; };
+		85EDCAE318C6DD2E006133FD /* movieIcon-80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "movieIcon-80x80.png"; sourceTree = "<group>"; };
+		85EDCAE418C6DD2E006133FD /* movieIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movieIcon.png; sourceTree = "<group>"; };
+		85EDCAE818C6DD92006133FD /* movieMontage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = movieMontage.png; sourceTree = "<group>"; };
+		85EDCAEC18C6DED7006133FD /* movieMontage-640x960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "movieMontage-640x960.png"; path = "../../movieMontage-640x960.png"; sourceTree = "<group>"; };
 		A5DF858018C0FE5000F16C87 /* MovieTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieTableViewCell.h; sourceTree = "<group>"; };
 		A5DF858118C0FE8300F16C87 /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
 		A5DF858218C0FE8300F16C87 /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
@@ -123,6 +133,11 @@
 		3A49ABB618C3E3EE004B0068 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				85EDCAEC18C6DED7006133FD /* movieMontage-640x960.png */,
+				85EDCAE818C6DD92006133FD /* movieMontage.png */,
+				85EDCAE218C6DD2E006133FD /* movieIcon-58x58.png */,
+				85EDCAE318C6DD2E006133FD /* movieIcon-80x80.png */,
+				85EDCAE418C6DD2E006133FD /* movieIcon.png */,
 				3A49ABBD18C3E4C3004B0068 /* barcode-32.png */,
 				3A49ABCF18C3ECB6004B0068 /* list-26.png */,
 				3A49ABCD18C3E7E2004B0068 /* slot_machine-32.png */,
@@ -326,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85EDCAE618C6DD2E006133FD /* movieIcon-80x80.png in Resources */,
 				3A49ABBA18C3E444004B0068 /* home-32.png in Resources */,
 				3A6E832818BEBD0100F7210C /* Images.xcassets in Resources */,
 				85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */,
@@ -333,9 +349,13 @@
 				3A49ABC618C3E632004B0068 /* grid-26.png in Resources */,
 				3A49ABD018C3ECB6004B0068 /* list-26.png in Resources */,
 				3A49ABC418C3E622004B0068 /* list_ingredients-32.png in Resources */,
+				85EDCAE918C6DD92006133FD /* movieMontage.png in Resources */,
 				3A6E831A18BEBD0100F7210C /* InfoPlist.strings in Resources */,
 				3A49ABCE18C3E7E2004B0068 /* slot_machine-32.png in Resources */,
+				85EDCAE518C6DD2E006133FD /* movieIcon-58x58.png in Resources */,
+				85EDCAE718C6DD2E006133FD /* movieIcon.png in Resources */,
 				3A6E832318BEBD0100F7210C /* Main.storyboard in Resources */,
+				85EDCAED18C6DED7006133FD /* movieMontage-640x960.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
