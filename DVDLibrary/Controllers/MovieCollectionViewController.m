@@ -33,7 +33,7 @@
 {
     [super viewDidLoad];
     
-    self.viewType = @"Genres";
+    self.viewType = @"Titles";
     
     self.allTableData = [[MovieData alloc] init].movieData;
     
@@ -89,7 +89,7 @@
 
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(50, 15, 50, 15);
+    return UIEdgeInsetsMake(15, 22, 15, 22);
 }
 
 - (void)changeSections {
