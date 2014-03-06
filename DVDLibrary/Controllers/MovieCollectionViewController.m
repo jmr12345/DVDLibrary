@@ -106,18 +106,6 @@
     CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                          UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionHeaderID" forIndexPath:indexPath];
     headerView.sectionLabel.text = self.sections[indexPath.section];
-//    NSString *searchTerm = self.searches[indexPath.section]; [headerView setSearchText:searchTerm];
-    
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
-//    
-//    // Setup label
-//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
-//    label.textColor = [UIColor whiteColor];
-//    label.textAlignment = NSTextAlignmentCenter;
-//    NSString *string = [self.sections objectAtIndex:section];
-//    [label setText:string];
-//    [view addSubview:label];
-    
     [headerView setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
     
 //    return view;
@@ -128,38 +116,6 @@
     return headerView;
 }
 
-
-//- (void)viewDidLoad
-//{
-//    [super viewDidLoad];
-//    
-//    self.viewType = @"Titles";
-//    
-//    self.allTableData = [[MovieData alloc] init].movieData;
-//    
-//    self.tableView.sectionFooterHeight = 0.0;
-//    self.tableView.sectionHeaderHeight = 28.0;
-//    
-//    self.tableView.tableFooterView = [[UIView alloc] init];
-//    
-//    self.tableView.backgroundView = nil;
-//    self.tableView.backgroundView = [[UIView alloc] init];
-//    self.tableView.backgroundView.backgroundColor = [UIColor blackColor];
-//    
-//    self.searchBar.hidden = YES;
-//    
-//    // Update sections and data for search string (empty string shows all data)
-//    [self updateTableData:@""];
-//    
-//    // Reload table
-//    [self.tableView reloadData];
-//}
-
-//- (void) viewWillDisappear:(BOOL)animated {
-//    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
-//    [super viewWillDisappear:animated];
-//}
-
 #pragma mark - Collection view data source
 
 - (NSString *)collectionView:(UICollectionView *)collectionView titleForHeaderInSection:(NSInteger)section
@@ -167,35 +123,6 @@
     NSString* key = [self.sections objectAtIndex:section];
     return key;
 }
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    return [self.sections count];
-//}
-//
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    NSString* category = [self.sections objectAtIndex:section];
-//    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
-//    return [arrayForSection count];
-//}
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    static NSString *CellIdentifier = @"MovieTableViewCellID";
-//    MovieTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-//    
-//    // Get movie at current position
-//    Movie *movie = [[Movie alloc] init];
-//    NSString* category = [self.sections objectAtIndex:indexPath.section];
-//    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
-//    movie = (Movie *)[arrayForSection objectAtIndex:indexPath.row];
-//    
-//    // Configure cell appearance
-//    cell.label.text = movie.title;
-//    [cell.movieImageView setImage:movie.image];
-//    return cell;
-//}
 
 // Update sections and data for search string (empty String shows all data)
 -(void)updateTableData:(NSString*)searchString
@@ -309,22 +236,27 @@
 
 #pragma mark - Navigation
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    // Get destination view controller
-//    DetailViewController *dvc = [segue destinationViewController];
-//    
-//    // Get selected indexPath
-//    NSIndexPath *selectedIndexPath = [self.collectionView indexPathForSelectedItem.row];
-//    
-//    // Get movie at current position
-//    Movie *selectedMovie = [[Movie alloc] init];
-//    NSString* category = [self.sections objectAtIndex:selectedIndexPath.section];
-//    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
-//    selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
-//    
-//    // Pass movie to detail view controller
-//    dvc.movie = selectedMovie;
+//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+//    [self performSegueWithIdentifier:@"MySegueIdentifier" sender:self];
 //}
+//
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get destination view controller
+    DetailViewController *dvc = [segue destinationViewController];
+    
+    // Get selected indexPath
+    NSArray *indexPaths = [self.collectionView indexPathsForSelectedItems];
+    NSIndexPath *selectedIndexPath = [indexPaths objectAtIndex:0];
+    
+    // Get movie at current position
+    Movie *selectedMovie = [[Movie alloc] init];
+    NSString* category = [self.sections objectAtIndex:selectedIndexPath.section];
+    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
+    
+    // Pass movie to detail view controller
+    dvc.movie = selectedMovie;
+}
 
 @end

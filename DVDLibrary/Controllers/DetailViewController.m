@@ -31,7 +31,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 32)];
     
     // Setup label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 32)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 25)];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     NSString *string = [self.sections objectAtIndex:section];
