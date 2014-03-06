@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "Movie.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
 
 @property (strong,nonatomic) Movie *movie;
+@property (strong, nonatomic) NSMutableArray* sections;
 
 @property (weak, nonatomic) IBOutlet UIImageView *movieImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

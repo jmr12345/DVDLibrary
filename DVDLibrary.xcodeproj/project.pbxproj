@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A067F9D18C6BD220011F9B4 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */; };
 		3A349AD518C2657E007759CE /* MovieData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD418C2657E007759CE /* MovieData.m */; };
 		3A349AD818C28278007759CE /* SuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD718C28278007759CE /* SuggestionViewController.m */; };
 		3A49ABBA18C3E444004B0068 /* home-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A49ABB918C3E444004B0068 /* home-32.png */; };
@@ -56,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A067F9B18C6BD220011F9B4 /* CollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeaderView.h; sourceTree = "<group>"; };
+		3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeaderView.m; sourceTree = "<group>"; };
 		3A349AD318C2657E007759CE /* MovieData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieData.h; sourceTree = "<group>"; };
 		3A349AD418C2657E007759CE /* MovieData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieData.m; sourceTree = "<group>"; };
 		3A349AD618C28278007759CE /* SuggestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionViewController.h; sourceTree = "<group>"; };
@@ -234,6 +237,8 @@
 				3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */,
 				A5DF858A18C118F300F16C87 /* MovieCollectionViewCell.h */,
 				A5DF858B18C118F300F16C87 /* MovieCollectionViewCell.m */,
+				3A067F9B18C6BD220011F9B4 /* CollectionHeaderView.h */,
+				3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -380,6 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A92B81918C306FC00F20F41 /* LibraryViewController.m in Sources */,
+				3A067F9D18C6BD220011F9B4 /* CollectionHeaderView.m in Sources */,
 				3A349AD518C2657E007759CE /* MovieData.m in Sources */,
 				3AEDE90D18C2C174001C235C /* MovieTableViewController.m in Sources */,
 				3A6E832018BEBD0100F7210C /* AppDelegate.m in Sources */,

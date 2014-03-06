@@ -32,6 +32,8 @@
     NSArray *data = [[MovieData alloc] init].movieData;
     
     self.array = data;
+    
+   
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,7 +44,22 @@
 
 - (IBAction)spin:(id)sender {
     
-     [self.picker selectRow: (arc4random() % [_array count]) inComponent: 0 animated: YES];
+    [self performSelector: @selector(setRandom)
+               withObject: nil
+               afterDelay: 0];
+    [self performSelector: @selector(setRandom)
+               withObject: nil
+               afterDelay: 0.5];
+    [self performSelector: @selector(setRandom)
+               withObject: nil
+               afterDelay: 1];
+    [self performSelector: @selector(setRandom)
+               withObject: nil
+               afterDelay: 1.5];
+
+
+    
+//     [self.picker selectRow: (arc4random() % [_array count]) inComponent: 0 animated: YES];
 //
 //    Movie *movie = (Movie*)[_array objectAtIndex:[_picker selectedRowInComponent:0]];
 //    
@@ -55,6 +72,21 @@
 //    [alert show];
     
 }
+
+-(void)setRandom{
+[self.picker selectRow: (arc4random() % [_array count]) inComponent: 0 animated: YES];
+}
+
+-(void) setPickerRowToLastRow;
+{
+    [self.picker selectRow:[self.picker numberOfRowsInComponent:0]-1 inComponent:0 animated:YES];
+}
+-(void) setPickerRowToFirstRow;
+{
+    [self.picker selectRow:1 inComponent:0 animated:YES];
+}
+
+
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     
