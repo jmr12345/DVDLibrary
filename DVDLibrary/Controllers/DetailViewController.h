@@ -15,7 +15,6 @@
 @property (strong,nonatomic) Movie *movie;
 @property (strong, nonatomic) NSMutableArray* sections;
 
-@property (weak, nonatomic) IBOutlet UITextView *titleTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *movieImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

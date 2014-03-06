@@ -31,24 +31,9 @@
     self.tableView.sectionFooterHeight = 0.0;
     self.tableView.sectionHeaderHeight = 28.0;
     
-    self.tableView.tableFooterView = [[UIView alloc] init];
-  
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundView = [[UIView alloc] init];
-    self.tableView.backgroundView.backgroundColor = [UIColor blackColor];
-    
-    self.searchBar.hidden = YES;
-    
     // Update sections and data for search string (empty string shows all data)
     [self updateTableData:@""];
-    
-    // Reload table
-    [self.tableView reloadData];
-}
 
-- (void) viewWillDisappear:(BOOL)animated {
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:animated];
-    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Table view data source

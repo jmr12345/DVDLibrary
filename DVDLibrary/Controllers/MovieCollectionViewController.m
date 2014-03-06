@@ -63,7 +63,6 @@
     NSString* category = [self.sections objectAtIndex:section];
     NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
     return [arrayForSection count];
-
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -77,7 +76,6 @@
     NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
     movie = (Movie *)[arrayForSection objectAtIndex:indexPath.row];
 
-    
     // Configure cell with current movie's image
     UIImage *image = movie.image;
     [cell.movieImageView setImage:image];
@@ -87,8 +85,7 @@
 
 #pragma mark – UICollectionViewDelegateFlowLayout
 
-- (UIEdgeInsets)collectionView:
-(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(15, 22, 15, 22);
 }
 
@@ -107,12 +104,7 @@
                                          UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionHeaderID" forIndexPath:indexPath];
     headerView.sectionLabel.text = self.sections[indexPath.section];
     [headerView setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
-    
-//    return view;
-    
-    
-    
-    
+
     return headerView;
 }
 
@@ -236,10 +228,6 @@
 
 #pragma mark - Navigation
 
-//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//    [self performSegueWithIdentifier:@"MySegueIdentifier" sender:self];
-//}
-//
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     // Get destination view controller
