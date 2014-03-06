@@ -8,7 +8,6 @@
 
 #import "DetailViewController.h"
 #import "Movie.h"
-#import "MovieTableViewCell.h"
 
 @interface DetailViewController ()
 
@@ -16,38 +15,23 @@
 
 @implementation DetailViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    self.sections = [[NSMutableArray alloc] initWithObjects:@"Synopsis",@"Cast", nil];
+    self.sections = [[NSMutableArray alloc] initWithObjects:@"Synopsis",@"Movie Info",@"Cast", nil];
     NSLog(@"%lu",[self.sections count]);
 	
     self.movieImageView.image = self.movie.image;
     self.titleLabel.text = self.movie.title;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 32)];
     
     // Setup label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 28)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 32)];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     NSString *string = [self.sections objectAtIndex:section];
@@ -83,22 +67,32 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"TestCell";
+    if (indexPath.section==0){
+        static NSString *CellIdentifier = @"CustomDetailCellID";
+        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+        
+        UITextView *textView = (UITextView *) [self.view viewWithTag:111];
+//        [textView setFrame:CGRectMake(0,0, self.view.frame.size.width, 100)];
+        textView.text = self.movie.description;
+        return cell;
+    }
+
+    else {
+    static NSString *CellIdentifier = @"BasicID";
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+     cell.textLabel.text = @"hi there";
+        return cell;
+    }
     
-    // Get movie at current position
-//    Movie *movie = [[Movie alloc] init];
-//    NSString* category = [self.sections objectAtIndex:indexPath.section];
-//    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
-//    movie = (Movie *)[arrayForSection objectAtIndex:indexPath.row];
-    
-    // Configure cell appearance
-//    cell.label.text = movie.title;
-//    [cell.movieImageView setImage:movie.image];
-    cell.textLabel.text = @"hi there";
-    return cell;
+    return nil;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section==0 & indexPath.row==0){
+        return 100;
+    }
+    else return 30;
+}
 
 
 @end
