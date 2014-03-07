@@ -11,6 +11,7 @@
 @interface SuggestionViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIPickerView *picker;
+@property (weak, nonatomic) IBOutlet UIButton *spinButton;
 - (IBAction)spin:(id)sender;
 
 @end
