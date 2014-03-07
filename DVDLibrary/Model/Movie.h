@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Movie : NSObject
+@interface Movie : NSObject <NSCoding>
 
 @property (nonatomic,strong) NSString *title;
 @property (nonatomic,strong) NSMutableArray *genre;
@@ -17,7 +17,8 @@
 @property (nonatomic,strong) NSURL *url;
 @property (nonatomic,strong) NSString *upc;
 @property (nonatomic,strong) NSString *movieDbId;
-@property (nonatomic,strong) NSString *imdbDbId;
+@property (nonatomic,strong) NSString *imdbId;
 
-
+- (id)initWithCoder:(NSCoder *)decoder;
+- (void)encodeWithCoder:(NSCoder *)encoder;
 @end
