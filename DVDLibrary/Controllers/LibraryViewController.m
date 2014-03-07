@@ -11,6 +11,7 @@
 #import "MovieCollectionViewController.h"
 #import "Movie.h"
 #import "MovieData.h"
+#import "SplashScreenViewController.h"
 
 @interface LibraryViewController ()
 
@@ -22,6 +23,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Get a reference to the SplashScreenViewController from the StoryBoard
+    SplashScreenViewController *svc = [[self storyboard] instantiateViewControllerWithIdentifier:@"SplashScreenViewController"];
+    [self presentViewController:svc animated:NO completion:^{
+        NSLog(@"SplashScreenViewController did appear");
+    }];
+    
+    // Call method after set time
+    [self performSelector:@selector(dismissSplashScreenViewController) withObject:nil afterDelay:2];
+
     
     // Shows tableView categorized by title
     self.category = @"Titles";
@@ -215,5 +226,14 @@
 {
     [searchBar resignFirstResponder];
 }
+
+- (void)dismissSplashScreenViewController
+{
+    // Remove the view controller
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"SplashScreenViewController is dismissed from the HomeViewController");
+    }];
+}
+
 
 @end
