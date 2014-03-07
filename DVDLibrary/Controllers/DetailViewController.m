@@ -20,7 +20,7 @@
     [super viewDidLoad];
 
     self.sections = [[NSMutableArray alloc] initWithObjects:@"Synopsis",@"Movie Info",@"Cast", nil];
-    NSLog(@"%d",[self.sections count]);
+    NSLog(@"%lu",(unsigned long)[self.sections count]);
 	
     self.movieImageView.image = self.movie.image;
     self.titleLabel.text = self.movie.title;

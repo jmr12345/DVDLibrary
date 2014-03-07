@@ -108,7 +108,7 @@
                 self.titleMovieResults = [[results mutableCopy] objectForKey:@"searchResponse"];
                 NSMutableDictionary *result = [[self.titleMovieResults objectForKey:@"results"] objectAtIndex:0];
                 self.movieInfo = [result objectForKey:@"movie"];
-                
+
                 
                 // Refresh the table on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -128,7 +128,7 @@
     
     NSString *sharedSecret = @"rQm5PPRUjg";
     
-    int unixtime = [[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
+    int unixtime = (int)[[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
     NSString *time = [NSString stringWithFormat:@"%d", unixtime];
     
     NSArray *stringsToConvert = [[NSArray alloc] initWithObjects:self.roviApiKey, sharedSecret, time, nil];
@@ -136,7 +136,7 @@
     
     const char *cStr = [concatenatedString UTF8String];
     unsigned char digest[16];
-    CC_MD5( cStr, strlen(cStr), digest ); // This is the md5 call
+    CC_MD5(cStr, (int)strlen(cStr), digest); // This is the md5 call
     
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     
@@ -162,8 +162,6 @@
                 // Update the Nsmutable Array
                 NSMutableArray *movieTitleInfo = [[results mutableCopy] objectForKey:@"results"];
                 NSMutableDictionary *result = [movieTitleInfo objectAtIndex:0];
-                
-                self.foundMovie.description = [result objectForKey:@"synopsis"];
                 
                 self.foundMovie.movieDbId = (NSString *)[result objectForKey:@"id"];
                 [self getImdbID:self.foundMovie.movieDbId];
@@ -199,6 +197,8 @@
                     NSString *category = [genre objectForKey:@"name"];
                     [self.foundMovie.genre addObject:category];
                 }
+                
+                self.foundMovie.description = [result objectForKey:@"overview"];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.foundMovie];
