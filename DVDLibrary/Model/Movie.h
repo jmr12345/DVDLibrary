@@ -21,5 +21,4 @@
 
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
-
 @end

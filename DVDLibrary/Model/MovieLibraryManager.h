@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface MovieLibraryManager : NSObject
+
 +(MovieLibraryManager *)sharedInstance;
 -(void)writeToPList:(NSDictionary *)dictionaryToWrite;
 -(NSDictionary *)readFromPList;
+
 @end

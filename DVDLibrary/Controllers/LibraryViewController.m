@@ -14,29 +14,27 @@
 #import "SplashScreenViewController.h"
 
 @interface LibraryViewController ()
-
-@property (strong,nonatomic) NSString *category;
 - (void)dismissSplashScreenViewController;
+@property (strong,nonatomic) NSString *category;
 @end
 
 @implementation LibraryViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     // Get a reference to the SplashScreenViewController from the StoryBoard
     SplashScreenViewController *svc = [[self storyboard] instantiateViewControllerWithIdentifier:@"SplashScreenViewController"];
     [self presentViewController:svc animated:NO completion:^{
         NSLog(@"SplashScreenViewController did appear");
     }];
-    
+
     // Call method after set time
     [self performSelector:@selector(dismissSplashScreenViewController) withObject:nil afterDelay:2];
 
-    
     // Shows tableView categorized by title
     self.category = @"Titles";
-    
+
     // Get all movie data info and set filtered table data to include everything
     self.allTableData = [[MovieData alloc] init].movieData;
     [self updateTableData:@""];
@@ -47,7 +45,7 @@
     vc.view.frame = self.view.bounds;
     [self.view addSubview:vc.view];
     self.currentViewController = vc;
-    
+
     // Add search bar
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     [self.view addSubview:self.searchBar];
@@ -100,15 +98,15 @@
     // Switch from table layout to collection layout
     if ([self.currentViewController class] == [MovieTableViewController class]) {
         vc = [self getViewController:@"Collection"];
-        
+
         // Update bar button to show list image
         UIImage *image = [UIImage imageNamed:@"list-26.png"];
         [self.movieLayoutButton setImage:image];
-    
+
     // Switch from collection layout to table layout
     } else if ([self.currentViewController class] == [MovieCollectionViewController class]) {
         vc = [self getViewController:@"Table"];
-        
+
         // Update bar button to show grid image
         UIImage *image = [UIImage imageNamed:@"grid-26.png"];
         [self.movieLayoutButton setImage:image];
@@ -122,7 +120,7 @@
     if ([movieLayout isEqual:@"Table"]) {
         vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieTableViewControllerID"];
         ((MovieTableViewController *)vc).lvc = self;
-    
+
     // Return controller with collection view layout
     } else if ([movieLayout isEqual:@"Collection"]) {
         vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MovieCollectionViewControllerID"];
@@ -135,7 +133,7 @@
 -(void)updateTableData:(NSString*)searchString
 {
     self.filteredTableData = [[NSMutableDictionary alloc] init];
-    
+
     for (Movie* movie in self.allTableData)
     {
         bool isMatch = false;
@@ -151,14 +149,14 @@
             if(titleRange.location != NSNotFound)
                 isMatch = true;
         }
-        
+
         // If there is a match
         if(isMatch)
         {
             if ([self.category  isEqual:@"Titles"]) {
                 // Find first letter of movie title
                 NSString* firstLetter = [movie.title substringToIndex:1];
-                
+
                 // Check to see if an array for the letter already exists
                 NSMutableArray* arrayForLetter = (NSMutableArray*)[self.filteredTableData objectForKey:firstLetter];
                 if(arrayForLetter == nil)
@@ -169,11 +167,11 @@
                 }
                 // Add movie to its section array
                 [arrayForLetter addObject:movie];
-                
+
             } else if ([self.category  isEqual:@"Genres"]) {
                 // Find the genre of the movie
                 NSString* genre = [movie.genre objectAtIndex:0];
-                
+
                 // Check to see if an array for genre already exists
                 NSMutableArray* arrayForGenre = (NSMutableArray*)[self.filteredTableData objectForKey:genre];
                 if(arrayForGenre == nil)
@@ -189,7 +187,7 @@
     }
     // Create array of all sections
     self.sections = [[[self.filteredTableData allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
-    
+
     // Reload data for appropriate view type
     if ([self.currentViewController class] == [MovieTableViewController class]) {
        [((MovieTableViewController *)self.currentViewController).tableView reloadData];
@@ -213,13 +211,13 @@
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchString
 {
     [self updateTableData:searchString];
-    
+
     if([searchString length] == 0) {
         [searchBar performSelector: @selector(resignFirstResponder)
                         withObject: nil
                         afterDelay: 0.1];
     }
-    
+
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -234,6 +232,5 @@
         NSLog(@"SplashScreenViewController is dismissed from the HomeViewController");
     }];
 }
-
 
 @end
