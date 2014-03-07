@@ -11,111 +11,81 @@
 #import "Movie.h"
 
 @interface SuggestionViewController ()
-@property (strong, nonatomic) NSArray *array;
+@property (strong, nonatomic) NSArray *movieArray;
 @end
 
 @implementation SuggestionViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
     NSArray *data = [[MovieData alloc] init].movieData;
-    
-    self.array = data;
-    
-   
+    self.movieArray = data;
 }
 
-- (void)didReceiveMemoryWarning
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)spin:(id)sender {
-    
-    [self performSelector: @selector(setRandom)
-               withObject: nil
-               afterDelay: 0];
-    [self performSelector: @selector(setRandom)
-               withObject: nil
-               afterDelay: 0.5];
-    [self performSelector: @selector(setRandom)
-               withObject: nil
-               afterDelay: 1];
-    [self performSelector: @selector(setRandom)
-               withObject: nil
-               afterDelay: 1.5];
-
-
-    
-//     [self.picker selectRow: (arc4random() % [_array count]) inComponent: 0 animated: YES];
-//
-//    Movie *movie = (Movie*)[_array objectAtIndex:[_picker selectedRowInComponent:0]];
-//    
-//    NSString *select = movie.title;
-//    
-//    NSString *title = [[NSString alloc] initWithFormat:@"You selected %@!", select];
-//    
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:@"YAY!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-//    
-//    [alert show];
-    
-}
-
--(void)setRandom{
-[self.picker selectRow: (arc4random() % [_array count]) inComponent: 0 animated: YES];
-}
-
--(void) setPickerRowToLastRow;
-{
-    [self.picker selectRow:[self.picker numberOfRowsInComponent:0]-1 inComponent:0 animated:YES];
-}
--(void) setPickerRowToFirstRow;
-{
-    [self.picker selectRow:1 inComponent:0 animated:YES];
-}
-
-
-
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    
     return 1;
-    
 }
 
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    
-    return [_array count];
-    
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [self.movieArray count];
 }
 
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    Movie *movie = [_array objectAtIndex:row];
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    Movie *movie = [self.movieArray objectAtIndex:row];
     return movie.title;
     
 }
 
-- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
-    
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(25, 0, pickerView.frame.size.width-50, 44)];
     label.backgroundColor = [UIColor purpleColor];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    Movie *movie = [self.array objectAtIndex:row];
+    Movie *movie = [self.movieArray objectAtIndex:row];
     label.text = movie.title;
 
     return label;
 }
+
+- (IBAction)spin:(id)sender {
+    
+    [self performSelector: @selector(pickRandomRow)
+               withObject: nil
+               afterDelay: 0];
+    [self performSelector: @selector(pickRandomRow)
+               withObject: nil
+               afterDelay: 0.5];
+    [self performSelector: @selector(pickRandomRow)
+               withObject: nil
+               afterDelay: 1];
+    [self performSelector: @selector(pickRandomRow)
+               withObject: nil
+               afterDelay: 1.5];
+    [self performSelector: @selector(showSelectedMovie)
+               withObject: nil
+               afterDelay: 2];
+}
+
+-(void)pickRandomRow
+{
+    [self.picker selectRow: (arc4random() % [self.movieArray count]) inComponent: 0 animated: YES];
+}
+
+-(void)showSelectedMovie
+{
+    Movie *movie = (Movie*)[self.movieArray objectAtIndex:[self.picker selectedRowInComponent:0]];
+    
+    NSString *movieTitle = movie.title;
+    NSString *title = [[NSString alloc] initWithFormat:@"Time to watch %@!", movieTitle];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    
+    [alert show];
+}
+
 @end

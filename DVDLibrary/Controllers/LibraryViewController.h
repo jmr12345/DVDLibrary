@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LibraryViewController : UIViewController
+@interface LibraryViewController : UIViewController <UISearchBarDelegate>
+
+@property (strong, nonatomic) NSArray* allTableData;
+@property (strong, nonatomic) NSMutableDictionary* filteredTableData;
+@property (strong, nonatomic) NSMutableArray* sections;
 
 @property (strong, nonatomic) UIViewController *currentViewController;
 @property (weak, nonatomic) IBOutlet UIButton *categoryButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *movieLayoutButton;
+@property (strong, nonatomic) UISearchBar *searchBar;
 
 - (IBAction)changeSections:(id)sender;
 - (IBAction)changeMovieLayout:(id)sender;

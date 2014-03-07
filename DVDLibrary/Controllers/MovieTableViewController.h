@@ -7,17 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LibraryViewController.h"
 
 @interface MovieTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) NSArray* allTableData;
-@property (strong, nonatomic) NSMutableDictionary* filteredTableData;
-@property (strong, nonatomic) NSMutableArray* sections;
+@property (strong, nonatomic) LibraryViewController *lvc;
 
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *categoryButton;
-@property (nonatomic, assign) bool isFiltered;
 
 - (void)changeSections;
 @end

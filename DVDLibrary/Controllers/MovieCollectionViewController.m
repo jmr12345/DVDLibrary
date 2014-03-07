@@ -20,48 +20,24 @@
 
 @implementation MovieCollectionViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.viewType = @"Titles";
-    
-    self.allTableData = [[MovieData alloc] init].movieData;
-    
-    [self.collectionView reloadData];
-    
-    self.searchBar.hidden = YES;
-    
-    [self updateTableData:@""];
-
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSInteger) numberOfSectionsInCollectionView:
 (UICollectionView *)collectionView
 {
-    return [self.sections count];
+    return [self.lvc.sections count];
 }
 
 - (NSInteger) collectionView:(UICollectionView *)collectionView
       numberOfItemsInSection:(NSInteger)section
 {
-    NSString* category = [self.sections objectAtIndex:section];
-    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    NSString* category = [self.lvc.sections objectAtIndex:section];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
     return [arrayForSection count];
 }
 
@@ -72,8 +48,8 @@
     
     // Get movie at current position
     Movie *movie = [[Movie alloc] init];
-    NSString* category = [self.sections objectAtIndex:indexPath.section];
-    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    NSString* category = [self.lvc.sections objectAtIndex:indexPath.section];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
     movie = (Movie *)[arrayForSection objectAtIndex:indexPath.row];
 
     // Configure cell with current movie's image
@@ -102,7 +78,7 @@
 - (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                          UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionHeaderID" forIndexPath:indexPath];
-    headerView.sectionLabel.text = self.sections[indexPath.section];
+    headerView.sectionLabel.text = self.lvc.sections[indexPath.section];
     [headerView setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
 
     return headerView;
@@ -112,71 +88,8 @@
 
 - (NSString *)collectionView:(UICollectionView *)collectionView titleForHeaderInSection:(NSInteger)section
 {
-    NSString* key = [self.sections objectAtIndex:section];
+    NSString* key = [self.lvc.sections objectAtIndex:section];
     return key;
-}
-
-// Update sections and data for search string (empty String shows all data)
--(void)updateTableData:(NSString*)searchString
-{
-    self.filteredTableData = [[NSMutableDictionary alloc] init];
-    
-    for (Movie* movie in self.allTableData)
-    {
-        bool isMatch = false;
-        if(searchString.length == 0)
-        {
-            // If empty string, show everything
-            isMatch = true;
-        }
-        else
-        {
-            // Else, check to see if search string matches a movie title
-            NSRange titleRange = [movie.title rangeOfString:searchString options:NSCaseInsensitiveSearch];
-            if(titleRange.location != NSNotFound)
-                isMatch = true;
-        }
-        
-        // If there is a match
-        if(isMatch)
-        {
-            if ([self.viewType  isEqual:@"Titles"]) {
-                // Find first letter of movie title
-                NSString* firstLetter = [movie.title substringToIndex:1];
-                
-                // Check to see if an array for the letter already exists
-                NSMutableArray* arrayForLetter = (NSMutableArray*)[self.filteredTableData objectForKey:firstLetter];
-                if(arrayForLetter == nil)
-                {
-                    // If none exists, create one, and add it to dictionary
-                    arrayForLetter = [[NSMutableArray alloc] init];
-                    [self.filteredTableData setValue:arrayForLetter forKey:firstLetter];
-                }
-                // Add movie to its section array
-                [arrayForLetter addObject:movie];
-                
-            } else if ([self.viewType  isEqual:@"Genres"]) {
-                // Find the genre of the movie
-                NSString* genre = movie.genre;
-                
-                // Check to see if an array for genre already exists
-                NSMutableArray* arrayForGenre = (NSMutableArray*)[self.filteredTableData objectForKey:genre];
-                if(arrayForGenre == nil)
-                {
-                    // If none exists, create one, and add it to dictionary
-                    arrayForGenre = [[NSMutableArray alloc] init];
-                    [self.filteredTableData setValue:arrayForGenre forKey:genre];
-                }
-                // Add movie to its section array
-                [arrayForGenre addObject:movie];
-            }
-        }
-    }
-    // Create array of all sections
-    self.sections = [[[self.filteredTableData allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
-    
-    // Reload table
-    [self.collectionView reloadData];
 }
 
 -(UIView *)collectionView:(UICollectionView *)collectionView viewForHeaderInSection:(NSInteger)section
@@ -187,7 +100,7 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, collectionView.frame.size.width, 28)];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    NSString *string = [self.sections objectAtIndex:section];
+    NSString *string = [self.lvc.sections objectAtIndex:section];
     [label setText:string];
     [view addSubview:label];
     
@@ -195,36 +108,6 @@
     
     return view;
 }
-
-#pragma mark - Table view delegate
-
--(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
-{
-    [self updateTableData:text];
-    
-    if([text length] == 0) {
-        [searchBar performSelector: @selector(resignFirstResponder)
-                        withObject: nil
-                        afterDelay: 0.1];
-    }
-    
-}
-
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
-    searchBar.hidden = YES;
-}
-
-//- (void)changeSections {
-//    if ([self.viewType  isEqual:@"Titles"]) {
-//        self.viewType = @"Genres";
-//        [self updateTableData:@""];
-//    } else if ([self.viewType  isEqual:@"Genres"]) {
-//        self.viewType = @"Titles";
-//        [self updateTableData:@""];
-//    }
-//}
 
 #pragma mark - Navigation
 
@@ -239,8 +122,8 @@
     
     // Get movie at current position
     Movie *selectedMovie = [[Movie alloc] init];
-    NSString* category = [self.sections objectAtIndex:selectedIndexPath.section];
-    NSArray* arrayForSection = (NSArray*)[self.filteredTableData objectForKey:category];
+    NSString* category = [self.lvc.sections objectAtIndex:selectedIndexPath.section];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
     selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
     
     // Pass movie to detail view controller
