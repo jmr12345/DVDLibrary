@@ -255,7 +255,7 @@
         <!--Splash Screen View Controller-->
         <scene sceneID="taP-yQ-OZP">
             <objects>
-                <viewController storyboardIdentifier="SplashScreenViewController" id="tEt-Ub-3bl" customClass="SplashScreenViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplashScreenViewController" modalTransitionStyle="crossDissolve" id="tEt-Ub-3bl" customClass="SplashScreenViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ffW-5n-C7H"/>
                         <viewControllerLayoutGuide type="bottom" id="fFJ-ad-YwA"/>
@@ -283,23 +283,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DhJ-cZ-HNU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2695" y="-2964"/>
-        </scene>
-        <!--Navigation Controller - Library-->
-        <scene sceneID="Yoy-hS-Iwj">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="2QA-e8-6tN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Library" image="home-32.png" id="lqL-jc-Ta3"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="YbV-qS-cRo">
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="XdK-jQ-dOk" kind="relationship" relationship="rootViewController" id="bwZ-Mu-duS"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VPE-rT-xff" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2179" y="-2874"/>
         </scene>
         <!--Library View Controller - Item-->
         <scene sceneID="Bif-gI-j5O">

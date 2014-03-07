@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "Reachability.h"
 
 @interface SearchViewController : UIViewController
 @property (strong, nonatomic) NSMutableDictionary *upcMovieResults;
@@ -25,4 +26,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *MovieTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *movieImage;
 
+@property (strong, nonatomic) Reachability *reachability;
 @end
