@@ -27,4 +27,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *movieImage;
 
 @property (strong, nonatomic) Reachability *reachability;
+
 @end

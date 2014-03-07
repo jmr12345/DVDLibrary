@@ -34,5 +34,4 @@
     [encoder encodeObject:self.movieDbId forKey:@"movieDbId"];
     [encoder encodeObject:self.imdbId forKey:@"imdbID"];
 }
-
 @end

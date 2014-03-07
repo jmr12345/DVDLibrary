@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "Movie.h"
+#import "Reachability.h"
 
 @interface SearchViewController ()
 
@@ -51,7 +52,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 - (BOOL)isReachable
 {
     Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
@@ -60,7 +60,6 @@
     }
     return false;
 }
-
 
 //downloads the json name from the website and adds query term to user defaults
 - (void)searchForMovieByUpc: (NSString *)upcSymbol

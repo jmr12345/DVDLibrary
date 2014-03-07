@@ -56,7 +56,7 @@
 - (IBAction)spin:(id)sender {
     
     [self.spinButton setEnabled:NO];
-    
+
     [self performSelector: @selector(pickRandomRow)
                withObject: nil
                afterDelay: 0];
