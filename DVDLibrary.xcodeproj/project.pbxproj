@@ -154,13 +154,6 @@
 			path = Icons;
 			sourceTree = "<group>";
 		};
-		3A54ABC918C8F19C005A6F69 /* DataSource */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DataSource;
-			sourceTree = "<group>";
-		};
 		3A6E830318BEBD0100F7210C = {
 			isa = PBXGroup;
 			children = (
@@ -195,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				3A6E832118BEBD0100F7210C /* Main.storyboard */,
-				3A54ABC918C8F19C005A6F69 /* DataSource */,
 				A5DF857718C0FBC400F16C87 /* Controllers */,
 				A5DF857618C0FB9E00F16C87 /* Model */,
 				A5DF857518C0FB7200F16C87 /* UI */,
