@@ -71,6 +71,7 @@
                     <tabBarItem key="tabBarItem" title="Spin" image="slot_machine-32.png" id="q5c-3m-t7S"/>
                     <connections>
                         <outlet property="picker" destination="JZu-vq-Z79" id="GIV-LD-od4"/>
+                        <outlet property="spinButton" destination="HkO-py-BrI" id="igO-oi-naZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nNS-pA-7Re" userLabel="First Responder" sceneMemberID="firstResponder"/>
