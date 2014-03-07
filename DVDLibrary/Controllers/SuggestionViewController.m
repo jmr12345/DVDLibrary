@@ -55,6 +55,8 @@
 
 - (IBAction)spin:(id)sender {
     
+    [self.spinButton setEnabled:NO];
+
     [self performSelector: @selector(pickRandomRow)
                withObject: nil
                afterDelay: 0];
@@ -86,6 +88,8 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     
     [alert show];
+    
+    [self.spinButton setEnabled:YES];
 }
 
 @end

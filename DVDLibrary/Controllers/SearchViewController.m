@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "Movie.h"
+#import "Reachability.h"
 
 @interface SearchViewController ()
 
@@ -40,6 +41,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.reachability = [Reachability reachabilityForInternetConnection];
+    [self.reachability startNotifier];
     
 }
 
@@ -47,6 +50,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)isReachable
+{
+    Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
+    if(currentReachability.currentReachabilityStatus != NotReachable){
+        return true;
+    }
+    return false;
 }
 
 //downloads the json name from the website and adds query term to user defaults
@@ -174,11 +186,11 @@
                 NSMutableDictionary *result = [results mutableCopy];
                 
                 //imdb id
-                self.foundMovie.imdbDbId = [result objectForKey:@"imdb_id"];
+                self.foundMovie.imdbId = [result objectForKey:@"imdb_id"];
                 
                 //set movie's url
                 NSString *imdbUrl = @"http://www.imdb.com/title/";
-                imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbDbId];
+                imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbId];
                 self.foundMovie.url = [NSURL URLWithString:imdbUrl];
                 
                 NSMutableArray *genreResults = [result objectForKey:@"genres"];
@@ -188,7 +200,12 @@
                     [self.foundMovie.genre addObject:category];
                 }
                 
-                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.foundMovie];
+                    Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                    
+                });
+
                 
             }] resume];
 }

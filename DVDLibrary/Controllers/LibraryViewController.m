@@ -16,7 +16,7 @@
 @interface LibraryViewController ()
 
 @property (strong,nonatomic) NSString *category;
-
+- (void)dismissSplashScreenViewController;
 @end
 
 @implementation LibraryViewController
