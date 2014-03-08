@@ -206,12 +206,12 @@
                 imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbId];
                 self.foundMovie.url = [NSURL URLWithString:imdbUrl];
                 
-                NSMutableArray *genreResults = [result objectForKey:@"genres"];
-                self.foundMovie.genre = [[NSMutableArray alloc]init];
-                for (NSDictionary *genre in genreResults) {
-                    NSString *category = [genre objectForKey:@"name"];
-                    [self.foundMovie.genre addObject:category];
-                }
+//                NSMutableArray *genreResults = [result objectForKey:@"genres"];
+//                self.foundMovie.genre = [[NSMutableArray alloc]init];
+//                for (NSDictionary *genre in genreResults) {
+//                    NSString *category = [genre objectForKey:@"name"];
+//                    [self.foundMovie.genre addObject:category];
+//                }
                 
                 self.foundMovie.description = [result objectForKey:@"overview"];
                 

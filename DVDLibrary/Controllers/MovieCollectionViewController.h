@@ -13,9 +13,6 @@
 
 @property (strong, nonatomic) LibraryViewController *lvc;
 
-@property (weak, nonatomic) IBOutlet UIButton *categoryButton;
-
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
--(void)changeSections;
 @end

@@ -17,6 +17,8 @@
 		3A49ABCE18C3E7E2004B0068 /* slot_machine-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A49ABCD18C3E7E2004B0068 /* slot_machine-32.png */; };
 		3A49ABD018C3ECB6004B0068 /* list-26.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A49ABCF18C3ECB6004B0068 /* list-26.png */; };
 		3A49ABD318C3FE86004B0068 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A49ABD218C3FE86004B0068 /* DetailViewController.m */; };
+		3A649A4718CBCC4D00FEF17A /* film2-26.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A649A4618CBCC4D00FEF17A /* film2-26.png */; };
+		3A649A4A18CBCE7100FEF17A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A649A4918CBCE7100FEF17A /* WebViewController.m */; };
 		3A6E831018BEBD0100F7210C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6E830F18BEBD0100F7210C /* Foundation.framework */; };
 		3A6E831218BEBD0100F7210C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6E831118BEBD0100F7210C /* CoreGraphics.framework */; };
 		3A6E831418BEBD0100F7210C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6E831318BEBD0100F7210C /* UIKit.framework */; };
@@ -34,8 +36,6 @@
 		3A92B81918C306FC00F20F41 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A92B81818C306FC00F20F41 /* LibraryViewController.m */; };
 		3ABBC8CE18C023BA005EFF0E /* MovieTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */; };
 		3AEDE90D18C2C174001C235C /* MovieTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEDE90C18C2C174001C235C /* MovieTableViewController.m */; };
-		8571BAD018C984B500D44B71 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8571BACF18C984B500D44B71 /* Reachability.m */; };
-		8571BAD318C984EF00D44B71 /* MovieLibraryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8571BAD218C984EF00D44B71 /* MovieLibraryManager.m */; };
 		85EDCAD918C6CBA7006133FD /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EDCAD818C6CBA7006133FD /* SearchViewController.m */; };
 		85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCADC18C6D06D006133FD /* Settings.bundle */; };
 		85EDCAE518C6DD2E006133FD /* movieIcon-58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCAE218C6DD2E006133FD /* movieIcon-58x58.png */; };
@@ -75,6 +75,9 @@
 		3A49ABCF18C3ECB6004B0068 /* list-26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list-26.png"; sourceTree = "<group>"; };
 		3A49ABD118C3FE86004B0068 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		3A49ABD218C3FE86004B0068 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		3A649A4618CBCC4D00FEF17A /* film2-26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "film2-26.png"; sourceTree = "<group>"; };
+		3A649A4818CBCE7100FEF17A /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		3A649A4918CBCE7100FEF17A /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		3A6E830C18BEBD0100F7210C /* DVDLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DVDLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6E830F18BEBD0100F7210C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3A6E831118BEBD0100F7210C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -99,10 +102,6 @@
 		3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieTableViewCell.m; path = DVDLibrary/UI/MovieTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		3AEDE90B18C2C174001C235C /* MovieTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieTableViewController.h; sourceTree = "<group>"; };
 		3AEDE90C18C2C174001C235C /* MovieTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieTableViewController.m; sourceTree = "<group>"; };
-		8571BACE18C984B500D44B71 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		8571BACF18C984B500D44B71 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		8571BAD118C984EF00D44B71 /* MovieLibraryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieLibraryManager.h; sourceTree = "<group>"; };
-		8571BAD218C984EF00D44B71 /* MovieLibraryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieLibraryManager.m; sourceTree = "<group>"; };
 		85EDCAD718C6CBA7006133FD /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		85EDCAD818C6CBA7006133FD /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		85EDCADC18C6D06D006133FD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -154,6 +153,7 @@
 				85EDCAEC18C6DED7006133FD /* movieMontage-640x960.png */,
 				85EDCAE818C6DD92006133FD /* movieMontage.png */,
 				85EDCAE218C6DD2E006133FD /* movieIcon-58x58.png */,
+				3A649A4618CBCC4D00FEF17A /* film2-26.png */,
 				85EDCAE318C6DD2E006133FD /* movieIcon-80x80.png */,
 				85EDCAE418C6DD2E006133FD /* movieIcon.png */,
 				3A49ABBD18C3E4C3004B0068 /* barcode-32.png */,
@@ -203,7 +203,6 @@
 				3A6E832118BEBD0100F7210C /* Main.storyboard */,
 				A5DF857718C0FBC400F16C87 /* Controllers */,
 				A5DF857618C0FB9E00F16C87 /* Model */,
-				8571BACD18C984B500D44B71 /* Networks */,
 				A5DF857518C0FB7200F16C87 /* UI */,
 				3A6E831E18BEBD0100F7210C /* AppDelegate.h */,
 				3A6E831F18BEBD0100F7210C /* AppDelegate.m */,
@@ -283,6 +282,8 @@
 			isa = PBXGroup;
 			children = (
 				3AEDE90B18C2C174001C235C /* MovieTableViewController.h */,
+				3A649A4818CBCE7100FEF17A /* WebViewController.h */,
+				3A649A4918CBCE7100FEF17A /* WebViewController.m */,
 				3AEDE90C18C2C174001C235C /* MovieTableViewController.m */,
 				3A49ABD118C3FE86004B0068 /* DetailViewController.h */,
 				3A49ABD218C3FE86004B0068 /* DetailViewController.m */,
@@ -390,6 +391,7 @@
 				85EDCAE518C6DD2E006133FD /* movieIcon-58x58.png in Resources */,
 				85EDCAE718C6DD2E006133FD /* movieIcon.png in Resources */,
 				3A6E832318BEBD0100F7210C /* Main.storyboard in Resources */,
+				3A649A4718CBCC4D00FEF17A /* film2-26.png in Resources */,
 				85EDCAED18C6DED7006133FD /* movieMontage-640x960.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,6 +419,7 @@
 				85F6C29518C96BBD00B0329B /* Reachability.m in Sources */,
 				3A6E832018BEBD0100F7210C /* AppDelegate.m in Sources */,
 				85EDCAF018C6E035006133FD /* SplashScreenViewController.m in Sources */,
+				3A649A4A18CBCE7100FEF17A /* WebViewController.m in Sources */,
 				3ABBC8CE18C023BA005EFF0E /* MovieTableViewCell.m in Sources */,
 				A5DF858318C0FE8300F16C87 /* Movie.m in Sources */,
 				3A8597F518C3A4EC000A918E /* MovieCollectionViewController.m in Sources */,

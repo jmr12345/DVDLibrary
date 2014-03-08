@@ -24,10 +24,18 @@
 {
     [super viewDidLoad];
     
-    self.viewType = @"Titles";
+    self.viewType = @"Genres";
     
     self.tableView.sectionFooterHeight = 0.0;
     self.tableView.sectionHeaderHeight = 28.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([tableView.dataSource tableView:tableView numberOfRowsInSection:section] == 0) {
+        return 0;
+    } else {
+        return 28;
+    }
 }
 
 
@@ -89,16 +97,6 @@
 
 #pragma mark - Table view delegate
 
-
-- (void)changeSections {
-//    if ([self.viewType  isEqual:@"Titles"]) {
-//        self.viewType = @"Genres";
-//        [self updateTableData:@""];
-//    } else if ([self.viewType  isEqual:@"Genres"]) {
-//        self.viewType = @"Titles";
-//        [self updateTableData:@""];
-//    }
-}
 
 #pragma mark - Navigation
 
