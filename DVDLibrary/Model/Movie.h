@@ -11,7 +11,7 @@
 @interface Movie : NSObject <NSCoding>
 
 @property (nonatomic,strong) NSString *title;
-@property (nonatomic,strong) NSMutableArray *genre;
+@property (nonatomic,strong) NSString *genre;
 @property (nonatomic,strong) NSString *description;
 @property (nonatomic,strong) UIImage *image;
 @property (nonatomic,strong) NSURL *url;

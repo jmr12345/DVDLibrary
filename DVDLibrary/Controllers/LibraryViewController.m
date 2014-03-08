@@ -5,6 +5,10 @@
 //  Created by Ming on 3/2/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
+// LibraryViewController displays one of two view controllers (MovieTableViewController or
+// MovieCollectionViewController) to display either a table view or
+// collection view of the movie collection.  This controller also contains a searchbar
+// and logic to filter the data for searched movies.
 
 #import "LibraryViewController.h"
 #import "MovieTableViewController.h"
@@ -15,7 +19,7 @@
 
 @interface LibraryViewController ()
 - (void)dismissSplashScreenViewController;
-@property (strong,nonatomic) NSString *category;
+@property (strong,nonatomic) NSString *sectionType;
 @end
 
 @implementation LibraryViewController
@@ -33,7 +37,8 @@
     [self performSelector:@selector(dismissSplashScreenViewController) withObject:nil afterDelay:2];
 
     // Shows tableView categorized by title
-    self.category = @"Titles";
+    self.sectionType = @"Titles";
+    [self setUpSections];
 
     // Get all movie data info and set filtered table data to include everything
     self.allTableData = [[MovieData alloc] init].movieData;
@@ -57,16 +62,17 @@
 }
 
 - (IBAction)changeSections:(id)sender {
-//    [(MovieTableViewController*)self.currentViewController changeSections];
-//    if ([self.category isEqual:@"Titles"]) {
-//        self.category = @"Genres";
-//        [self.categoryButton setTitle:@"By: Genres" forState:UIControlStateNormal];
-//    } else if ([self.category isEqual:@"Genres"]) {
-//        self.category = @"Titles";
-//        [self.categoryButton setTitle:@"By: Titles" forState:UIControlStateNormal];
-//    }
+    if ([self.sectionType isEqual:@"Titles"]){
+        self.sectionType = @"Genres";
+        [self.categoryButton setTitle:@"By: Genres" forState:UIControlStateNormal];
+        [self setUpSections];
+    } else if ([self.sectionType isEqual:@"Genres"]) {
+        self.sectionType = @"Titles";
+        [self.categoryButton setTitle:@"By: Titles" forState:UIControlStateNormal];
+        [self setUpSections];
+    }
+    [self updateTableData:@""];
 }
-
 
 - (IBAction)changeMovieLayout:(id)sender {
     // Add new viewcontroller and remove other one
@@ -90,8 +96,6 @@
 //        self.currentViewController = vc;
 //    }];
 }
-
-
 
 - (UIViewController *)switchViewController{
     UIViewController *vc;
@@ -133,68 +137,26 @@
 -(void)updateTableData:(NSString*)searchString
 {
     self.filteredTableData = [[NSMutableDictionary alloc] init];
-
-    for (Movie* movie in self.allTableData)
-    {
-        bool isMatch = false;
-        if(searchString.length == 0)
-        {
-            // If empty string, show everything
-            isMatch = true;
+    
+    NSMutableArray *filteredMovieArray = [self.allTableData mutableCopy];
+    
+    if (![searchString isEqualToString:@""]){
+        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.title CONTAINS[c] %@ OR SELF.genre contains[c] %@", searchString, searchString];
+        [filteredMovieArray filterUsingPredicate:searchPredicate];
+    }
+    
+    for (NSString *section in self.sections) {
+        if ([self.sectionType isEqual:@"Titles"]){
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title beginsWith[c] %@", section];
+            [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
         }
-        else
-        {
-            // Else, check to see if search string matches a movie title
-            NSRange titleRange = [movie.title rangeOfString:searchString options:NSCaseInsensitiveSearch];
-            if(titleRange.location != NSNotFound)
-                isMatch = true;
-        }
-
-        // If there is a match
-        if(isMatch)
-        {
-            if ([self.category  isEqual:@"Titles"]) {
-                // Find first letter of movie title
-                NSString* firstLetter = [movie.title substringToIndex:1];
-
-                // Check to see if an array for the letter already exists
-                NSMutableArray* arrayForLetter = (NSMutableArray*)[self.filteredTableData objectForKey:firstLetter];
-                if(arrayForLetter == nil)
-                {
-                    // If none exists, create one, and add it to dictionary
-                    arrayForLetter = [[NSMutableArray alloc] init];
-                    [self.filteredTableData setValue:arrayForLetter forKey:firstLetter];
-                }
-                // Add movie to its section array
-                [arrayForLetter addObject:movie];
-
-            } else if ([self.category  isEqual:@"Genres"]) {
-                // Find the genre of the movie
-                NSString* genre = [movie.genre objectAtIndex:0];
-
-                // Check to see if an array for genre already exists
-                NSMutableArray* arrayForGenre = (NSMutableArray*)[self.filteredTableData objectForKey:genre];
-                if(arrayForGenre == nil)
-                {
-                    // If none exists, create one, and add it to dictionary
-                    arrayForGenre = [[NSMutableArray alloc] init];
-                    [self.filteredTableData setValue:arrayForGenre forKey:genre];
-                }
-                // Add movie to its section array
-                [arrayForGenre addObject:movie];
-            }
+        else if ([self.sectionType isEqual:@"Genres"]){
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.genre CONTAINS[c] %@", section];
+            [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
         }
     }
-    // Create array of all sections
-    self.sections = [[[self.filteredTableData allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)] mutableCopy];
 
-    // Reload data for appropriate view type
-    if ([self.currentViewController class] == [MovieTableViewController class]) {
-       [((MovieTableViewController *)self.currentViewController).tableView reloadData];
-    }
-    else if ([self.currentViewController class] == [MovieCollectionViewController class]) {
-       [((MovieCollectionViewController *)self.currentViewController).collectionView reloadData];
-    }
+    [self reloadMovieData];
 }
 
 - (IBAction)search:(id)sender {
@@ -229,8 +191,36 @@
 {
     // Remove the view controller
     [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"SplashScreenViewController is dismissed from the HomeViewController");
+        NSLog(@"SplashScreenViewController is dismissed from the LibraryViewController");
     }];
+}
+
+- (void)setUpSections{
+   if ([self.sectionType isEqual:@"Titles"]){
+       self.sections = [NSMutableArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", nil];
+   }  else if ([self.sectionType isEqual:@"Genres"]) {
+       self.sections = [NSMutableArray arrayWithObjects:@"Action",@"Adventure",@"Animation",@"Comedy",@"Crime",@"Disaster",@"Documentary",@"Drama",@"Eastern",@"Erotic",@"Family",@"Fan Film",@"Fantasy",@"Film Noir",@"History",@"Holiday",@"Horror",@"Indie",@"Music",@"Musical",@"Mystery",@"Neo-noir",@"Road Movie",@"Romance",@"Science Fiction",@"Short",nil];
+   }
+}
+
+//- (NSMutableDictionary*)groupMoviesBySection:(NSArray*)allTableData{
+//    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] init];
+//    for (NSString *section in self.sections) {
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.genre CONTAINS[c] %@", section];
+//        [mDict setValue:[allTableData filteredArrayUsingPredicate:predicate] forKey:section];
+//    }
+//    return [mDict copy];
+//    
+//}
+
+- (void) reloadMovieData {
+    // Reload data for appropriate view type
+    if ([self.currentViewController class] == [MovieTableViewController class]) {
+        [((MovieTableViewController *)self.currentViewController).tableView reloadData];
+    }
+    else if ([self.currentViewController class] == [MovieCollectionViewController class]) {
+        [((MovieCollectionViewController *)self.currentViewController).collectionView reloadData];
+    }
 }
 
 @end

@@ -24,10 +24,18 @@
 {
     [super viewDidLoad];
     
-    self.viewType = @"Titles";
+    self.viewType = @"Genres";
     
     self.tableView.sectionFooterHeight = 0.0;
     self.tableView.sectionHeaderHeight = 28.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if ([tableView.dataSource tableView:tableView numberOfRowsInSection:section] == 0) {
+        return 0;
+    } else {
+        return 28;
+    }
 }
 
 

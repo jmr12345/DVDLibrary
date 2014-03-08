@@ -62,6 +62,9 @@
 #pragma mark – UICollectionViewDelegateFlowLayout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    if ([self.collectionView numberOfItemsInSection:section] == 0){
+        return UIEdgeInsetsMake(0,0,0,0);
+    }
     return UIEdgeInsetsMake(15, 22, 15, 22);
 }
 
@@ -80,33 +83,19 @@
                                          UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionHeaderID" forIndexPath:indexPath];
     headerView.sectionLabel.text = self.lvc.sections[indexPath.section];
     [headerView setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
+    
+    if ([self.collectionView numberOfItemsInSection:indexPath.section] == 0){
+        headerView.frame = CGRectMake(0,0,0,0);
+    }
 
     return headerView;
 }
 
-#pragma mark - Collection view data source
-
-- (NSString *)collectionView:(UICollectionView *)collectionView titleForHeaderInSection:(NSInteger)section
-{
-    NSString* key = [self.lvc.sections objectAtIndex:section];
-    return key;
-}
-
--(UIView *)collectionView:(UICollectionView *)collectionView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, collectionView.frame.size.width, 28)];
-    
-    // Setup label
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, collectionView.frame.size.width, 28)];
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    NSString *string = [self.lvc.sections objectAtIndex:section];
-    [label setText:string];
-    [view addSubview:label];
-    
-    [view setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
-    
-    return view;
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    if ([self.collectionView numberOfItemsInSection:section] == 0){
+        return CGSizeMake(0,0);
+    }
+    return CGSizeMake(self.view.bounds.size.width, 28);
 }
 
 #pragma mark - Navigation
