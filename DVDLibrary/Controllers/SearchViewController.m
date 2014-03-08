@@ -74,13 +74,13 @@
                 NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
                 
                 // Update the Nsmutable Array
-                self.upcMovieResults = [[results mutableCopy] objectForKey:@"0"];
-                NSString *title = (NSString *)[self.upcMovieResults objectForKey:@"productname"];
+                NSMutableDictionary *upcMovieResults = [[results mutableCopy] objectForKey:@"0"];
+                NSString *title = (NSString *)[upcMovieResults objectForKey:@"productname"];
                 NSRange range = [title rangeOfString:@"("];
                 title = [title substringToIndex:range.location];
                 self.foundMovie.title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                 
-                NSString *imageURL = (NSString *)[self.upcMovieResults objectForKey:@"imageurl"];
+                NSString *imageURL = (NSString *)[upcMovieResults objectForKey:@"imageurl"];
                 self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
                 
                 [self searchForMovieByTitle:self.foundMovie.title];
@@ -105,17 +105,32 @@
                 NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
                 
                 // Update the Nsmutable Array
-                self.titleMovieResults = [[results mutableCopy] objectForKey:@"searchResponse"];
-                NSMutableDictionary *result = [[self.titleMovieResults objectForKey:@"results"] objectAtIndex:0];
-                self.movieInfo = [result objectForKey:@"movie"];
+                NSMutableDictionary *titleMovieResults = [[results mutableCopy] objectForKey:@"searchResponse"];
+                NSMutableDictionary *result = [[titleMovieResults objectForKey:@"results"] objectAtIndex:0];
+                NSMutableDictionary *movieInfo = [result objectForKey:@"movie"];
+                
+                self.foundMovie.mpaaRating = [movieInfo objectForKey:@"mpaa"];
+                self.foundMovie.duration = [movieInfo objectForKey:@"duration"];
+                
+                self.foundMovie.directors = [[NSMutableArray alloc] init];
+                NSMutableArray *directors = [movieInfo objectForKey:@"directors"];
+                for (NSDictionary *director in directors) {
+                    NSString *category = [director objectForKey:@"name"];
+                    [self.foundMovie.directors addObject:category];
+                }
+                
+                self.foundMovie.cast = [[NSMutableArray alloc] init];
+                NSMutableArray *castMembers = [movieInfo objectForKey:@"cast"];
+                for (NSDictionary *member in castMembers) {
+                    NSString *castName = [member objectForKey:@"name"];
+                    [self.foundMovie.cast addObject:castName];
+                }
 
                 
-                // Refresh the table on main thread
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    self.MovieTitle.text = self.foundMovie.title;
-//                    [self.movieImage setImage:self.foundMovie.image];
-                    
-                    
+                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.foundMovie];
+                    Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                    NSLog(@"movie object: %@", obj);
                 });
                 
             }] resume];
@@ -200,11 +215,13 @@
                 
                 self.foundMovie.description = [result objectForKey:@"overview"];
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.foundMovie];
-                    Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-                    
-                });
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                NSString *release =[result objectForKey:@"release_date"];
+                self.foundMovie.releaseDate = [dateFormatter dateFromString:release];
+
+                
+                
 
                 
             }] resume];

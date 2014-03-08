@@ -19,6 +19,11 @@
         self.upc = [decoder decodeObjectForKey:@"upc"];
         self.movieDbId = [decoder decodeObjectForKey:@"movieDbId"];
         self.imdbId = [decoder decodeObjectForKey:@"imdbID"];
+        self.duration = [decoder decodeObjectForKey:@"duration"];
+        self.mpaaRating = [decoder decodeObjectForKey:@"mpaaRating"];
+        self.releaseDate = [decoder decodeObjectForKey:@"releaseDate"];
+        self.directors = [decoder decodeObjectForKey:@"directors"];
+        self.cast = [decoder decodeObjectForKey:@"cast"];
     }
     return self;
 }
@@ -33,5 +38,10 @@
     [encoder encodeObject:self.upc forKey:@"upc"];
     [encoder encodeObject:self.movieDbId forKey:@"movieDbId"];
     [encoder encodeObject:self.imdbId forKey:@"imdbID"];
+    [encoder encodeObject:self.duration forKey:@"duration"];
+    [encoder encodeObject:self.mpaaRating forKey:@"mpaaRating"];
+    [encoder encodeObject:self.releaseDate forKey:@"releaseDate"];
+    [encoder encodeObject:self.directors forKey:@"directors"];
+    [encoder encodeObject:self.cast forKey:@"cast"];
 }
 @end
