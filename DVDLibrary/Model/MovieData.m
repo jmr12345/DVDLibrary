@@ -26,9 +26,7 @@
     test.title = @"21 Jump Street";
     UIImage *testImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://images.bestbuy.com/BestBuy_US/en_US/images/musicmoviegame/pdpimages/5426105.jpg"]]];
     test.image = testImage;
-    [test.genre addObject:@"Action"];
-    [test.genre addObject:@"Comedy"];
-    [test.genre addObject:@"Crime"];
+    test.genre = @"Action, Comedy, Crime";
     test.description = @"In high school, Schmidt was a dork and Jenko was the popular jock. After graduation, both of them joined the police force and ended up as partners riding bicycles in the city park. Since they are young and look like high school students, they are assigned to an undercover unit to infiltrate a drug ring that is supplying high school students synthetic drugs.";
     test.url = [NSURL URLWithString:@"http://www.imdb.com/title/tt1232829"];
     test.upc = @"043396399778";
@@ -43,6 +41,7 @@
     
     [test.directors addObject:@"Phil Lord"];
     [test.directors addObject:@"Christopher Miller"];
+    test.cast = [[NSMutableArray alloc] init];
     [test.cast addObject:@"Jonah Hill"];
     [test.cast addObject:@"Channing Tatum"];
     [test.cast addObject:@"Brie Larson"];

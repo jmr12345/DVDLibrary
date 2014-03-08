@@ -68,16 +68,6 @@
     return UIEdgeInsetsMake(15, 22, 15, 22);
 }
 
-- (void)changeSections {
-//    if ([self.viewType  isEqual:@"Titles"]) {
-//        self.viewType = @"Genres";
-//        [self updateTableData:@""];
-//    } else if ([self.viewType  isEqual:@"Genres"]) {
-//        self.viewType = @"Titles";
-//        [self updateTableData:@""];
-//    }
-}
-
 - (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                          UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionHeaderID" forIndexPath:indexPath];

@@ -98,16 +98,6 @@
 #pragma mark - Table view delegate
 
 
-- (void)changeSections {
-//    if ([self.viewType  isEqual:@"Titles"]) {
-//        self.viewType = @"Genres";
-//        [self updateTableData:@""];
-//    } else if ([self.viewType  isEqual:@"Genres"]) {
-//        self.viewType = @"Titles";
-//        [self updateTableData:@""];
-//    }
-}
-
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
