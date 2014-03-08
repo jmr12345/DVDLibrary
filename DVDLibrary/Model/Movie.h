@@ -18,6 +18,11 @@
 @property (nonatomic,strong) NSString *upc;
 @property (nonatomic,strong) NSString *movieDbId;
 @property (nonatomic,strong) NSString *imdbId;
+@property (nonatomic,strong) NSString *duration;
+@property (nonatomic,strong) NSString *mpaaRating;
+@property (nonatomic,strong) NSDate *releaseDate;
+@property (nonatomic,strong) NSMutableArray *directors;
+@property (nonatomic,strong) NSMutableArray *cast;
 
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
