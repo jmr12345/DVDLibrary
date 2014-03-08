@@ -75,95 +75,45 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0){
-        static NSString *CellIdentifier = @"BasicID";
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        if (indexPath.row == 0){
-            cell.textLabel.text = [NSString stringWithFormat:@"Runtime: %@ minutes",self.movie.duration];
-        }
-        if (indexPath.row == 1){
-            cell.textLabel.text = [NSString stringWithFormat:@"Release Date: %@",self.movie.releaseDate];
-        }
-        
-        if (indexPath.row == 2){
-            cell.textLabel.text = [NSString stringWithFormat:@"Genres: %@",self.movie.genre];
-        }
-        
-        return cell;
-
-    }
-    
-    if (indexPath.section == 1){
-        static NSString *CellIdentifier = @"CustomDetailCellID";
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        UITextView *textView = (UITextView *) [self.view viewWithTag:111];
-        [textView setFrame:CGRectMake(0,0, self.view.frame.size.width, 500)];
-        textView.text = self.movie.description;
-        
-        return cell;
-    }
-    
-    if (indexPath.section == 2){
-        static NSString *CellIdentifier = @"BasicID";
-        UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        cell.textLabel.text = [self.movie.cast objectAtIndex:indexPath.row];
-        return cell;
-        
-    }
-
-
-    else {
-    static NSString *CellIdentifier = @"BasicID";
+    static NSString *CellIdentifier = @"BasicCellID";
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-     cell.textLabel.text = @"hi there";
-        return cell;
-    }
     
-    return nil;
+    switch (indexPath.section) {
+        case 0:
+            if (indexPath.row == 0){
+                cell.textLabel.text = [NSString stringWithFormat:@"Runtime: %@ minutes",self.movie.duration];
+            }
+            if (indexPath.row == 1){
+                cell.textLabel.text = [NSString stringWithFormat:@"Release Date: %@",self.movie.releaseDate];
+            }
+            
+            if (indexPath.row == 2){
+                cell.textLabel.text = [NSString stringWithFormat:@"Genres: %@",self.movie.genre];
+            }
+            break;
+        case 1:
+            cell.textLabel.text = self.movie.description;
+            break;
+        case 2:
+            cell.textLabel.text = [self.movie.cast objectAtIndex:indexPath.row];
+            break;
+    }
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section==10 & indexPath.row==0)
+    if (indexPath.section==1 & indexPath.row==0)
     {
         
-      //  CGSize maximumSize = CGSizeMake(300, 100); // change width and height to your requirement
-        
-//        CGSize strSize = [str sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
-//        NSLog(@"%f",strSize.height);
-        NSAttributedString *attributedText =
-        [[NSAttributedString alloc]
-         initWithString:self.movie.description
-         attributes:@
-         {
-         NSFontAttributeName:[UIFont systemFontOfSize:17.0f]
-         }];
-        
-        CGRect rect =
-        [attributedText boundingRectWithSize:CGSizeMake(300.f, CGFLOAT_MAX)
-                                     options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
-                                     context:nil];
+        CGRect rect = [self.movie.description boundingRectWithSize:CGSizeMake(300.f, CGFLOAT_MAX)
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}
+                                             context:nil];
         CGSize strSize = rect.size;
-            
-//        CGSize strSize = [str sizeWithFont:[UIFont fontWithName:@"Arial" size:22] constrainedToSize:maximumSize lineBreakMode UILineBreakModeWordWrap]; //dynamic height of string depending on given width to fit
-        
-//        CGRect paragraphRect =
-//        [attributedText boundingRectWithSize:CGSizeMake(300.f, CGFLOAT_MAX)
-//                                     options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
-//                                     context:nil];
-//        
-        
-        return (10+strSize.height+10); // caculate on your bases as u have string height
+        NSLog(@"HEIGHT:%f",strSize.height);
+        return (strSize.height+5);
     }
     else return 50;
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    [self.scrollView setContentSize:CGSizeMake(320, 1500)];
 }
 
 //#pragma YouTube
