@@ -11,10 +11,7 @@
 #import "Reachability.h"
 
 @interface SearchViewController : UIViewController
-@property (strong, nonatomic) NSMutableDictionary *upcMovieResults;
-@property (strong, nonatomic) NSMutableDictionary *titleMovieResults;
-@property (strong, nonatomic) NSMutableDictionary *movieInfo;
-@property (strong, nonatomic) NSMutableDictionary *movieImdbInfo;
+
 
 @property (strong, nonatomic) Movie *foundMovie;
 
@@ -22,9 +19,6 @@
 @property (strong, nonatomic) NSString *sig;
 
 @property (strong, nonatomic) NSString *movieDbApiKey;
-
-@property (weak, nonatomic) IBOutlet UILabel *MovieTitle;
-@property (weak, nonatomic) IBOutlet UIImageView *movieImage;
 
 @property (strong, nonatomic) Reachability *reachability;
 
