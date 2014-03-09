@@ -272,24 +272,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Ynt-N0-B09">
-                        <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="ehN-zI-ApL"/>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="P6Q-dx-omw">
-                            <rect key="frame" x="93" y="6" width="134" height="33"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                            <state key="normal" title="By: Title">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="changeSections:" destination="2U0-Yd-Y5x" eventType="touchUpInside" id="yUD-1v-F5o"/>
-                            </connections>
-                        </button>
-                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="y9W-5i-BJN"/>
-                    </navigationItem>
                     <connections>
-                        <outlet property="categoryButton" destination="P6Q-dx-omw" id="EJp-DE-R5D"/>
                         <outlet property="tableView" destination="Qf8-aa-Uif" id="61f-z6-m1e"/>
                     </connections>
                 </viewController>
@@ -342,7 +325,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="DVD Library Created By: Amy Chiu &amp; Ming Roush" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="299" translatesAutoresizingMaskIntoConstraints="NO" id="Ieu-us-ZaG">
+                            <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Movie Library Created By: Amy Chiu &amp; Ming Roush" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="5" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="299" translatesAutoresizingMaskIntoConstraints="NO" id="Ieu-us-ZaG">
                                 <rect key="frame" x="11" y="121" width="299" height="282"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

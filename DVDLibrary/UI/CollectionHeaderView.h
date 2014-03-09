@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CollectionHeaderView : UICollectionReusableView
+
 @property (weak, nonatomic) IBOutlet UILabel *sectionLabel;
 
 @end

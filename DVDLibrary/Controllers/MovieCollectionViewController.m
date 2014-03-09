@@ -15,7 +15,6 @@
 
 
 @interface MovieCollectionViewController ()
-@property NSString *viewType;
 @end
 
 @implementation MovieCollectionViewController
@@ -23,9 +22,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.viewType = @"Titles";
 }
+
+#pragma mark - Collection view data source
 
 - (NSInteger) numberOfSectionsInCollectionView:
 (UICollectionView *)collectionView
@@ -37,7 +36,7 @@
       numberOfItemsInSection:(NSInteger)section
 {
     NSString* category = [self.lvc.sections objectAtIndex:section];
-    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredMovieData objectForKey:category];
     return [arrayForSection count];
 }
 
@@ -49,7 +48,7 @@
     // Get movie at current position
     Movie *movie = [[Movie alloc] init];
     NSString* category = [self.lvc.sections objectAtIndex:indexPath.section];
-    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredMovieData objectForKey:category];
     movie = (Movie *)[arrayForSection objectAtIndex:indexPath.row];
 
     // Configure cell with current movie's image
@@ -59,29 +58,28 @@
     return cell;
 }
 
-#pragma mark – UICollectionViewDelegateFlowLayout
+- (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
+                                        UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionHeaderID" forIndexPath:indexPath];
+    
+    headerView.sectionLabel.text = self.lvc.sections[indexPath.section];
+    [headerView setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
+    
+    return headerView;
+}
+
+#pragma mark - Collection view delegate flow layout
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    // If no items in section, no insets
     if ([self.collectionView numberOfItemsInSection:section] == 0){
         return UIEdgeInsetsMake(0,0,0,0);
     }
     return UIEdgeInsetsMake(15, 22, 15, 22);
 }
 
-- (UICollectionReusableView *)collectionView: (UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    CollectionHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
-                                         UICollectionElementKindSectionHeader withReuseIdentifier:@"CollectionHeaderID" forIndexPath:indexPath];
-    headerView.sectionLabel.text = self.lvc.sections[indexPath.section];
-    [headerView setBackgroundColor:[UIColor colorWithWhite:0.2 alpha:0.7f]];
-    
-    if ([self.collectionView numberOfItemsInSection:indexPath.section] == 0){
-        headerView.frame = CGRectMake(0,0,0,0);
-    }
-
-    return headerView;
-}
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    // If no items in sections, don't show header
     if ([self.collectionView numberOfItemsInSection:section] == 0){
         return CGSizeMake(0,0);
     }
@@ -92,6 +90,8 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSLog(@">>>>> Segue to DetailViewController from MovieCollectionViewController");
+    
     // Get destination view controller
     DetailViewController *dvc = [segue destinationViewController];
     
@@ -102,7 +102,7 @@
     // Get movie at current position
     Movie *selectedMovie = [[Movie alloc] init];
     NSString* category = [self.lvc.sections objectAtIndex:selectedIndexPath.section];
-    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredMovieData objectForKey:category];
     selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
     
     // Pass movie to detail view controller

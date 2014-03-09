@@ -71,7 +71,6 @@
  * @description
  ********************************************************************************************/
 - (NSComparisonResult)compare:(Movie *)otherObject {
-    NSLog(@"Compares %@ with %@", self.title, otherObject.title);
     return [self.title compare:otherObject.title];
 }
 @end

@@ -21,7 +21,9 @@
     [super viewDidLoad];
     
     NSArray *data = [[MovieData alloc] init].movieData;
-   self.movieArray =[data arrayByAddingObjectsFromArray:data];
+    
+    // Double array
+    self.movieArray =[data arrayByAddingObjectsFromArray:data];
     //self.movieArray = data;
 }
 
@@ -39,7 +41,6 @@
 {
     Movie *movie = [self.movieArray objectAtIndex:row];
     return movie.title;
-    
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
@@ -54,10 +55,20 @@
     return label;
 }
 
+/*******************************************************************************
+ * @method      spin:
+ * @abstract
+ * @description When spin button tapped, crazy animation begins picking random
+                movies in the spinner and displays alert after movie selected.
+ ******************************************************************************/
 - (IBAction)spin:(id)sender {
     
+    NSLog(@">>>>> Spin button tapped");
+    
+    // Don't allow spin button to be tapped while spinning
     [self.spinButton setEnabled:NO];
 
+    // Create crazy animation of picking random movies
     [self performSelector: @selector(pickRandomRow)
                withObject: nil
                afterDelay: 0];
@@ -75,21 +86,36 @@
                afterDelay: 2];
 }
 
+/*******************************************************************************
+ * @method      pickRandomRow
+ * @abstract    Animates picking random row in UIPickerView
+ * @description
+ ******************************************************************************/
 -(void)pickRandomRow
 {
     [self.picker selectRow: (arc4random() % [self.movieArray count]) inComponent: 0 animated: YES];
 }
 
+/*******************************************************************************
+ * @method      showSelectedMovie
+ * @abstract
+ * @description Shows an alert with the selected movie and enables spin button
+ ******************************************************************************/
 -(void)showSelectedMovie
 {
+    NSLog(@">>>>> Selected movie alert shown");
+    
+    // Get selected movie
     Movie *movie = (Movie*)[self.movieArray objectAtIndex:[self.picker selectedRowInComponent:0]];
     
+    // Display an alert with the selected movie
     NSString *movieTitle = movie.title;
     NSString *title = [[NSString alloc] initWithFormat:@"Time to watch %@!", movieTitle];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     
     [alert show];
     
+    // Allow user to spin again
     [self.spinButton setEnabled:YES];
 }
 

@@ -12,8 +12,6 @@
 @interface MovieTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) LibraryViewController *lvc;
-
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIButton *categoryButton;
 
 @end
