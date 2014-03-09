@@ -12,6 +12,6 @@
 
 +(MovieLibraryManager *)sharedInstance;
 -(void)writeToPList:(NSDictionary *)dictionaryToWrite;
--(NSDictionary *)readFromPList;
+-(NSMutableDictionary *)readFromPList;
 
 @end

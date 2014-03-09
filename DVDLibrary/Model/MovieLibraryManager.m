@@ -52,6 +52,7 @@ static MovieLibraryManager *sharedInstance;
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *docfilePath = [basePath stringByAppendingPathComponent:@"movieData.plist"];
     [dictionaryToWrite writeToFile:docfilePath atomically:YES];
+    NSLog(@"Movie library successfully written to pList!");
 }
 
 /********************************************************************************************
@@ -59,7 +60,8 @@ static MovieLibraryManager *sharedInstance;
  * @abstract method to read from the plist
  * @description
  ********************************************************************************************/
--(NSDictionary *)readFromPList{
+-(NSMutableDictionary *)readFromPList
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *docfilePath = [basePath stringByAppendingPathComponent:@"movieData.plist"];

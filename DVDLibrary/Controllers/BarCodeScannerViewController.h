@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
+#import "SearchResult.h"
 
 @interface BarCodeScannerViewController : UIViewController
+
+@property (strong, nonatomic) NSString *barcodeValue;
+
+@property (strong, nonatomic) Reachability *reachability;
+@property (strong, nonatomic) SearchResult *search;
+
+//counter to prevent repeat loop
+@property (nonatomic) __block int *number;
 
 @end
