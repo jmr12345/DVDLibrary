@@ -12,7 +12,7 @@
 			<key>Key</key>
 			<string>Title</string>
 			<key>DefaultValue</key>
-			<string>DVD Library</string>
+			<string>Movie Library</string>
 		</dict>
 		<dict>
 			<key>Type</key>

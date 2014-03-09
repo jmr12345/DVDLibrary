@@ -47,17 +47,13 @@
     
     self.search2 = [[SearchResult alloc]initWithMovieTitle:@"The Heat"];
     [self.search2 searchForMovieByTitle:@"The Heat"];
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)getMovie
-{
-    self.foundMovie = self.search.foundMovie;
 }
 
 - (BOOL)isReachable
@@ -71,8 +67,20 @@
 
 
 - (IBAction)searchByTitleButton:(id)sender {
+    if ([self isReachable]) {
+        self.titleSearch = self.inputMovieTItle.text;
+    }
+    else{
+        NSString *title = @"Sorry! Must be connected to the internet to search!";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    }
+    
     self.foundMovie = self.search.foundMovie;
     Movie *testMovie = [[Movie alloc]init];
     testMovie = self.search2.foundMovie;
 }
+
+
+
 @end

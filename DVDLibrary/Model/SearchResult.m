@@ -6,6 +6,13 @@
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
 
+/******
+ * This class is used to find all the data for a specific movie based on either
+ * a movie's upc value or title. It accesses several api's to gather all of the
+ * needed information.
+ * API's used: searchupc, rovi and the movieDB
+ ******/
+
 #import "SearchResult.h"
 #import "Movie.h"
 #import <CommonCrypto/CommonDigest.h>
@@ -20,7 +27,7 @@
 - (id) init {
     self = [super init];
     if(self){
-
+        self.foundMovie = [[Movie alloc]init];
     }
     return self;
 }
