@@ -19,8 +19,8 @@
 {
     [super viewDidLoad];
     
-    NSURL *url = [NSURL URLWithString:@"http://www.youtube.com/watch?v=ISJR4rVO0TQ"];
-    NSURLRequest *requestURL = [NSURLRequest requestWithURL:url];
+    self.trailerURL= [NSURL URLWithString:@"http://www.youtube.com/watch?v=ISJR4rVO0TQ"];
+    NSURLRequest *requestURL = [NSURLRequest requestWithURL:self.trailerURL];
     [self.webView loadRequest:requestURL];
 }
 

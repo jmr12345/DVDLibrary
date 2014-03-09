@@ -44,4 +44,8 @@
     [encoder encodeObject:self.directors forKey:@"directors"];
     [encoder encodeObject:self.cast forKey:@"cast"];
 }
+
+- (NSComparisonResult)compare:(Movie *)otherObject {
+    return [self.title compare:otherObject.title];
+}
 @end

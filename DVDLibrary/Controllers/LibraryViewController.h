@@ -11,7 +11,6 @@
 @interface LibraryViewController : UIViewController <UISearchBarDelegate>
 
 @property (strong, nonatomic) NSArray* allTableData;
-@property (strong, nonatomic) NSMutableDictionary* groupedTableData;
 @property (strong, nonatomic) NSMutableDictionary* filteredTableData;
 @property (strong, nonatomic) NSMutableArray* sections;
 

@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "Movie.h"
+#import "WebViewController.h"
 
 @interface DetailViewController ()
 
@@ -116,6 +117,24 @@
     else return 50;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"TrailerSegue"]) {
+        
+        NSLog(@"websegue");
+        
+        // Get destination view
+        WebViewController *wvc = [segue destinationViewController];
+        
+        // Get button tag
+        NSInteger tagIndex = [(UIButton *)sender tag];
+        
+        // Set the site in the new view
+        //[wvc.trailerURL = self.movie.trailerURL;
+    }
+}
+
+
 //#pragma YouTube
 //
 //- (void)webViewDidFinishLoad:(UIWebView *)_webView {
@@ -172,4 +191,5 @@
 //    
 //}
 
+       
 @end

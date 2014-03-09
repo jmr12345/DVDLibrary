@@ -21,7 +21,8 @@
     [super viewDidLoad];
     
     NSArray *data = [[MovieData alloc] init].movieData;
-    self.movieArray = data;
+   self.movieArray =[data arrayByAddingObjectsFromArray:data];
+    //self.movieArray = data;
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView

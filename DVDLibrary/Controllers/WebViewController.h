@@ -10,5 +10,6 @@
 
 @interface WebViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) NSURL *trailerURL;
 //- (IBAction)sendTweet:(id)sender;
 @end
