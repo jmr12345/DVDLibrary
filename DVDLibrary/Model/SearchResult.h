@@ -26,6 +26,11 @@
 - (id)initWithMovieTitle: (NSString *)title;
 
 //search methods
+- (void)titleSearch: (NSString *)title;
 - (void)searchForMovieByUpc: (NSString *)upcSymbol;
-- (void)searchForMovieByTitle: (NSString *)movieTitle;
+
+//counter to prevent repeat loop
+@property (nonatomic) __block int *num;
+@property (nonatomic) __block int *loop;
+
 @end

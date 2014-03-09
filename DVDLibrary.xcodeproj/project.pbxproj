@@ -104,8 +104,8 @@
 		3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieTableViewCell.m; path = DVDLibrary/UI/MovieTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		3AEDE90B18C2C174001C235C /* MovieTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieTableViewController.h; sourceTree = "<group>"; };
 		3AEDE90C18C2C174001C235C /* MovieTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieTableViewController.m; sourceTree = "<group>"; };
-		8553E77818CC3853007F878D /* BarCodeScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BarCodeScannerViewController.h; sourceTree = "<group>"; };
-		8553E77918CC3854007F878D /* BarCodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BarCodeScannerViewController.m; sourceTree = "<group>"; };
+		8553E77818CC3853007F878D /* BarCodeScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BarCodeScannerViewController.h; path = DVDLibrary/Controllers/BarCodeScannerViewController.h; sourceTree = SOURCE_ROOT; };
+		8553E77918CC3854007F878D /* BarCodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BarCodeScannerViewController.m; path = DVDLibrary/Controllers/BarCodeScannerViewController.m; sourceTree = SOURCE_ROOT; };
 		85D0230518CBEA2B0079BF16 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResult.h; sourceTree = "<group>"; };
 		85D0230618CBEA2B0079BF16 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResult.m; sourceTree = "<group>"; };
 		85EDCAD718C6CBA7006133FD /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -206,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				3A6E832118BEBD0100F7210C /* Main.storyboard */,
+				8553E77B18CC3BF2007F878D /* BarCodeScanner */,
 				A5DF857718C0FBC400F16C87 /* Controllers */,
 				A5DF857618C0FB9E00F16C87 /* Model */,
 				A5DF857518C0FB7200F16C87 /* UI */,
@@ -249,6 +250,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8553E77B18CC3BF2007F878D /* BarCodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				8553E77818CC3853007F878D /* BarCodeScannerViewController.h */,
+				8553E77918CC3854007F878D /* BarCodeScannerViewController.m */,
+			);
+			name = BarCodeScanner;
+			path = Controllers/BarCodeScanner;
+			sourceTree = "<group>";
+		};
 		85F6C29218C96BBD00B0329B /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,8 +300,6 @@
 		A5DF857718C0FBC400F16C87 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8553E77818CC3853007F878D /* BarCodeScannerViewController.h */,
-				8553E77918CC3854007F878D /* BarCodeScannerViewController.m */,
 				3A49ABD118C3FE86004B0068 /* DetailViewController.h */,
 				3A49ABD218C3FE86004B0068 /* DetailViewController.m */,
 				3A92B81718C306FC00F20F41 /* LibraryViewController.h */,

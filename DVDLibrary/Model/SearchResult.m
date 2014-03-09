@@ -16,6 +16,7 @@
 #import "SearchResult.h"
 #import "Movie.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "MovieLibraryManager.h"
 
 @implementation SearchResult
 
@@ -28,6 +29,7 @@
     self = [super init];
     if(self){
         self.foundMovie = [[Movie alloc]init];
+        self.loop = 0;
     }
     return self;
 }
@@ -45,6 +47,8 @@
         self.movieDbApiKey = @"a9dc5652da0de21c8fbd3004a590931b";
         self.foundMovie = [[Movie alloc]init];
         self.foundMovie.upc = upcSymbol;
+        self.num = 0;
+        self.loop = 0;
     }
     return self;
 }
@@ -62,8 +66,92 @@
         self.movieDbApiKey = @"a9dc5652da0de21c8fbd3004a590931b";
         self.foundMovie = [[Movie alloc]init];
         self.foundMovie.title = title;
+        self.num = 0;
+        self.loop = 0;
     }
     return self;
+}
+
+/********************************************************************************************
+ * @method blankSearch
+ * @abstract gives alert view error an empty string is passed
+ * @description
+ ********************************************************************************************/
+- (void)blankSearch
+{
+    NSString *title = @"Sorry! Search cannot be blank. Please try again.";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@"Showing empty title error");
+}
+
+/********************************************************************************************
+ * @method titleSearch
+ * @abstract checks to make sure title is not blank. If not then it kicks off the search
+ * @description
+ ********************************************************************************************/
+- (void)titleSearch: (NSString *)title
+{
+    if (title.length == 0) {
+        [self blankSearch];
+    }
+    else{
+        [self searchForMovieByTitle:title];
+    }
+}
+
+/********************************************************************************************
+ * @method movieIsNil
+ * @abstract boolean that determines if the movie was found or not
+ * @description
+ ********************************************************************************************/
+- (BOOL)movieIsNil
+{
+    if (self.foundMovie.releaseDate == Nil) {
+        NSLog(@"Movie is not found");
+        return true;
+    }
+    NSLog(@"Movie is found");
+    return false;
+}
+
+/********************************************************************************************
+ * @method movieNotFound
+ * @abstract gives alert view error when the movie is not found
+ * @description
+ ********************************************************************************************/
+- (void)movieNotFound
+{
+    NSString *title = @"Sorry! No movie with that name was found. Please try again.";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@"Showing movie not found error");
+}
+
+/********************************************************************************************
+ * @method movieAlreadyAdded
+ * @abstract gives alert view error when the movie is already in the library
+ * @description
+ ********************************************************************************************/
+- (void)movieAlreadyAdded
+{
+    NSString *title = @"Sorry! This movie is already in your library.";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@"Showing movie not found error");
+}
+
+/********************************************************************************************
+ * @method movieSuccessfullyAdded
+ * @abstract gives alert view error when the movie is already in the library
+ * @description
+ ********************************************************************************************/
+- (void)movieSuccessfullyAdded
+{
+    NSString *title = @"The movie was successfully added!";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@"Showing movie not found error");
 }
 
 /********************************************************************************************
@@ -110,7 +198,10 @@
 - (NSString *)editTitle: (NSString *)title
 {
     NSRange range = [title rangeOfString:@"("];
-    NSString *movieTitle = [title substringToIndex:range.location];
+    NSString *movieTitle;
+    if (range.length != 0) {
+        movieTitle = [title substringToIndex:range.location];
+    }
     return [movieTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
@@ -336,7 +427,78 @@
                 imageURL = [imageURL stringByAppendingString:image];
                 self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
                 
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([self movieIsNil]) {
+                        [self movieNotFound];
+                    }
+                    else{
+                        if (self.num==0) {
+                            self.num++;
+                            [self readAndWritePList];
+                        }                        
+                    }
+                });
+      
             }] resume];
+}
+
+/********************************************************************************************
+ * @method readAndWritePList
+ * @abstract takes found movie and adds it to library if not already in it
+ * @description Reads the plist from phone's documents folder and checks if the found movie
+                already exists in the library. If so, then an alert appears otherwise the
+                movie is added, the library converted and resaved.
+ ********************************************************************************************/
+- (void)readAndWritePList
+{
+    if (self.loop == 0) {
+        self.loop++;
+        //read data from plist
+        MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+        NSMutableDictionary *readDictionary = [plistManager readFromPList];
+        NSMutableArray *readArray = [readDictionary objectForKey:@"list"];
+        
+        //convert each object in read dictionary to a movie object and add to arraylist
+        NSMutableArray *movieLibrary = [[NSMutableArray alloc]init];
+        for (NSData *data in readArray) {
+            Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+            [movieLibrary addObject:obj];
+        }
+        
+        //check to see if movie is already in the library
+        bool movieFound = false;
+        for (Movie *movie in movieLibrary) {
+            if ([movie.title isEqualToString:self.foundMovie.title]) {
+                movieFound = true;
+                break;
+            }
+        }
+        
+        //if movie is found in the dictionary, then that means it's already in the library
+        if (movieFound) {
+            [self movieAlreadyAdded];
+            NSLog(@"Movie was already added");
+        }
+        else{
+            //add the found movie to the library
+            [movieLibrary addObject:self.foundMovie];
+            NSLog(@"Movie with title: %@ added to the library successfully!", self.foundMovie.title);
+            
+            //convert all movie objects into data objects to put back into plist
+            NSMutableArray *movieDataArray = [[NSMutableArray alloc]init];
+            for (Movie *item in movieLibrary) {
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:item];
+                [movieDataArray addObject:data];
+            }
+            NSLog(@"Converts all movie objects in array into NSData objects");
+            
+            //store plist
+            NSDictionary *itemToWrite = @{@"list": movieDataArray};
+            [plistManager writeToPList:itemToWrite];
+            [self movieAlreadyAdded];
+        }
+
+    }
 }
 
 

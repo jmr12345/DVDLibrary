@@ -15,6 +15,7 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import "BarCodeScannerViewController.h"
+#import "Reachability.h"
 
 @interface BarCodeScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -31,10 +32,19 @@
 
 @implementation BarCodeScannerViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.number = 0;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    self.reachability = [Reachability reachabilityForInternetConnection];
+    [self.reachability startNotifier];
+    
     _highlightView = [[UIView alloc] init];
     _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
     _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
@@ -87,27 +97,76 @@
             AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
             AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode];
 
-    for (AVMetadataObject *metadata in metadataObjects) {
-        for (NSString *type in barCodeTypes) {
-            if ([metadata.type isEqualToString:type])
-            {
-                barCodeObject = (AVMetadataMachineReadableCodeObject *)[_prevLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
-                highlightViewRect = barCodeObject.bounds;
-                detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
-                break;
+//    bool breakOut = false;
+    
+    if ([self isReachable]) {
+        for (AVMetadataObject *metadata in metadataObjects) {
+//            if (breakOut) {
+//                break;
+//            }
+////            while (!breakOut) {
+          
+                for (NSString *type in barCodeTypes) {
+                    if ([metadata.type isEqualToString:type]){
+                        barCodeObject = (AVMetadataMachineReadableCodeObject *)[_prevLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
+                        highlightViewRect = barCodeObject.bounds;
+                        detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
+                        break;
+                    }
+                }
+
+                if (detectionString != nil) {
+                    _label.text = detectionString;
+                    self.barcodeValue = detectionString;
+                    if (self.number == 0) {
+                        self.number++;
+                        self.search = [[SearchResult alloc]initWithUpc:detectionString];
+                        [self.search searchForMovieByUpc:detectionString];
+//                        breakOut = true;
+                        [self.tabBarController setSelectedIndex:0];
+                    }
+                    return;
+                }
+                else {
+                    _label.text = @"(none)";
+                }
             }
         }
-
-        if (detectionString != nil)
-        {
-            _label.text = detectionString;
-            break;
-        }
-        else
-            _label.text = @"(none)";
+//    }
+    else{
+        [self noInternetError];
+        return;
     }
-
     _highlightView.frame = highlightViewRect;
+}
+
+/********************************************************************************************
+ * @method isReachable
+ * @abstract checks to see if have wifi or 3G/LTE connection
+ * @description Uses the Reachability classes
+ ********************************************************************************************/
+- (BOOL)isReachable
+{
+    Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
+    if(currentReachability.currentReachabilityStatus != NotReachable){
+        NSLog(@"Connected to the internet!");
+        return true;
+    }
+    NSLog(@"Not connected to the internet!");
+    return false;
+}
+
+/********************************************************************************************
+ * @method noInternetError
+ * @abstract gives alert view error when not connected to internet to search
+ * @description
+ ********************************************************************************************/
+- (void)noInternetError
+{
+    NSString *title = @"Sorry! Must be connected to the internet to search!";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@"Showing no internet connection error");
 }
 
 @end
