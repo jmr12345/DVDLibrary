@@ -85,16 +85,6 @@
     [self.currentViewController removeFromParentViewController];
     self.currentViewController = vc;
     self.searchBar.hidden = YES;
-
-//    [self transitionFromViewController:self.currentViewController toViewController:vc duration:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-//        [self.currentViewController.view removeFromSuperview];
-//        vc.view.frame = self.view.bounds;
-//        [self.view addSubview:vc.view];
-//    } completion:^(BOOL finished) {
-//        [vc didMoveToParentViewController:self];
-//        [self.currentViewController removeFromParentViewController];
-//        self.currentViewController = vc;
-//    }];
 }
 
 - (UIViewController *)switchViewController{
@@ -210,16 +200,6 @@
        self.sections = [NSMutableArray arrayWithObjects:@"Action",@"Adventure",@"Animation",@"Comedy",@"Crime",@"Disaster",@"Documentary",@"Drama",@"Eastern",@"Erotic",@"Family",@"Fan Film",@"Fantasy",@"Film Noir",@"History",@"Holiday",@"Horror",@"Indie",@"Music",@"Musical",@"Mystery",@"Neo-noir",@"Road Movie",@"Romance",@"Science Fiction",@"Short",nil];
    }
 }
-
-//- (NSMutableDictionary*)groupMoviesBySection:(NSArray*)allTableData{
-//    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] init];
-//    for (NSString *section in self.sections) {
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.genre CONTAINS[c] %@", section];
-//        [mDict setValue:[allTableData filteredArrayUsingPredicate:predicate] forKey:section];
-//    }
-//    return [mDict copy];
-//    
-//}
 
 - (void) reloadMovieData {
     // Reload data for appropriate view type

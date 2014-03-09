@@ -199,11 +199,11 @@
 		3A6E831518BEBD0100F7210C /* DVDLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				85F6C29218C96BBD00B0329B /* Network */,
 				3A6E832118BEBD0100F7210C /* Main.storyboard */,
 				A5DF857718C0FBC400F16C87 /* Controllers */,
 				A5DF857618C0FB9E00F16C87 /* Model */,
 				A5DF857518C0FB7200F16C87 /* UI */,
+				85F6C29218C96BBD00B0329B /* Network */,
 				3A6E831E18BEBD0100F7210C /* AppDelegate.h */,
 				3A6E831F18BEBD0100F7210C /* AppDelegate.m */,
 				3A6E832718BEBD0100F7210C /* Images.xcassets */,
@@ -282,8 +282,6 @@
 			isa = PBXGroup;
 			children = (
 				3AEDE90B18C2C174001C235C /* MovieTableViewController.h */,
-				3A649A4818CBCE7100FEF17A /* WebViewController.h */,
-				3A649A4918CBCE7100FEF17A /* WebViewController.m */,
 				3AEDE90C18C2C174001C235C /* MovieTableViewController.m */,
 				3A49ABD118C3FE86004B0068 /* DetailViewController.h */,
 				3A49ABD218C3FE86004B0068 /* DetailViewController.m */,
@@ -297,6 +295,8 @@
 				85EDCAD818C6CBA7006133FD /* SearchViewController.m */,
 				85EDCAEE18C6E035006133FD /* SplashScreenViewController.h */,
 				85EDCAEF18C6E035006133FD /* SplashScreenViewController.m */,
+				3A649A4818CBCE7100FEF17A /* WebViewController.h */,
+				3A649A4918CBCE7100FEF17A /* WebViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
