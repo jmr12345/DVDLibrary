@@ -107,7 +107,7 @@
  ********************************************************************************************/
 - (BOOL)movieIsNil
 {
-    if (self.foundMovie.releaseDate == Nil) {
+    if (self.foundMovie.title == nil || self.foundMovie.releaseDate == Nil) {
         NSLog(@"Movie is not found");
         return true;
     }
@@ -359,15 +359,20 @@
                 
                 // Update the Nsmutable Array
                 NSMutableArray *movieTrailerInfo = [[results mutableCopy] objectForKey:@"youtube"];
-                NSMutableDictionary *result = [movieTrailerInfo objectAtIndex:0];
-                
-                //gets the movie's unique youtube id
-                NSString *youtubeID = [result objectForKey:@"source"];
-                
-                //gets the movie's trailer url
-                NSString *youtubeUrl = @"https://www.youtube.com/watch?v=";
-                youtubeUrl = [youtubeUrl stringByAppendingString:youtubeID];
-                self.foundMovie.trailer = [NSURL URLWithString:youtubeUrl];
+                if (movieTrailerInfo == nil ) {
+                    NSMutableDictionary *result = [movieTrailerInfo objectAtIndex:0];
+                    
+                    //gets the movie's unique youtube id
+                    NSString *youtubeID = [result objectForKey:@"source"];
+                    
+                    //gets the movie's trailer url
+                    NSString *youtubeUrl = @"https://www.youtube.com/watch?v=";
+                    youtubeUrl = [youtubeUrl stringByAppendingString:youtubeID];
+                    self.foundMovie.trailer = [NSURL URLWithString:youtubeUrl];
+                }
+                else{
+                    self.foundMovie.trailer = nil;
+                }
                 
             }] resume];
 }
@@ -429,7 +434,10 @@
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if ([self movieIsNil]) {
-                        [self movieNotFound];
+                        if (self.num==0) {
+                            self.num++;
+                            [self movieNotFound];
+                        }
                     }
                     else{
                         if (self.num==0) {
@@ -495,7 +503,7 @@
             //store plist
             NSDictionary *itemToWrite = @{@"list": movieDataArray};
             [plistManager writeToPList:itemToWrite];
-            [self movieAlreadyAdded];
+            [self movieSuccessfullyAdded];
         }
 
     }

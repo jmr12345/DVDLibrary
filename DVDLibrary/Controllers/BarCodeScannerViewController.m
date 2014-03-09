@@ -25,8 +25,6 @@
     AVCaptureMetadataOutput *_output;
     AVCaptureVideoPreviewLayer *_prevLayer;
 
-    UIView *_highlightView;
-    UILabel *_label;
 }
 @end
 
@@ -44,21 +42,6 @@
     
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
-    
-    _highlightView = [[UIView alloc] init];
-    _highlightView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleBottomMargin;
-    _highlightView.layer.borderColor = [UIColor greenColor].CGColor;
-    _highlightView.layer.borderWidth = 3;
-    [self.view addSubview:_highlightView];
-
-    _label = [[UILabel alloc] init];
-    _label.frame = CGRectMake(0, self.view.bounds.size.height - 40, self.view.bounds.size.width, 40);
-    _label.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    _label.backgroundColor = [UIColor colorWithWhite:0.15 alpha:0.65];
-    _label.textColor = [UIColor whiteColor];
-    _label.textAlignment = NSTextAlignmentCenter;
-    _label.text = @"(none)";
-    [self.view addSubview:_label];
 
     _session = [[AVCaptureSession alloc] init];
     _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -84,8 +67,6 @@
 
     [_session startRunning];
 
-    [self.view bringSubviewToFront:_highlightView];
-    [self.view bringSubviewToFront:_label];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
@@ -97,47 +78,40 @@
             AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
             AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode];
 
-//    bool breakOut = false;
+
     
     if ([self isReachable]) {
         for (AVMetadataObject *metadata in metadataObjects) {
-//            if (breakOut) {
-//                break;
-//            }
-////            while (!breakOut) {
-          
-                for (NSString *type in barCodeTypes) {
-                    if ([metadata.type isEqualToString:type]){
-                        barCodeObject = (AVMetadataMachineReadableCodeObject *)[_prevLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
-                        highlightViewRect = barCodeObject.bounds;
-                        detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
-                        break;
-                    }
-                }
-
-                if (detectionString != nil) {
-                    _label.text = detectionString;
-                    self.barcodeValue = detectionString;
-                    if (self.number == 0) {
-                        self.number++;
-                        self.search = [[SearchResult alloc]initWithUpc:detectionString];
-                        [self.search searchForMovieByUpc:detectionString];
-//                        breakOut = true;
-                        [self.tabBarController setSelectedIndex:0];
-                    }
-                    return;
-                }
-                else {
-                    _label.text = @"(none)";
+            for (NSString *type in barCodeTypes) {
+                if ([metadata.type isEqualToString:type]){
+                    barCodeObject = (AVMetadataMachineReadableCodeObject *)[_prevLayer transformedMetadataObjectForMetadataObject:(AVMetadataMachineReadableCodeObject *)metadata];
+                    highlightViewRect = barCodeObject.bounds;
+                    detectionString = [(AVMetadataMachineReadableCodeObject *)metadata stringValue];
+                    break;
                 }
             }
+
+            if (detectionString != nil) {
+                self.barcodeValue = detectionString;
+                //starts the search
+                if (self.number == 0) {
+                    self.number++;
+                    self.search = [[SearchResult alloc]initWithUpc:detectionString];
+                    [self.search searchForMovieByUpc:detectionString];
+                    [self.tabBarController setSelectedIndex:0];
+                }
+                return;
+            }
         }
-//    }
-    else{
-        [self noInternetError];
-        return;
     }
-    _highlightView.frame = highlightViewRect;
+
+    else{
+        if (self.number == 0) {
+            self.number++;
+            [self noInternetError];
+        }
+                return;
+    }
 }
 
 /********************************************************************************************
