@@ -532,10 +532,10 @@
             </objects>
             <point key="canvasLocation" x="-493" y="-3058"/>
         </scene>
-        <!--Ig View Controller-->
+        <!--Bar Code Scanner View Controller-->
         <scene sceneID="edr-aG-7tn">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="gBN-ed-qz1" customClass="igViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="gBN-ed-qz1" customClass="BarCodeScannerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GZd-yd-q0M"/>
                         <viewControllerLayoutGuide type="bottom" id="M3v-9M-Xne"/>
