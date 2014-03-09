@@ -67,7 +67,7 @@
             break;
         case 2:
             NSLog(@"Cast:%@",self.movie.cast);
-            NSLog(@"Cast count:%lu",[self.movie.cast count]);
+            NSLog(@"Cast count:%lu",(unsigned long)[self.movie.cast count]);
             return [self.movie.cast count];
             break;
     }

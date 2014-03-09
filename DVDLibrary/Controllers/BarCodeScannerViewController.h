@@ -1,5 +1,5 @@
 //
-//  igViewController.h
+//  BarCodeScannerViewController.h
 //  ScanBarCodes
 //
 //  Created by Torrey Betts on 10/10/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface igViewController : UIViewController
+@interface BarCodeScannerViewController : UIViewController
 
 @end

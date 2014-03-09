@@ -1,5 +1,5 @@
 //
-//  igViewController.m
+//  BarCodeScannerViewController.m
 //  ScanBarCodes
 //
 //  Created by Torrey Betts on 10/10/13.
@@ -7,9 +7,9 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
-#import "igViewController.h"
+#import "BarCodeScannerViewController.h"
 
-@interface igViewController () <AVCaptureMetadataOutputObjectsDelegate>
+@interface BarCodeScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
     AVCaptureSession *_session;
     AVCaptureDevice *_device;
@@ -22,7 +22,7 @@
 }
 @end
 
-@implementation igViewController
+@implementation BarCodeScannerViewController
 
 - (void)viewDidLoad
 {
