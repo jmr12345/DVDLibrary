@@ -36,6 +36,7 @@
 		3A92B81918C306FC00F20F41 /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A92B81818C306FC00F20F41 /* LibraryViewController.m */; };
 		3ABBC8CE18C023BA005EFF0E /* MovieTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */; };
 		3AEDE90D18C2C174001C235C /* MovieTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEDE90C18C2C174001C235C /* MovieTableViewController.m */; };
+		8553E77318CC207C007F878D /* igViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8553E77218CC207C007F878D /* igViewController.m */; };
 		85D0230718CBEA2B0079BF16 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D0230618CBEA2B0079BF16 /* SearchResult.m */; };
 		85EDCAD918C6CBA7006133FD /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EDCAD818C6CBA7006133FD /* SearchViewController.m */; };
 		85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCADC18C6D06D006133FD /* Settings.bundle */; };
@@ -103,6 +104,8 @@
 		3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieTableViewCell.m; path = DVDLibrary/UI/MovieTableViewCell.m; sourceTree = SOURCE_ROOT; };
 		3AEDE90B18C2C174001C235C /* MovieTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieTableViewController.h; sourceTree = "<group>"; };
 		3AEDE90C18C2C174001C235C /* MovieTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieTableViewController.m; sourceTree = "<group>"; };
+		8553E77118CC207C007F878D /* igViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = igViewController.h; sourceTree = "<group>"; };
+		8553E77218CC207C007F878D /* igViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = igViewController.m; sourceTree = "<group>"; };
 		85D0230518CBEA2B0079BF16 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResult.h; sourceTree = "<group>"; };
 		85D0230618CBEA2B0079BF16 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResult.m; sourceTree = "<group>"; };
 		85EDCAD718C6CBA7006133FD /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -286,6 +289,8 @@
 		A5DF857718C0FBC400F16C87 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8553E77118CC207C007F878D /* igViewController.h */,
+				8553E77218CC207C007F878D /* igViewController.m */,
 				3A49ABD118C3FE86004B0068 /* DetailViewController.h */,
 				3A49ABD218C3FE86004B0068 /* DetailViewController.m */,
 				3A92B81718C306FC00F20F41 /* LibraryViewController.h */,
@@ -428,6 +433,7 @@
 				3A649A4A18CBCE7100FEF17A /* WebViewController.m in Sources */,
 				3ABBC8CE18C023BA005EFF0E /* MovieTableViewCell.m in Sources */,
 				A5DF858318C0FE8300F16C87 /* Movie.m in Sources */,
+				8553E77318CC207C007F878D /* igViewController.m in Sources */,
 				3A8597F518C3A4EC000A918E /* MovieCollectionViewController.m in Sources */,
 				3A49ABD318C3FE86004B0068 /* DetailViewController.m in Sources */,
 				3A349AD818C28278007759CE /* SuggestionViewController.m in Sources */,

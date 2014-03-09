@@ -40,6 +40,7 @@
     
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
+    
     NSString *upc = @"043396399778";
     self.search = [[SearchResult alloc]initWithUpc:upc];
     [self.search searchForMovieByUpc:upc];
