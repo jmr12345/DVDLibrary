@@ -11,10 +11,12 @@
 #import "Reachability.h"
 #import "SearchResult.h"
 
-@interface SearchViewController : UIViewController
+@interface SearchViewController : UIViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) SearchResult *search;
 @property (strong, nonatomic) SearchResult *search2;
+
+@property (strong, nonatomic) NSString *titleSearch;
 @property (strong, nonatomic) Movie *foundMovie;
 @property (strong, nonatomic) Reachability *reachability;
 

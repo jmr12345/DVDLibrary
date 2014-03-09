@@ -6,6 +6,13 @@
 //  Copyright (c) 2013 Infragistics. All rights reserved.
 //
 
+/******
+ * This is code from an already existing copy on the internet created by
+ * Infragistics. It is used to scan barcodes and spit back out the upc string
+ * that's detected. The website is from:
+ * http://www.infragistics.com/community/blogs/torrey-betts/archive/2013/10/10/scanning-barcodes-with-ios-7-objective-c.aspx 
+ ******/
+
 #import <AVFoundation/AVFoundation.h>
 #import "BarCodeScannerViewController.h"
 
