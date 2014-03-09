@@ -138,23 +138,31 @@
 {
     self.filteredTableData = [[NSMutableDictionary alloc] init];
     
-    NSMutableArray *filteredMovieArray = [self.allTableData mutableCopy];
+    // All movies sorted
+    NSMutableArray *filteredMovieArray = [[self.allTableData sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
     
     if (![searchString isEqualToString:@""]){
         NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.title CONTAINS[c] %@ OR SELF.genre contains[c] %@", searchString, searchString];
         [filteredMovieArray filterUsingPredicate:searchPredicate];
     }
     
-    for (NSString *section in self.sections) {
-        if ([self.sectionType isEqual:@"Titles"]){
+    if ([self.sectionType isEqual:@"Titles"]){
+        for (NSString *section in self.sections) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title beginsWith[c] %@", section];
             [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
         }
-        else if ([self.sectionType isEqual:@"Genres"]){
+        
+        NSPredicate *numPredicate = [NSPredicate predicateWithFormat:@"SELF.title MATCHES '^[0-9].*'"];
+        [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:numPredicate] forKey:@"#"];
+    }
+
+    else if ([self.sectionType isEqual:@"Genres"]){
+        for (NSString *section in self.sections) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.genre CONTAINS[c] %@", section];
             [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
         }
     }
+    
 
     [self reloadMovieData];
 }
@@ -197,7 +205,7 @@
 
 - (void)setUpSections{
    if ([self.sectionType isEqual:@"Titles"]){
-       self.sections = [NSMutableArray arrayWithObjects:@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", nil];
+       self.sections = [NSMutableArray arrayWithObjects:@"#",@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", nil];
    }  else if ([self.sectionType isEqual:@"Genres"]) {
        self.sections = [NSMutableArray arrayWithObjects:@"Action",@"Adventure",@"Animation",@"Comedy",@"Crime",@"Disaster",@"Documentary",@"Drama",@"Eastern",@"Erotic",@"Family",@"Fan Film",@"Fantasy",@"Film Noir",@"History",@"Holiday",@"Horror",@"Indie",@"Music",@"Musical",@"Mystery",@"Neo-noir",@"Road Movie",@"Romance",@"Science Fiction",@"Short",nil];
    }
