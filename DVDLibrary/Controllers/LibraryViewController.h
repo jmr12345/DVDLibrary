@@ -10,8 +10,8 @@
 
 @interface LibraryViewController : UIViewController <UISearchBarDelegate>
 
-@property (strong, nonatomic) NSArray* allTableData;
-@property (strong, nonatomic) NSMutableDictionary* filteredTableData;
+@property (strong, nonatomic) NSArray* allMovieData;
+@property (strong, nonatomic) NSMutableDictionary* filteredMovieData;
 @property (strong, nonatomic) NSMutableArray* sections;
 
 @property (strong, nonatomic) UIViewController *currentViewController;

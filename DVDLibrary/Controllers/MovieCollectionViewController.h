@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LibraryViewController.h"
 
-@interface MovieCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate,  UISearchBarDelegate>
+@interface MovieCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (strong, nonatomic) LibraryViewController *lvc;
-
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end

@@ -13,9 +13,6 @@
 #import "DetailViewController.h"
 
 @interface MovieTableViewController ()
-
-@property NSString *viewType;
-
 @end
 
 @implementation MovieTableViewController
@@ -24,27 +21,15 @@
 {
     [super viewDidLoad];
     
-    self.viewType = @"Genres";
-    
     self.tableView.sectionFooterHeight = 0.0;
-    self.tableView.sectionHeaderHeight = 28.0;
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if ([tableView.dataSource tableView:tableView numberOfRowsInSection:section] == 0) {
-        return 0;
-    } else {
-        return 28;
-    }
-}
-
 
 #pragma mark - Table view data source
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString* key = [self.lvc.sections objectAtIndex:section];
-    return key;
+    NSString* sectionTitle = [self.lvc.sections objectAtIndex:section];
+    return sectionTitle;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -55,7 +40,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSString* category = [self.lvc.sections objectAtIndex:section];
-    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredMovieData objectForKey:category];
     return [arrayForSection count];
 }
 
@@ -67,7 +52,7 @@
     // Get movie at current position
     Movie *movie = [[Movie alloc] init];
     NSString* category = [self.lvc.sections objectAtIndex:indexPath.section];
-    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredMovieData objectForKey:category];
     movie = (Movie *)[arrayForSection objectAtIndex:indexPath.row];
     
     // Configure cell appearance
@@ -76,6 +61,7 @@
     return cell;
 }
 
+#pragma mark - Table view delegate
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -94,14 +80,21 @@
     return view;
 }
 
-
-#pragma mark - Table view delegate
-
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    // If no items in section, don't show any header
+    if ([tableView.dataSource tableView:tableView numberOfRowsInSection:section] == 0) {
+        return 0;
+    } else {
+        return 28;
+    }
+}
 
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSLog(@">>>>> Segue to DetailViewController from MovieTableViewController");
+    
     // Get destination view controller
     DetailViewController *dvc = [segue destinationViewController];
     
@@ -111,7 +104,7 @@
     // Get movie at current position
     Movie *selectedMovie = [[Movie alloc] init];
     NSString* category = [self.lvc.sections objectAtIndex:selectedIndexPath.section];
-    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredTableData objectForKey:category];
+    NSArray* arrayForSection = (NSArray*)[self.lvc.filteredMovieData objectForKey:category];
     selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
 
     // Pass movie to detail view controller

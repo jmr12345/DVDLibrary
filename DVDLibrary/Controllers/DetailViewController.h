@@ -11,7 +11,6 @@
 
 @interface DetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate>
 
-
 @property (strong,nonatomic) Movie *movie;
 @property (strong, nonatomic) NSMutableArray* sections;
 

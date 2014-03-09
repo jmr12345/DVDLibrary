@@ -8,7 +8,8 @@
 // LibraryViewController displays one of two view controllers (MovieTableViewController or
 // MovieCollectionViewController) to display either a table view or
 // collection view of the movie collection.  This controller also contains a searchbar
-// and logic to filter the data for searched movies.
+// and logic to filter the data for searched movies.  There's also a button to switch
+// between categorizing the movies by title or by genre.
 
 #import "LibraryViewController.h"
 #import "MovieTableViewController.h"
@@ -24,25 +25,32 @@
 
 @implementation LibraryViewController
 
+/*******************************************************************************
+ * @method      viewDidLoad
+ * @abstract
+ * @description Displays and dismisses splash screen, sets up to display
+                to show movies in a table view categorized by titles, and
+                adds search bar.
+ ******************************************************************************/
 - (void)viewDidLoad {
     [super viewDidLoad];
 
     // Get a reference to the SplashScreenViewController from the StoryBoard
     SplashScreenViewController *svc = [[self storyboard] instantiateViewControllerWithIdentifier:@"SplashScreenViewController"];
     [self presentViewController:svc animated:NO completion:^{
-        NSLog(@"SplashScreenViewController did appear");
+        NSLog(@">>>>> SplashScreenViewController did appear");
     }];
 
     // Call method after set time
     [self performSelector:@selector(dismissSplashScreenViewController) withObject:nil afterDelay:2];
 
-    // Shows tableView categorized by title
+    // Show movies categorized by title
     self.sectionType = @"Titles";
     [self setUpSections];
 
     // Get all movie data info and set filtered table data to include everything
-    self.allTableData = [[MovieData alloc] init].movieData;
-    [self updateTableData:@""];
+    self.allMovieData = [[MovieData alloc] init].movieData;
+    [self updateDisplayedMovieData:@""];
 
     // Add movie layout controller
     UIViewController *vc = [self getViewController:@"Table"];
@@ -61,7 +69,14 @@
 
 }
 
+/*******************************************************************************
+ * @method      changeSections:
+ * @abstract    Tap button to change categorization
+ * @description Changes categorization of movies between titles and genres.
+ ******************************************************************************/
 - (IBAction)changeSections:(id)sender {
+    NSLog(@">>>>> changeSections button tapped");
+    
     if ([self.sectionType isEqual:@"Titles"]){
         self.sectionType = @"Genres";
         [self.categoryButton setTitle:@"By: Genres" forState:UIControlStateNormal];
@@ -71,10 +86,19 @@
         [self.categoryButton setTitle:@"By: Titles" forState:UIControlStateNormal];
         [self setUpSections];
     }
-    [self updateTableData:@""];
+    [self updateDisplayedMovieData:@""];
 }
 
+/*******************************************************************************
+ * @method      changeMovieLayout:
+ * @abstract    Tap button to change layout
+ * @description Switches between adding movieTableViewController and
+                movieCollectionViewController to display movies in different
+                layouts.  Removes previous view controller.
+ ******************************************************************************/
 - (IBAction)changeMovieLayout:(id)sender {
+    NSLog(@">>>>> changeMovieLayout button tapped");
+    
     // Add new viewcontroller and remove other one
     UIViewController *vc = [self switchViewController];
     [self addChildViewController:vc];
@@ -87,6 +111,13 @@
     self.searchBar.hidden = YES;
 }
 
+/*******************************************************************************
+ * @method      switchViewController
+ * @abstract
+ * @description Returns the view controller that contains the new layout and
+                updates the view button to the image that represents the new
+                view controller
+ ******************************************************************************/
 - (UIViewController *)switchViewController{
     UIViewController *vc;
     // Switch from table layout to collection layout
@@ -108,6 +139,12 @@
     return vc;
 }
 
+/*******************************************************************************
+ * @method      getViewController:
+ * @abstract
+ * @description Returns view controller associated with given movieLayout
+                and sets LibraryViewController property in new view controller
+ ******************************************************************************/
 - (UIViewController *)getViewController:(NSString *)movieLayout{
     UIViewController *vc;
     // Return controller with table view layout
@@ -123,41 +160,56 @@
     return vc;
 }
 
-// Update sections and data for search string (empty string shows all data)
--(void)updateTableData:(NSString*)searchString
+/*******************************************************************************
+ * @method      updateDisplayedMovieData:
+ * @abstract
+ * @description Filters movie data for search string and organizes the results
+                by either title or genre.  If empty search string, returns all
+                movies.
+ ******************************************************************************/
+-(void)updateDisplayedMovieData:(NSString*)searchString
 {
-    self.filteredTableData = [[NSMutableDictionary alloc] init];
+    self.filteredMovieData = [[NSMutableDictionary alloc] init];
     
     // All movies sorted
-    NSMutableArray *filteredMovieArray = [[self.allTableData sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
+    NSMutableArray *filteredMovieArray = [[self.allMovieData sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
     
+    // Filter results by the search string if it's not empty
     if (![searchString isEqualToString:@""]){
         NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF.title CONTAINS[c] %@ OR SELF.genre contains[c] %@", searchString, searchString];
         [filteredMovieArray filterUsingPredicate:searchPredicate];
     }
     
+    // Categorize by title
     if ([self.sectionType isEqual:@"Titles"]){
         for (NSString *section in self.sections) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title beginsWith[c] %@", section];
-            [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
+            [self.filteredMovieData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
         }
         
         NSPredicate *numPredicate = [NSPredicate predicateWithFormat:@"SELF.title MATCHES '^[0-9].*'"];
-        [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:numPredicate] forKey:@"#"];
+        [self.filteredMovieData setValue:[filteredMovieArray filteredArrayUsingPredicate:numPredicate] forKey:@"#"];
     }
 
+    // Categorize by genre
     else if ([self.sectionType isEqual:@"Genres"]){
         for (NSString *section in self.sections) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.genre CONTAINS[c] %@", section];
-            [self.filteredTableData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
+            [self.filteredMovieData setValue:[filteredMovieArray filteredArrayUsingPredicate:predicate] forKey:section];
         }
     }
     
-
     [self reloadMovieData];
 }
 
+/*******************************************************************************
+ * @method      search:
+ * @abstract    Tap search icon to switch between hiding/showing search bar
+ * @description 
+ ******************************************************************************/
 - (IBAction)search:(id)sender {
+    NSLog(@">>>>> Search button tapped");
+    
     if ([self.searchBar isHidden]){
         self.searchBar.hidden = NO;
         [self.view bringSubviewToFront:self.searchBar];
@@ -168,31 +220,40 @@
     }
 }
 
+/*******************************************************************************
+ * @method      searchBar: textDidChange:
+ * @abstract    Updates displayed data for given search string
+ * @description
+ ******************************************************************************/
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)searchString
 {
-    [self updateTableData:searchString];
-
+    [self updateDisplayedMovieData:searchString];
+    
+    // Logic below found on stackoverflow to close keyboard when x button tapped
     if([searchString length] == 0) {
         [searchBar performSelector: @selector(resignFirstResponder)
                         withObject: nil
                         afterDelay: 0.1];
     }
-
 }
 
+/*******************************************************************************
+ * @method      searchBarButtonClicked:
+ * @abstract
+ * @description Resigns first responder and closes keyboard when user
+                completes a search.
+ ******************************************************************************/
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    NSLog(@">>>>> Search bar search button clicked");
     [searchBar resignFirstResponder];
 }
 
-- (void)dismissSplashScreenViewController
-{
-    // Remove the view controller
-    [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"SplashScreenViewController is dismissed from the LibraryViewController");
-    }];
-}
-
+/*******************************************************************************
+ * @method      setUpSections
+ * @abstract
+ * @description Sets up categories for either titles or genres.
+ ******************************************************************************/
 - (void)setUpSections{
    if ([self.sectionType isEqual:@"Titles"]){
        self.sections = [NSMutableArray arrayWithObjects:@"#",@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", nil];
@@ -201,6 +262,12 @@
    }
 }
 
+/*******************************************************************************
+ * @method      reloadMovieData:
+ * @abstract
+ * @description Reloads data for either table view or collection view based
+                on type of current view controller.
+ ******************************************************************************/
 - (void) reloadMovieData {
     // Reload data for appropriate view type
     if ([self.currentViewController class] == [MovieTableViewController class]) {
@@ -211,4 +278,16 @@
     }
 }
 
+/*******************************************************************************
+ * @method      dismissSplashScreenViewController:
+ * @abstract    Dismisses splash screen
+ * @description
+ ******************************************************************************/
+- (void)dismissSplashScreenViewController
+{
+    // Remove the view controller
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@">>>>> SplashScreenViewController is dismissed from the LibraryViewController");
+    }];
+}
 @end
