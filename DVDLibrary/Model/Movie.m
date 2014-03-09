@@ -24,6 +24,7 @@
         self.releaseDate = [decoder decodeObjectForKey:@"releaseDate"];
         self.directors = [decoder decodeObjectForKey:@"directors"];
         self.cast = [decoder decodeObjectForKey:@"cast"];
+        self.trailer = [decoder decodeObjectForKey:@"trailer"];
     }
     return self;
 }
@@ -43,6 +44,7 @@
     [encoder encodeObject:self.releaseDate forKey:@"releaseDate"];
     [encoder encodeObject:self.directors forKey:@"directors"];
     [encoder encodeObject:self.cast forKey:@"cast"];
+    [encoder encodeObject:self.trailer forKey:@"trailer"];
 }
 
 - (NSComparisonResult)compare:(Movie *)otherObject {

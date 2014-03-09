@@ -7,9 +7,9 @@
 //
 
 #import "SearchViewController.h"
-#import <CommonCrypto/CommonDigest.h>
 #import "Movie.h"
 #import "Reachability.h"
+#import "SearchResult.h"
 
 @interface SearchViewController ()
 
@@ -28,12 +28,9 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.roviApiKey = @"rc3sf8efxtuv28kf9rj6gbwv";
-    self.movieDbApiKey = @"a9dc5652da0de21c8fbd3004a590931b";
+
     self.foundMovie = [[Movie alloc]init];
-    NSString *upc = @"043396399778";
-    self.foundMovie.upc = upc;
-    [self searchForMovieByUpc:upc];
+    
 }
 
 - (void)viewDidLoad
@@ -43,13 +40,23 @@
     
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
+    NSString *upc = @"043396399778";
+    self.search = [[SearchResult alloc]initWithUpc:upc];
+    [self.search searchForMovieByUpc:upc];
     
+    self.search2 = [[SearchResult alloc]initWithMovieTitle:@"The Heat"];
+    [self.search2 searchForMovieByTitle:@"The Heat"];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)getMovie
+{
+    self.foundMovie = self.search.foundMovie;
 }
 
 - (BOOL)isReachable
@@ -61,170 +68,10 @@
     return false;
 }
 
-//downloads the json name from the website and adds query term to user defaults
-- (void)searchForMovieByUpc: (NSString *)upcSymbol
-{
-    //gets json query results
-    NSString *query = [NSString stringWithFormat:@"http://www.searchupc.com/handlers/upcsearch.ashx?request_type=3&access_token=F4F91C0E-E947-43C4-A649-7D4DE9C08044&upc=%@", upcSymbol];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:query]
-            completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                NSError *errorJson = nil;
-                NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
-                
-                // Update the Nsmutable Array
-                NSMutableDictionary *upcMovieResults = [[results mutableCopy] objectForKey:@"0"];
-                NSString *title = (NSString *)[upcMovieResults objectForKey:@"productname"];
-                NSRange range = [title rangeOfString:@"("];
-                title = [title substringToIndex:range.location];
-                self.foundMovie.title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                
-                NSString *imageURL = (NSString *)[upcMovieResults objectForKey:@"imageurl"];
-                self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
-                
-                [self searchForMovieByTitle:self.foundMovie.title];
-                [self getMovieID:self.foundMovie.title];
-                
-                
-            }] resume];
+
+- (IBAction)searchByTitleButton:(id)sender {
+    self.foundMovie = self.search.foundMovie;
+    Movie *testMovie = [[Movie alloc]init];
+    testMovie = self.search2.foundMovie;
 }
-
-//searches a movie by title
-- (void)searchForMovieByTitle: (NSString *)movieTitle
-{
-    self.sig = [self md5ConversionToSig];
-    NSString *searchableTitle = [movieTitle stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    //gets json query results
-    NSString *query = [NSString stringWithFormat:@"http://api.rovicorp.com/search/v2.1/amgvideo/search?apikey=%@&sig=%@&query=%@&entitytype=movie&size=1&format=json&upcid=%@&include=all", self.roviApiKey, self.sig, searchableTitle, self.foundMovie.upc];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:query]
-            completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                NSError *errorJson = nil;
-                NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
-                
-                // Update the Nsmutable Array
-                NSMutableDictionary *titleMovieResults = [[results mutableCopy] objectForKey:@"searchResponse"];
-                NSMutableDictionary *result = [[titleMovieResults objectForKey:@"results"] objectAtIndex:0];
-                NSMutableDictionary *movieInfo = [result objectForKey:@"movie"];
-                
-                self.foundMovie.mpaaRating = [movieInfo objectForKey:@"mpaa"];
-                self.foundMovie.duration = [movieInfo objectForKey:@"duration"];
-                
-                self.foundMovie.directors = [[NSMutableArray alloc] init];
-                NSMutableArray *directors = [movieInfo objectForKey:@"directors"];
-                for (NSDictionary *director in directors) {
-                    NSString *category = [director objectForKey:@"name"];
-                    [self.foundMovie.directors addObject:category];
-                }
-                
-                self.foundMovie.cast = [[NSMutableArray alloc] init];
-                NSMutableArray *castMembers = [movieInfo objectForKey:@"cast"];
-                for (NSDictionary *member in castMembers) {
-                    NSString *castName = [member objectForKey:@"name"];
-                    [self.foundMovie.cast addObject:castName];
-                }
-
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.foundMovie];
-                    Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-                    NSLog(@"movie object: %@", obj);
-                });
-                
-            }] resume];
-}
-
-
-//method to do a sig conversion to access rovi api
-- (NSString *) md5ConversionToSig
-{
-    
-    NSString *sharedSecret = @"rQm5PPRUjg";
-    
-    int unixtime = (int)[[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
-    NSString *time = [NSString stringWithFormat:@"%d", unixtime];
-    
-    NSArray *stringsToConvert = [[NSArray alloc] initWithObjects:self.roviApiKey, sharedSecret, time, nil];
-    NSString *concatenatedString = [stringsToConvert componentsJoinedByString:@""];
-    
-    const char *cStr = [concatenatedString UTF8String];
-    unsigned char digest[16];
-    CC_MD5(cStr, (int)strlen(cStr), digest); // This is the md5 call
-    
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-    
-    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-        [output appendFormat:@"%02x", digest[i]];
-    
-    return  output.lowercaseString;
-}
-
-
-- (void)getMovieID: (NSString *)movieTitle
-{
-    NSString *searchableTitle = [movieTitle stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    //gets json query results
-    NSString *movieQuery = [NSString stringWithFormat:@"http://api.themoviedb.org/3/search/movie?api_key=%@&query=%@", self.movieDbApiKey, searchableTitle];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
-            completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                NSError *errorJson = nil;
-                NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
-                
-                // Update the Nsmutable Array
-                NSMutableArray *movieTitleInfo = [[results mutableCopy] objectForKey:@"results"];
-                NSMutableDictionary *result = [movieTitleInfo objectAtIndex:0];
-                
-                self.foundMovie.movieDbId = (NSString *)[result objectForKey:@"id"];
-                [self getImdbID:self.foundMovie.movieDbId];
-                
-            }] resume];
-}
-
-- (void)getImdbID:(NSString *)movieDbId
-{
-    //gets json query results
-    NSString *movieQuery = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@?api_key=%@", movieDbId, self.movieDbApiKey];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
-            completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-                NSError *errorJson = nil;
-                NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
-                
-                // Update the Nsmutable Array
-                NSMutableDictionary *result = [results mutableCopy];
-                
-                //imdb id
-                self.foundMovie.imdbId = [result objectForKey:@"imdb_id"];
-                
-                //set movie's url
-                NSString *imdbUrl = @"http://www.imdb.com/title/";
-                imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbId];
-                self.foundMovie.url = [NSURL URLWithString:imdbUrl];
-                
-//                NSMutableArray *genreResults = [result objectForKey:@"genres"];
-//                self.foundMovie.genre = [[NSMutableArray alloc]init];
-//                for (NSDictionary *genre in genreResults) {
-//                    NSString *category = [genre objectForKey:@"name"];
-//                    [self.foundMovie.genre addObject:category];
-//                }
-                
-                self.foundMovie.description = [result objectForKey:@"overview"];
-                
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-                NSString *release =[result objectForKey:@"release_date"];
-                self.foundMovie.releaseDate = [dateFormatter dateFromString:release];
-
-                
-                
-
-                
-            }] resume];
-}
-
 @end

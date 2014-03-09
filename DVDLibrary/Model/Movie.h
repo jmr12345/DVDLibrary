@@ -23,6 +23,7 @@
 @property (nonatomic,strong) NSDate *releaseDate;
 @property (nonatomic,strong) NSMutableArray *directors;
 @property (nonatomic,strong) NSMutableArray *cast;
+@property (nonatomic,strong) NSURL *trailer;
 
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
