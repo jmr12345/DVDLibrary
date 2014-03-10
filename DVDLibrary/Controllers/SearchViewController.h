@@ -21,4 +21,5 @@
 @property (weak, nonatomic) IBOutlet UITextField *inputMovieTItle;
 - (IBAction)searchByTitleButton:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @end

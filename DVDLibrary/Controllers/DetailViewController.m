@@ -29,6 +29,9 @@
     self.titleLabel.text = self.movie.title;
     
     self.tableView.sectionFooterHeight = 0.0;
+    
+    NSString *urlString = [self.movie.url absoluteString];
+    NSLog(@"URL: %@",urlString);
 }
 
 #pragma mark - Table view data source
