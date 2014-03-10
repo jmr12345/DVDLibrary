@@ -71,7 +71,16 @@
  * @description
  ********************************************************************************************/
 - (IBAction)searchByTitleButton:(id)sender {
+    [self searchByTitle];
+}
+
+- (void) searchByTitle{
     if ([self isReachable]) {
+        
+        [self.view bringSubviewToFront:self.activityIndicator];
+        self.activityIndicator.hidden = NO;
+        [self.activityIndicator startAnimating];
+
         self.titleSearch = self.inputMovieTItle.text;
         NSString *searchString = [self.titleSearch capitalizedString];
         NSLog(@"Searching for movie titled: %@", searchString);
@@ -100,6 +109,9 @@
 {
     NSLog(@"Notification received");
     
+    [self.activityIndicator stopAnimating];
+    self.activityIndicator.hidden = YES;
+    
     // Get the searchViewController
     LibraryViewController *lvc = (LibraryViewController *)[[self.tabBarController.viewControllers objectAtIndex:0] topViewController];
     
@@ -113,6 +125,7 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    [self searchByTitle];
     return YES;
 }
 
