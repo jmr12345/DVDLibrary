@@ -5,6 +5,8 @@
 //  Created by Ming on 3/2/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
+// MovieCollectionViewController handles displaying the movies in a collection view.
+// Clicking on a movie segues to the DetailViewController.
 
 #import "MovieCollectionViewController.h"
 #import "MovieCollectionViewCell.h"
@@ -12,7 +14,6 @@
 #import "MovieData.h"
 #import "DetailViewController.h"
 #import "CollectionHeaderView.h"
-
 
 @interface MovieCollectionViewController ()
 @end

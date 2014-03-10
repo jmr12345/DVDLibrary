@@ -5,6 +5,8 @@
 //  Created by Ming on 3/1/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
+// MovieTableViewController handles displaying the movies in a table view.
+// Clicking on a movie segues to the DetailViewController.
 
 #import "MovieTableViewController.h"
 #import "MovieTableViewCell.h"

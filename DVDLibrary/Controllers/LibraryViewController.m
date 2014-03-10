@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
 // LibraryViewController displays one of two view controllers (MovieTableViewController or
-// MovieCollectionViewController) to display either a table view or
+// MovieCollectionViewController) to show either a table view or
 // collection view of the movie collection.  This controller also contains a searchbar
 // and logic to filter the data for searched movies.  There's also a button to switch
 // between categorizing the movies by title or by genre.

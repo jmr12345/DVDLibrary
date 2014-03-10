@@ -5,6 +5,9 @@
 //  Created by Ming on 3/1/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
+// SuggestionViewController shows a UIPickerView with a spin button.
+// When the user spins, a crazy animation starts picking different movies and
+// finally lands on a movie.  An alert view displays the selected movie to the user.
 
 #import "SuggestionViewController.h"
 #import "MovieData.h"
@@ -24,6 +27,16 @@
     //read data from plist
     MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
     self.movieArray = [plistManager getMovieLibrary];
+    
+    // NSArray *data = [[MovieData alloc] init].movieData;
+    
+    // // Double array if under 100 movies in collection
+    // if ([data count] < 100) {
+    //     self.movieArray =[data arrayByAddingObjectsFromArray:data];
+    // // Else, just use collection
+    // } else {
+    //     self.movieArray = data;
+    // }
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
