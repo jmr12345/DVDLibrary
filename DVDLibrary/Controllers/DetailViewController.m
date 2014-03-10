@@ -84,7 +84,10 @@
                 cell.textLabel.text = [NSString stringWithFormat:@"Runtime: %@ minutes",self.movie.duration];
             }
             if (indexPath.row == 1){
-                cell.textLabel.text = [NSString stringWithFormat:@"Release Date: %@",self.movie.releaseDate];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+                [dateFormatter setDateFormat:@"MMMM dd, yyyy"];
+                NSString *release = [dateFormatter stringFromDate:self.movie.releaseDate];
+                cell.textLabel.text = [NSString stringWithFormat:@"Release Date: %@",release];
             }
             
             if (indexPath.row == 2){
@@ -201,8 +204,10 @@
     
     //resaves the list
     [plistManager saveMovieLibrary:allMovieData];
+    
     //shows alert
     [self removeMovieSuccess];
+    [self.tabBarController setSelectedIndex:0];
 }
 
 /********************************************************************************************
