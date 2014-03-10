@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
 // SuggestionViewController shows a UIPickerView with a spin button.
-// When the user spins, a crazy animation starts picking different movies and
-// finally lands on a movie.  An alert view displays the selected movie to the user.
+// When the user spins, the picker animates spinning to a random
+// movie and an alert view displays the selected movie to the user.
 
 #import "SuggestionViewController.h"
 #import "MovieData.h"
@@ -28,15 +28,10 @@
     MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
     self.movieArray = [plistManager getMovieLibrary];
     
-    // NSArray *data = [[MovieData alloc] init].movieData;
-    
-    // // Double array if under 100 movies in collection
-    // if ([data count] < 100) {
-    //     self.movieArray =[data arrayByAddingObjectsFromArray:data];
-    // // Else, just use collection
-    // } else {
-    //     self.movieArray = data;
-    // }
+    // Double array if under 50 movies in collection
+    if ([self.movieArray count] < 50) {
+         self.movieArray =[self.movieArray arrayByAddingObjectsFromArray:self.movieArray];
+    }
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -70,8 +65,8 @@
 /*******************************************************************************
  * @method      spin:
  * @abstract
- * @description When spin button tapped, crazy animation begins picking random
-                movies in the spinner and displays alert after movie selected.
+ * @description When spin button tapped, animation begins picking a random
+                movie in the spinner and displays alert after movie selected.
  ******************************************************************************/
 - (IBAction)spin:(id)sender {
     
@@ -84,18 +79,9 @@
     [self performSelector: @selector(pickRandomRow)
                withObject: nil
                afterDelay: 0];
-    [self performSelector: @selector(pickRandomRow)
-               withObject: nil
-               afterDelay: 0.5];
-    [self performSelector: @selector(pickRandomRow)
-               withObject: nil
-               afterDelay: 1];
-    [self performSelector: @selector(pickRandomRow)
-               withObject: nil
-               afterDelay: 1.5];
     [self performSelector: @selector(showSelectedMovie)
                withObject: nil
-               afterDelay: 2];
+               afterDelay: 0.5];
 }
 
 /*******************************************************************************
