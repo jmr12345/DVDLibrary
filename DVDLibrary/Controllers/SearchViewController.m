@@ -32,7 +32,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedNotification:)
-                                                 name:@"Address Found"
+                                                 name:@"Movie Added"
                                                object:nil];
 }
 
@@ -85,7 +85,7 @@
 }
 
 - (void)receivedNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"Address Found"]) {
+    if ([[notification name] isEqualToString:@"Movie Added"]) {
         [self movieAddCompleted];
 //    } else if ([[notification name] isEqualToString:@"Not Found"]) {
 //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Results Found"
@@ -110,6 +110,11 @@
     
     // Switch to search tab
     [self.tabBarController setSelectedIndex:0];}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
 
 
 

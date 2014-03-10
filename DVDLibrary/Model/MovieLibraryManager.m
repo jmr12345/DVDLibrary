@@ -54,7 +54,7 @@ static MovieLibraryManager *sharedInstance;
     NSString *docfilePath = [basePath stringByAppendingPathComponent:@"movieData.plist"];
     [dictionaryToWrite writeToFile:docfilePath atomically:YES];
     NSLog(@"Movie library successfully written to pList!");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Address Found" object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Movie Added" object:self];
     NSLog(@"notification sent");
 
 }
