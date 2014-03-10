@@ -32,14 +32,7 @@
         self.imdbId = [decoder decodeObjectForKey:@"imdbID"];
         self.duration = [decoder decodeObjectForKey:@"duration"];
         self.mpaaRating = [decoder decodeObjectForKey:@"mpaaRating"];
-        
-        //date formatting
-        NSDate *decodedDate = [decoder decodeObjectForKey:@"releaseDate"];
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-        [dateFormatter setDateFormat:@"MMMM dd, yyyy"];
-        NSString *date = [dateFormatter stringFromDate:decodedDate];
-        self.releaseDate = [dateFormatter dateFromString:date];
-        
+        self.releaseDate = [decoder decodeObjectForKey:@"releaseDate"];       
         self.directors = [decoder decodeObjectForKey:@"directors"];
         self.cast = [decoder decodeObjectForKey:@"cast"];
         self.trailer = [decoder decodeObjectForKey:@"trailer"];
