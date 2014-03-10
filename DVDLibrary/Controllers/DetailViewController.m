@@ -5,6 +5,9 @@
 //  Created by Ming on 2/28/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
+// DetailViewController appears when a movie is tapped on in the LibraryViewController
+// and displays details about the movie.  It also contains a trailer button that segues
+// to the WebViewController with a YouTube link of the movie.
 
 #import "DetailViewController.h"
 #import "Movie.h"
@@ -24,6 +27,8 @@
 	
     self.movieImageView.image = self.movie.image;
     self.titleLabel.text = self.movie.title;
+    
+    self.tableView.sectionFooterHeight = 0.0;
 }
 
 #pragma mark - Table view data source
@@ -94,7 +99,7 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 32)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 25)];
     
     // Setup label
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 25)];
@@ -124,20 +129,28 @@
     else return 50;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 25;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0;
+}
+
 #pragma mark - Navigation
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([[segue identifier] isEqualToString:@"TrailerSegue"]) {
-//        
-//        NSLog(@">>>>> Segue from DetailViewController to WebViewController");
-//        
-//        // Get destination view
-//        WebViewController *wvc = [segue destinationViewController];
-//        
-//        // Set the trailer url in the new view
-//        [wvc.trailerURL = self.movie.trailerURL;
-//    }
-//}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"TrailerSegue"]) {
+        
+        NSLog(@">>>>> Segue from DetailViewController to WebViewController");
+        
+        // Get destination view
+        WebViewController *wvc = [segue destinationViewController];
+        
+        // Set the trailer url in the new view
+        wvc.trailerURL = self.movie.trailer;
+    }
+}
 
 @end
