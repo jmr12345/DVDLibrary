@@ -463,15 +463,8 @@
         self.loop++;
         //read data from plist
         MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
-        NSMutableDictionary *readDictionary = [plistManager readFromPList];
-        NSMutableArray *readArray = [readDictionary objectForKey:@"list"];
-        
         //convert each object in read dictionary to a movie object and add to arraylist
-        NSMutableArray *movieLibrary = [[NSMutableArray alloc]init];
-        for (NSData *data in readArray) {
-            Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-            [movieLibrary addObject:obj];
-        }
+        NSMutableArray *movieLibrary = [[NSMutableArray alloc]initWithArray:[plistManager getMovieLibrary]];
         
         //check to see if movie is already in the library
         bool movieFound = false;
@@ -492,17 +485,8 @@
             [movieLibrary addObject:self.foundMovie];
             NSLog(@"Movie with title: %@ added to the library successfully!", self.foundMovie.title);
             
-            //convert all movie objects into data objects to put back into plist
-            NSMutableArray *movieDataArray = [[NSMutableArray alloc]init];
-            for (Movie *item in movieLibrary) {
-                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:item];
-                [movieDataArray addObject:data];
-            }
-            NSLog(@"Converts all movie objects in array into NSData objects");
-            
-            //store plist
-            NSDictionary *itemToWrite = @{@"list": movieDataArray};
-            [plistManager writeToPList:itemToWrite];
+            //saves the plist
+            [plistManager saveMovieLibrary:movieLibrary];
             [self movieSuccessfullyAdded];
         }
 

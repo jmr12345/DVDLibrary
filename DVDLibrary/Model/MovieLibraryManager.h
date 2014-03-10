@@ -10,8 +10,8 @@
 
 @interface MovieLibraryManager : NSObject
 
-+(MovieLibraryManager *)sharedInstance;
--(void)writeToPList:(NSDictionary *)dictionaryToWrite;
--(NSMutableDictionary *)readFromPList;
++ (MovieLibraryManager *)sharedInstance;
+- (NSMutableArray *)getMovieLibrary;
+- (void)saveMovieLibrary: (NSMutableArray *)movieLibraryArray;
 
 @end

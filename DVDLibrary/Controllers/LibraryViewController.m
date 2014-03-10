@@ -17,6 +17,7 @@
 #import "Movie.h"
 #import "MovieData.h"
 #import "SplashScreenViewController.h"
+#import "MovieLibraryManager.h"
 
 @interface LibraryViewController ()
 - (void)dismissSplashScreenViewController;
@@ -49,7 +50,11 @@
     [self setUpSections];
 
     // Get all movie data info and set filtered table data to include everything
-    self.allMovieData = [[MovieData alloc] init].movieData;
+    //read data from plist
+    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+    self.allMovieData = [plistManager getMovieLibrary];
+    
+    //self.allMovieData = [[MovieData alloc] init].movieData;
     [self updateDisplayedMovieData:@""];
 
     // Add movie layout controller

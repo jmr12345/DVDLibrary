@@ -9,6 +9,7 @@
 #import "SuggestionViewController.h"
 #import "MovieData.h"
 #import "Movie.h"
+#import "MovieLibraryManager.h"
 
 @interface SuggestionViewController ()
 @property (strong, nonatomic) NSArray *movieArray;
@@ -19,12 +20,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    NSArray *data = [[MovieData alloc] init].movieData;
-    
-    // Double array
-    self.movieArray =[data arrayByAddingObjectsFromArray:data];
-    //self.movieArray = data;
+
+    //read data from plist
+    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+    self.movieArray = [plistManager getMovieLibrary];
 }
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView

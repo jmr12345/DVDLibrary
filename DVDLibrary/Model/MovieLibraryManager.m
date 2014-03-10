@@ -11,6 +11,7 @@
  ******/
 
 #import "MovieLibraryManager.h"
+#import "Movie.h"
 
 static MovieLibraryManager *sharedInstance;
 
@@ -60,12 +61,53 @@ static MovieLibraryManager *sharedInstance;
  * @abstract method to read from the plist
  * @description
  ********************************************************************************************/
--(NSMutableDictionary *)readFromPList
+- (NSMutableDictionary *)readFromPList
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *docfilePath = [basePath stringByAppendingPathComponent:@"movieData.plist"];
     return [NSDictionary dictionaryWithContentsOfFile:docfilePath];
+}
+
+/********************************************************************************************
+ * @method getMovieLibrary
+ * @abstract method to convert nsdata objects in plist to movie objects
+ * @description returns an array that contains movie objects from the plist
+ ********************************************************************************************/
+- (NSMutableArray *)getMovieLibrary
+{
+    NSMutableDictionary *readDictionary = [self readFromPList];
+    NSMutableArray *readArray = [readDictionary objectForKey:@"list"];
+    
+    //convert each object in read dictionary to a movie object and add to arraylist
+    NSMutableArray *movieLibrary = [[NSMutableArray alloc]init];
+    for (NSData *data in readArray) {
+        Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        [movieLibrary addObject:obj];
+    }
+    NSLog(@"getMovieLibrary method successfully converted to movie object array");
+    return movieLibrary;
+}
+
+/********************************************************************************************
+ * @method writeToMovieLibrary
+ * @abstract method to write an array to the plist
+ * @description converts all movie objects in an array to nsdata objects to be stored in the
+                plist and then saves the plist
+ ********************************************************************************************/
+- (void)saveMovieLibrary: (NSMutableArray *)movieLibraryArray
+{
+    //convert all movie objects into data objects to put back into plist
+    NSMutableArray *movieDataArray = [[NSMutableArray alloc]init];
+    for (Movie *item in movieLibraryArray) {
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:item];
+        [movieDataArray addObject:data];
+    }
+    NSLog(@"Converts all movie objects in array into NSData objects");
+    
+    //store plist
+    NSDictionary *itemToWrite = @{@"list": movieDataArray};
+    [self writeToPList:itemToWrite];
 }
 
 @end
