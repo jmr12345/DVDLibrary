@@ -67,14 +67,23 @@
 
 /********************************************************************************************
  * @method searchByTitleButton
- * @abstract finds movie by title input by user
+ * @abstract Action activated when user clicks on search button. Then finds movie by 
+            title input by user
  * @description
  ********************************************************************************************/
-- (IBAction)searchByTitleButton:(id)sender {
+- (IBAction)searchByTitleButton:(id)sender
+{
     [self searchByTitle];
 }
 
-- (void) searchByTitle{
+/********************************************************************************************
+ * @method searchByTitle
+ * @abstract Starts search for title entered
+ * @description First checks if there's an internet connection. If not, give an alert, 
+        otherwise kick off the search
+ ********************************************************************************************/
+- (void) searchByTitle
+{
     if ([self isReachable]) {
         
         [self.view bringSubviewToFront:self.activityIndicator];
@@ -93,12 +102,23 @@
     }
 }
 
-- (void)receivedNotification:(NSNotification *) notification {
+/********************************************************************************************
+ * @method receivedNotification
+ * @abstract
+ * @description
+ ********************************************************************************************/
+- (void)receivedNotification:(NSNotification *) notification
+{
     if ([[notification name] isEqualToString:@"Library written to pList"]) {
         [self movieAddCompleted];
     }
 }
 
+/********************************************************************************************
+ * @method movieAddCompleted
+ * @abstract
+ * @description
+ ********************************************************************************************/
 - (void)movieAddCompleted
 {
     NSLog(@">>>>> pList notification received by SearchViewController");
@@ -107,7 +127,13 @@
     self.activityIndicator.hidden = YES;
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
+/********************************************************************************************
+ * @method textFieldShouldReturn
+ * @abstract
+ * @description
+ ********************************************************************************************/
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     [textField resignFirstResponder];
     [self searchByTitle];
     return YES;
