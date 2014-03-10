@@ -13,6 +13,7 @@
 #import "Movie.h"
 #import "WebViewController.h"
 #import "MovieLibraryManager.h"
+#import "Reachability.h"
 
 @interface DetailViewController ()
 
@@ -23,6 +24,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.reachability = [Reachability reachabilityForInternetConnection];
+    [self.reachability startNotifier];
 
     self.sections = [[NSMutableArray alloc] initWithObjects:@"Movie Info",@"Synopsis",@"Cast", nil];
 	
@@ -145,15 +149,20 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"TrailerSegue"]) {
+    if ([self isReachable]) {
+        if ([[segue identifier] isEqualToString:@"TrailerSegue"]) {
         
-        NSLog(@">>>>> Segue from DetailViewController to WebViewController");
-        
-        // Get destination view
-        WebViewController *wvc = [segue destinationViewController];
-        
-        // Set the trailer url in the new view
-        wvc.trailerURL = self.movie.trailer;
+            NSLog(@">>>>> Segue from DetailViewController to WebViewController");
+            
+            // Get destination view
+            WebViewController *wvc = [segue destinationViewController];
+            
+            // Set the trailer url in the new view
+            wvc.trailerURL = self.movie.trailer;
+        }
+    }
+    else{
+        [self noInternetError];
     }
 }
 
@@ -194,5 +203,34 @@
     [plistManager saveMovieLibrary:allMovieData];
     //shows alert
     [self removeMovieSuccess];
+}
+
+/********************************************************************************************
+ * @method isReachable
+ * @abstract checks to see if have wifi or 3G/LTE connection
+ * @description Uses the Reachability classes
+ ********************************************************************************************/
+- (BOOL)isReachable
+{
+    Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
+    if(currentReachability.currentReachabilityStatus != NotReachable){
+        NSLog(@"Connected to the internet!");
+        return true;
+    }
+    NSLog(@"Not connected to the internet!");
+    return false;
+}
+
+/********************************************************************************************
+ * @method noInternetError
+ * @abstract gives alert view error when not connected to internet to search
+ * @description
+ ********************************************************************************************/
+- (void)noInternetError
+{
+    NSString *title = @"Sorry! Must be connected to the internet to view the trailer!";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@"Showing no internet connection alert");
 }
 @end

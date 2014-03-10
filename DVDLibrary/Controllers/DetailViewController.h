@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "Reachability.h"
 
 @interface DetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate>
+
+@property (strong, nonatomic) Reachability *reachability;
 
 @property (strong,nonatomic) Movie *movie;
 @property (strong, nonatomic) NSMutableArray* sections;
