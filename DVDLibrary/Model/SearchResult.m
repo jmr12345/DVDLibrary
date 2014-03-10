@@ -484,7 +484,7 @@
             //add the found movie to the library
             [movieLibrary addObject:self.foundMovie];
             NSLog(@"Movie with title: %@ added to the library successfully!", self.foundMovie.title);
-            
+                    
             //saves the plist
             [plistManager saveMovieLibrary:movieLibrary];
             
