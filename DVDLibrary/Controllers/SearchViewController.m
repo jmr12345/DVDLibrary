@@ -32,7 +32,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedNotification:)
-                                                 name:@"Movie Added"
+                                                 name:@"Library written to pList"
                                                object:nil];
 }
 
@@ -94,34 +94,18 @@
 }
 
 - (void)receivedNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"Movie Added"]) {
+    if ([[notification name] isEqualToString:@"Library written to pList"]) {
         [self movieAddCompleted];
-//    } else if ([[notification name] isEqualToString:@"Not Found"]) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Results Found"
-//                                                            message:nil delegate:self
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles:nil, nil];
-//        [alertView show];
-   }
+    }
 }
 
 - (void)movieAddCompleted
 {
-    NSLog(@"Notification received");
+    NSLog(@">>>>> pList notification received by SearchViewController");
     
     [self.activityIndicator stopAnimating];
     self.activityIndicator.hidden = YES;
-    
-    // Get the searchViewController
-    LibraryViewController *lvc = (LibraryViewController *)[[self.tabBarController.viewControllers objectAtIndex:0] topViewController];
-    
-    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
-    lvc.allMovieData = [plistManager getMovieLibrary];
-    
-    [lvc updateDisplayedMovieData:(@"")];
-    
-    // Switch to search tab
-    [self.tabBarController setSelectedIndex:0];}
+}
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];

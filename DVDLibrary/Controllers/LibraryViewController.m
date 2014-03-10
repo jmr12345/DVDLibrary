@@ -71,6 +71,12 @@
     self.searchBar.barTintColor = [UIColor darkGrayColor];
     self.searchBar.hidden = YES;
     self.searchBar.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Library written to pList"
+                                               object:nil];
+
 
 }
 
@@ -295,4 +301,20 @@
         NSLog(@">>>>> SplashScreenViewController is dismissed from the LibraryViewController");
     }];
 }
+
+- (void)receivedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"Library written to pList"]) {
+        NSLog(@">>>>> pList notification received by LibraryViewController");
+        
+        [self refreshMovieData];
+    }
+}
+
+- (void) refreshMovieData{
+    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+    self.allMovieData = [plistManager getMovieLibrary];
+    
+    [self updateDisplayedMovieData:(@"")];
+}
+
 @end

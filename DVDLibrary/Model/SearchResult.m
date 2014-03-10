@@ -509,9 +509,10 @@
             [plistManager saveMovieLibrary:movieLibrary];
             
             //if it's not the first time launching the app then show alert
-            NSString *dateKey = @"Initial Launch";
-            NSDate *lastRead = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:dateKey];
-            if (lastRead == [NSDate date])
+
+//            NSString *dateKey = @"Initial Launch";
+//            NSDate *lastRead = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:dateKey];
+//            if (lastRead == [NSDate date])
                 //show the alert
                 [self movieSuccessfullyAdded];
         }
