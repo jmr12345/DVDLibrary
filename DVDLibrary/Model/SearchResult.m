@@ -29,7 +29,9 @@
     self = [super init];
     if(self){
         self.foundMovie = [[Movie alloc]init];
+        self.num = 0;
         self.loop = 0;
+        self.titleNum = 0;
     }
     return self;
 }
@@ -49,6 +51,7 @@
         self.foundMovie.upc = upcSymbol;
         self.num = 0;
         self.loop = 0;
+        self.titleNum = 0;
     }
     return self;
 }
@@ -68,6 +71,7 @@
         self.foundMovie.title = title;
         self.num = 0;
         self.loop = 0;
+        self.titleNum = 0;
     }
     return self;
 }
@@ -79,10 +83,10 @@
  ********************************************************************************************/
 - (void)blankSearch
 {
-    NSString *title = @"Sorry! Search cannot be blank. Please try again.";
+    NSString *title = @"Search cannot be blank";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    NSLog(@"Showing empty title error");
+    NSLog(@">>>>>Search cannot be blank alert");
 }
 
 /********************************************************************************************
@@ -108,10 +112,10 @@
 - (BOOL)movieIsNil
 {
     if (self.foundMovie.title == nil || self.foundMovie.releaseDate == Nil) {
-        NSLog(@"Movie is not found");
+        NSLog(@">>>>>Movie is not found");
         return true;
     }
-    NSLog(@"Movie is found");
+    NSLog(@">>>>>Movie is found");
     return false;
 }
 
@@ -122,10 +126,10 @@
  ********************************************************************************************/
 - (void)movieNotFound
 {
-    NSString *title = @"Sorry! No movie with that name was found. Please try again.";
+    NSString *title = @"Sorry! Movie not found.";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    NSLog(@"Showing movie not found error");
+    NSLog(@">>>>>Movie not found alert");
 }
 
 /********************************************************************************************
@@ -138,7 +142,7 @@
     NSString *title = @"Sorry! This movie is already in your library.";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    NSLog(@"Showing movie not found error");
+    NSLog(@">>>>>Movie in library already alert");
 }
 
 /********************************************************************************************
@@ -151,7 +155,7 @@
     NSString *title = @"The movie was successfully added!";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    NSLog(@"Showing movie not found error");
+    NSLog(@">>>>>Movie successfully added alert");
 }
 
 /********************************************************************************************
@@ -166,7 +170,7 @@
     //weblink that returns product from scanning upc symbol
     NSString *query = [NSString stringWithFormat:@"http://www.searchupc.com/handlers/upcsearch.ashx?request_type=3&access_token=F4F91C0E-E947-43C4-A649-7D4DE9C08044&upc=%@", upcSymbol];
     
-    NSLog(@"Link to searchupc api: %@", query);
+    NSLog(@">>>>>Link to searchupc api: %@", query);
     
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:query]
@@ -176,13 +180,13 @@
                 
                 // Update the Nsmutable Array
                 NSMutableDictionary *upcMovieResults = [[results mutableCopy] objectForKey:@"0"];
-                NSLog(@"JSON results from upc search: %@", upcMovieResults);
+                NSLog(@">>>>>JSON results from upc search: %@", upcMovieResults);
                 
                 //gets the movie title (and removes the extra appended information such as "(blu-ray)" and "(digital copy)")
                 NSString *title = (NSString *)[upcMovieResults objectForKey:@"productname"];
                 self.foundMovie.title = [self editTitle:title];
                 
-                NSLog(@"Movie title: %@", self.foundMovie.title);
+                NSLog(@">>>>>Movie title: %@", self.foundMovie.title);
                 
                 //performs a search by movie title
                 [self searchForMovieByTitle:self.foundMovie.title];
@@ -220,11 +224,11 @@
     //updates movie title to a searchable format
     NSString *title = [movieTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *searchableTitle = [title stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    NSLog(@"Original movie title: %@ and Searchable movie title: %@", movieTitle, searchableTitle);
+    NSLog(@">>>>>Original movie title: %@ and Searchable movie title: %@", movieTitle, searchableTitle);
     
     //api access
     NSString *query = [NSString stringWithFormat:@"http://api.rovicorp.com/search/v2.1/amgvideo/search?apikey=%@&sig=%@&query=%@&entitytype=movie&size=1&format=json&include=all", self.roviApiKey, self.sig, searchableTitle];
-    NSLog(@"Link to rovicorp api: %@", query);
+    NSLog(@">>>>>Link to rovicorp api: %@", query);
     
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:query]
@@ -277,12 +281,12 @@
     //gets the current time for the conversion since 1970
     int unixtime = (int)[[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
     NSString *time = [NSString stringWithFormat:@"%d", unixtime];
-    NSLog(@"Time since 1970: %@", time);
+    NSLog(@">>>>>Time since 1970: %@", time);
     
     //combines rovi api key, shared secret and time into a string
     NSArray *stringsToConvert = [[NSArray alloc] initWithObjects:self.roviApiKey, sharedSecret, time, nil];
     NSString *concatenatedString = [stringsToConvert componentsJoinedByString:@""];
-    NSLog(@"String to be converted to sig key: %@", concatenatedString);
+    NSLog(@">>>>>String to be converted to sig key: %@", concatenatedString);
     
     const char *cStr = [concatenatedString UTF8String];
     unsigned char digest[16];
@@ -290,12 +294,12 @@
     
     //the converted
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-    NSLog(@"sig key after concatentated string is converted: %@", output);
+    NSLog(@">>>>>sig key after concatentated string is converted: %@", output);
     
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
         [output appendFormat:@"%02x", digest[i]];
     
-    NSLog(@"created sig key: %@", output.lowercaseString);
+    NSLog(@">>>>>created sig key: %@", output.lowercaseString);
     return  output.lowercaseString;
 }
 
@@ -310,11 +314,11 @@
     //updates movie title to a searchable format
     NSString *title = [movieTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *searchableTitle = [title stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-    NSLog(@"Original movie title: %@ and Searchable movie title: %@", movieTitle, searchableTitle);
+    NSLog(@">>>>>Original movie title: %@ and Searchable movie title: %@", movieTitle, searchableTitle);
     
     //api access
     NSString *movieQuery = [NSString stringWithFormat:@"http://api.themoviedb.org/3/search/movie?api_key=%@&query=%@", self.movieDbApiKey, searchableTitle];
-    NSLog(@"Link to movieDB api for id: %@", movieQuery);
+    NSLog(@">>>>>Link to movieDB api for id: %@", movieQuery);
     
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
@@ -324,18 +328,27 @@
                 
                 // Update the Nsmutable Array
                 NSMutableArray *movieTitleInfo = [[results mutableCopy] objectForKey:@"results"];
-                NSMutableDictionary *result = [movieTitleInfo objectAtIndex:0];
-                
-                //gets the movie's unique movieDB id
-                self.foundMovie.movieDbId = (NSString *)[result objectForKey:@"id"];
-                [self getMovieInfo:self.foundMovie.movieDbId];
-                NSLog(@"%@ unique movie DB id is: %@", movieTitle, self.foundMovie.movieDbId);
-                
-                //gets the movie trailer
-                [self getMovieTrailer:self.foundMovie.movieDbId];
-                
-                //gets movie info
-                [self getMovieInfo:self.foundMovie.movieDbId];
+                if ([movieTitleInfo count]==0) {
+                    if (self.titleNum == 0) {
+                        self.titleNum++;
+                        [self movieNotFound];
+                        return;
+                    }
+                }
+                else{
+                    NSMutableDictionary *result = [movieTitleInfo objectAtIndex:0];
+                    
+                    //gets the movie's unique movieDB id
+                    self.foundMovie.movieDbId = (NSString *)[result objectForKey:@"id"];
+                    [self getMovieInfo:self.foundMovie.movieDbId];
+                    NSLog(@">>>>>%@ unique movie DB id is: %@", movieTitle, self.foundMovie.movieDbId);
+                    
+                    //gets the movie trailer
+                    [self getMovieTrailer:self.foundMovie.movieDbId];
+                    
+                    //gets movie info
+                    [self getMovieInfo:self.foundMovie.movieDbId];
+                }
                 
             }] resume];
 }
@@ -349,7 +362,7 @@
 {
     //api access
     NSString *movieQuery = [NSString stringWithFormat:@"http://api.themoviedb.org/3/movie/%@/trailers?api_key=%@", movieDbId, self.movieDbApiKey];
-    NSLog(@"Link to movieDB api for trailer: %@", movieQuery);
+    NSLog(@">>>>>Link to movieDB api for trailer: %@", movieQuery);
     
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
@@ -359,7 +372,7 @@
                 
                 // Update the Nsmutable Array
                 NSMutableArray *movieTrailerInfo = [[results mutableCopy] objectForKey:@"youtube"];
-                if (movieTrailerInfo == nil ) {
+                if ([movieTrailerInfo count]!=0) {
                     NSMutableDictionary *result = [movieTrailerInfo objectAtIndex:0];
                     
                     //gets the movie's unique youtube id
@@ -369,9 +382,11 @@
                     NSString *youtubeUrl = @"https://www.youtube.com/watch?v=";
                     youtubeUrl = [youtubeUrl stringByAppendingString:youtubeID];
                     self.foundMovie.trailer = [NSURL URLWithString:youtubeUrl];
+                    NSLog(@">>>>>Trailer found: %@", self.foundMovie.trailer);
                 }
                 else{
                     self.foundMovie.trailer = nil;
+                    NSLog(@">>>>>Trailer not found,");
                 }
                 
             }] resume];
@@ -388,7 +403,7 @@
 {
     //api access
     NSString *movieQuery = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@?api_key=%@", movieDbId, self.movieDbApiKey];
-    NSLog(@"Link to movieDB api to get movie info by id: %@", movieQuery);
+    NSLog(@">>>>>Link to movieDB api to get movie info by id: %@", movieQuery);
     
     NSURLSession *session = [NSURLSession sharedSession];
     [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
@@ -401,11 +416,13 @@
                 
                 //gets the imdb id
                 self.foundMovie.imdbId = [result objectForKey:@"imdb_id"];
+                NSLog(@">>>>>Imdb id: %@", self.foundMovie.imdbId);
                 
                 //sets the imdb url
                 NSString *imdbUrl = @"http://www.imdb.com/title/";
                 imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbId];
                 self.foundMovie.url = [NSURL URLWithString:imdbUrl];
+                NSLog(@">>>>>Imdb url: %@", self.foundMovie.url);
                 
                 //gets the genres
                 NSMutableArray *genreResults = [result objectForKey:@"genres"];
@@ -416,21 +433,25 @@
                 }
                 //put genres into a string
                 self.foundMovie.genre = [genres componentsJoinedByString:@", "];
+                NSLog(@">>>>>Genres: %@", self.foundMovie.genre);
                 
                 //gets the movie description
                 self.foundMovie.description = [result objectForKey:@"overview"];
+                NSLog(@">>>>>Description: %@", self.foundMovie.description);
                 
                 //gets the release date and converts it to a date object
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
                 [dateFormatter setDateFormat:@"yyyy-MM-dd"];
                 NSString *release =[result objectForKey:@"release_date"];
                 self.foundMovie.releaseDate = [dateFormatter dateFromString:release];
+                NSLog(@">>>>>Release date: %@", self.foundMovie.releaseDate);
                 
                 //gets the url to the image and transforms it to an image object
                 NSString *image = (NSString *)[result objectForKey:@"poster_path"];
                 NSString *imageURL = @"http://image.tmdb.org/t/p/w500";
                 imageURL = [imageURL stringByAppendingString:image];
                 self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
+                NSLog(@">>>>>Image: %@", self.foundMovie.image);
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if ([self movieIsNil]) {
@@ -478,17 +499,16 @@
         //if movie is found in the dictionary, then that means it's already in the library
         if (movieFound) {
             [self movieAlreadyAdded];
-            NSLog(@"Movie was already added");
         }
         else{
             //add the found movie to the library
             [movieLibrary addObject:self.foundMovie];
-            NSLog(@"Movie with title: %@ added to the library successfully!", self.foundMovie.title);
+            NSLog(@">>>>>Movie with title: %@ added to the library successfully!", self.foundMovie.title);
                     
             //saves the plist
             [plistManager saveMovieLibrary:movieLibrary];
             
-            //if it's not the first time launching the app
+            //if it's not the first time launching the app then show alert
             NSString *dateKey = @"Initial Launch";
             NSDate *lastRead = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:dateKey];
             if (lastRead == [NSDate date])

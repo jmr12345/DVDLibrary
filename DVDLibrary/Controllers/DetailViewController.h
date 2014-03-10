@@ -17,5 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *movieImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+- (IBAction)deleteMovie:(UIBarButtonItem *)sender;
 
 @end
