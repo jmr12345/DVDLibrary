@@ -10,6 +10,8 @@
 #import "Movie.h"
 #import "Reachability.h"
 #import "SearchResult.h"
+#import "MovieLibraryManager.h"
+#import "LibraryViewController.h"
 
 @interface SearchViewController ()
 
@@ -19,18 +21,6 @@
 
 @implementation SearchViewController
 
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-}
 
 - (void)viewDidLoad
 {
@@ -39,12 +29,11 @@
     
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Movie Added"
+                                               object:nil];
 }
 
 /********************************************************************************************
@@ -88,12 +77,45 @@
         NSLog(@"Searching for movie titled: %@", searchString);
         self.search = [[SearchResult alloc]initWithMovieTitle:searchString];
         [self.search titleSearch:searchString];
-        [self.tabBarController setSelectedIndex:0];
     }
     else{
         [self noInternetError];
         return;
     }
 }
+
+- (void)receivedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"Movie Added"]) {
+        [self movieAddCompleted];
+//    } else if ([[notification name] isEqualToString:@"Not Found"]) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No Results Found"
+//                                                            message:nil delegate:self
+//                                                  cancelButtonTitle:@"OK"
+//                                                  otherButtonTitles:nil, nil];
+//        [alertView show];
+   }
+}
+
+- (void)movieAddCompleted
+{
+    NSLog(@"Notification received");
+    
+    // Get the searchViewController
+    LibraryViewController *lvc = (LibraryViewController *)[[self.tabBarController.viewControllers objectAtIndex:0] topViewController];
+    
+    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+    lvc.allMovieData = [plistManager getMovieLibrary];
+    
+    [lvc updateDisplayedMovieData:(@"")];
+    
+    // Switch to search tab
+    [self.tabBarController setSelectedIndex:0];}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
 
 @end

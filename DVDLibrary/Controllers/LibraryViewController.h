@@ -22,5 +22,6 @@
 - (IBAction)changeSections:(id)sender;
 - (IBAction)changeMovieLayout:(id)sender;
 - (IBAction)search:(id)sender;
+- (void)updateDisplayedMovieData:(NSString*)str;
 
 @end
