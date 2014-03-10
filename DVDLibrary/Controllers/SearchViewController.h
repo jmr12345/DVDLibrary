@@ -18,7 +18,7 @@
 @property (strong, nonatomic) Reachability *reachability;
 
 //for the title search
-@property (weak, nonatomic) IBOutlet UITextField *inputMovieTItle;
+@property (weak, nonatomic) IBOutlet UITextField *titleSearchTextField;
 - (IBAction)searchByTitleButton:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;

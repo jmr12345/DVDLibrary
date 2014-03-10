@@ -34,6 +34,16 @@
                                              selector:@selector(receivedNotification:)
                                                  name:@"Library written to pList"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Search done"
+                                               object:nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
 }
 
 /********************************************************************************************
@@ -71,6 +81,7 @@
  * @description
  ********************************************************************************************/
 - (IBAction)searchByTitleButton:(id)sender {
+    [self.titleSearchTextField resignFirstResponder];
     [self searchByTitle];
 }
 
@@ -81,7 +92,7 @@
         self.activityIndicator.hidden = NO;
         [self.activityIndicator startAnimating];
 
-        self.titleSearch = self.inputMovieTItle.text;
+        self.titleSearch = self.titleSearchTextField.text;
         NSString *searchString = [self.titleSearch capitalizedString];
         NSLog(@"Searching for movie titled: %@", searchString);
         self.search = [[SearchResult alloc]initWithMovieTitle:searchString];
@@ -94,15 +105,14 @@
 }
 
 - (void)receivedNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"Library written to pList"]) {
-        [self movieAddCompleted];
+    if ([[notification name] isEqualToString:@"Search done"]) {
+        NSLog(@">>>>> Search done notification received by SearchViewController");
+        
+        [self hideActivityIndicator];
     }
 }
 
-- (void)movieAddCompleted
-{
-    NSLog(@">>>>> pList notification received by SearchViewController");
-    
+- (void) hideActivityIndicator{
     [self.activityIndicator stopAnimating];
     self.activityIndicator.hidden = YES;
 }
@@ -112,7 +122,5 @@
     [self searchByTitle];
     return YES;
 }
-
-
 
 @end

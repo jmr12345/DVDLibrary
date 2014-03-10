@@ -87,6 +87,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     NSLog(@">>>>>Search cannot be blank alert");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
 }
 
 /********************************************************************************************
@@ -130,6 +131,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     NSLog(@">>>>>Movie not found alert");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
 }
 
 /********************************************************************************************
@@ -143,6 +145,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     NSLog(@">>>>>Movie in library already alert");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
 }
 
 /********************************************************************************************
@@ -156,6 +159,7 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     NSLog(@">>>>>Movie successfully added alert");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
 }
 
 /********************************************************************************************

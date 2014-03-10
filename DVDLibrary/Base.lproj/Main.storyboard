@@ -146,7 +146,7 @@
                     <tabBarItem key="tabBarItem" title="Scan" image="barcode-32.png" id="8dr-4n-B3X"/>
                     <connections>
                         <outlet property="activityIndicator" destination="aAf-WN-RG5" id="cuZ-TE-2fw"/>
-                        <outlet property="inputMovieTItle" destination="Cy2-ES-Ttf" id="fhc-JG-wP6"/>
+                        <outlet property="titleSearchTextField" destination="Cy2-ES-Ttf" id="OKK-Uu-Gbe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Lc-9A-xFd" userLabel="First Responder" sceneMemberID="firstResponder"/>
