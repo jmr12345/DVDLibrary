@@ -10,6 +10,4 @@
 
 @interface MovieData : NSObject
 
-@property (strong, nonatomic) NSArray* movieData;
-
 @end

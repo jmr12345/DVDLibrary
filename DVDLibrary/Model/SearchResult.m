@@ -487,7 +487,13 @@
             
             //saves the plist
             [plistManager saveMovieLibrary:movieLibrary];
-            [self movieSuccessfullyAdded];
+            
+            //if it's not the first time launching the app
+            NSString *dateKey = @"Initial Launch";
+            NSDate *lastRead = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:dateKey];
+            if (lastRead == [NSDate date])
+                //show the alert
+                [self movieSuccessfullyAdded];
         }
 
     }
