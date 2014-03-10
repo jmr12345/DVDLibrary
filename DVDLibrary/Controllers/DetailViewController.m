@@ -12,6 +12,7 @@
 #import "DetailViewController.h"
 #import "Movie.h"
 #import "WebViewController.h"
+#import "MovieLibraryManager.h"
 
 @interface DetailViewController ()
 
@@ -156,4 +157,42 @@
     }
 }
 
+/********************************************************************************************
+ * @method removeMovieSuccess
+ * @abstract gives alert view when the movie is successfully deleted from the library
+ * @description
+ ********************************************************************************************/
+- (void)removeMovieSuccess
+{
+    NSString *title = @"Movie successfully deleted!";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@">>>>>Movie successfully deleted alert");
+}
+
+/********************************************************************************************
+ * @method deleteMovie
+ * @abstract deletes the current movie showing in the detail view
+ * @description reads the plist, removes the item and resaves the new library in the plist
+ ********************************************************************************************/
+- (IBAction)deleteMovie:(UIBarButtonItem *)sender {
+    NSLog(@">>>>> trash can button clicked");
+    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+    //reads current plist
+    NSMutableArray *allMovieData = [plistManager getMovieLibrary];
+    
+    //finds the right movie and deletes it from list
+    for (int i = 0; i<[allMovieData count]; i++) {
+        Movie *item = [allMovieData objectAtIndex:i];
+        if ([item.title isEqualToString:self.movie.title]) {
+            [allMovieData removeObjectAtIndex:i];
+            break;
+        }
+    }
+    
+    //resaves the list
+    [plistManager saveMovieLibrary:allMovieData];
+    //shows alert
+    [self removeMovieSuccess];
+}
 @end

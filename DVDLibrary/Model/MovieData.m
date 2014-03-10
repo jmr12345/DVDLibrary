@@ -24,6 +24,11 @@
     return self;
 }
 
+/********************************************************************************************
+ * @method loadInitialData
+ * @abstract pre-populates the movie library the first time the app is launched
+ * @description
+ ********************************************************************************************/
 - (void)loadInitialData
 {
     NSString *movie1Title = @"21 Jump Street";

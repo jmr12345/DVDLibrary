@@ -32,12 +32,19 @@
         self.imdbId = [decoder decodeObjectForKey:@"imdbID"];
         self.duration = [decoder decodeObjectForKey:@"duration"];
         self.mpaaRating = [decoder decodeObjectForKey:@"mpaaRating"];
-        self.releaseDate = [decoder decodeObjectForKey:@"releaseDate"];
+        
+        //date formatting
+        NSDate *decodedDate = [decoder decodeObjectForKey:@"releaseDate"];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+        [dateFormatter setDateFormat:@"MMMM dd, yyyy"];
+        NSString *date = [dateFormatter stringFromDate:decodedDate];
+        self.releaseDate = [dateFormatter dateFromString:date];
+        
         self.directors = [decoder decodeObjectForKey:@"directors"];
         self.cast = [decoder decodeObjectForKey:@"cast"];
         self.trailer = [decoder decodeObjectForKey:@"trailer"];
     }
-    NSLog(@"Decoded object: %@", self);
+    NSLog(@">>>>>Decoded movie");
     return self;
 }
 
@@ -62,7 +69,7 @@
     [encoder encodeObject:self.directors forKey:@"directors"];
     [encoder encodeObject:self.cast forKey:@"cast"];
     [encoder encodeObject:self.trailer forKey:@"trailer"];
-    NSLog(@"Encoded object to be an NSData object");
+    NSLog(@">>>>>Encoded object to be an NSData object");
 }
 
 /********************************************************************************************

@@ -30,6 +30,7 @@
 - (void)searchForMovieByUpc: (NSString *)upcSymbol;
 
 //counter to prevent repeat loop
+@property (nonatomic) __block int *titleNum;
 @property (nonatomic) __block int *num;
 @property (nonatomic) __block int *loop;
 

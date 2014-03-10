@@ -53,9 +53,9 @@ static MovieLibraryManager *sharedInstance;
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString *docfilePath = [basePath stringByAppendingPathComponent:@"movieData.plist"];
     [dictionaryToWrite writeToFile:docfilePath atomically:YES];
-    NSLog(@"Movie library successfully written to pList!");
+    NSLog(@">>>>>Movie library successfully written to pList!");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Movie Added" object:self];
-    NSLog(@"notification sent");
+    NSLog(@">>>>>notification sent");
 
 }
 
@@ -88,7 +88,7 @@ static MovieLibraryManager *sharedInstance;
         Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         [movieLibrary addObject:obj];
     }
-    NSLog(@"getMovieLibrary method successfully converted to movie object array");
+    NSLog(@">>>>>getMovieLibrary method successfully converted to movie object array");
     return movieLibrary;
 }
 
@@ -106,7 +106,7 @@ static MovieLibraryManager *sharedInstance;
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:item];
         [movieDataArray addObject:data];
     }
-    NSLog(@"Converts all movie objects in array into NSData objects");
+    NSLog(@">>>>>Converts all movie objects in array into NSData objects");
     
     //store plist
     NSDictionary *itemToWrite = @{@"list": movieDataArray};

@@ -451,13 +451,6 @@
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="IMDB Rating: [] [] [] [] []" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rof-CJ-yuz">
-                                            <rect key="frame" x="24" y="181" width="266" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1x-IS-wbh">
                                             <rect key="frame" x="133" y="91" width="142" height="51"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -516,7 +509,13 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="lOd-XR-Rwy"/>
+                    <navigationItem key="navigationItem" id="lOd-XR-Rwy">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="xh9-nu-e1J">
+                            <connections>
+                                <action selector="deleteMovie:" destination="jaS-8i-lYV" id="CSb-Ed-6dh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="movieImageView" destination="3zA-Z5-Ao9" id="KVx-vO-LWp"/>
                         <outlet property="tableView" destination="keN-gA-Hhg" id="ybd-zd-XeH"/>
