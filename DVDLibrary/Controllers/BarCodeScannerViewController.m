@@ -11,11 +11,14 @@
  * Infragistics. It is used to scan barcodes and spit back out the upc string
  * that's detected. The website is from:
  * http://www.infragistics.com/community/blogs/torrey-betts/archive/2013/10/10/scanning-barcodes-with-ios-7-objective-c.aspx 
+ * We then use the upc string to search for the movie that is associated with
+ * that dvd/blu-ray
  ******/
 
 #import <AVFoundation/AVFoundation.h>
 #import "BarCodeScannerViewController.h"
 #import "Reachability.h"
+#import <AudioToolbox/AudioServices.h>
 
 @interface BarCodeScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -40,9 +43,11 @@
 {
     [super viewDidLoad];
     
+    //instantiates the reachability class to check for internet connection
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
     
+    //The rest of this code in this method is from the original creator of this class
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedNotification:)
                                                  name:@"Library written to pList"
@@ -77,12 +82,21 @@
     [_session startRunning];
 }
 
+//hides the activity indicator until later
 - (void) viewDidAppear:(BOOL)animated
 {
     self.activityIndicator.hidden = YES;
     [self.activityIndicator stopAnimating];
 }
 
+/********************************************************************************************
+ * @method captureOutput didOutputMetadataObjects: fromConnection:
+ * @abstract captures the barcode, translates it to a number and kicks off the search
+ * @description Uses most of the code from Torrey Betts' project with the exception of the
+ *      reachability check, alerts, the vibration when the barcode is read and the search
+ *      search calls. The search call begins the search with a different API than the title
+ *      search.
+ ********************************************************************************************/
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     CGRect highlightViewRect = CGRectZero;
@@ -109,7 +123,7 @@
                 self.barcodeValue = detectionString;
                 //starts the search
                 if (self.number == 0) {
-                    
+                    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
                     // start animating activity indicator
                     [self.view bringSubviewToFront:self.activityIndicator];
                     self.activityIndicator.hidden = NO;
@@ -118,7 +132,7 @@
                     self.number++;
                     self.search = [[SearchResult alloc]initWithUpc:detectionString];
                     [self.search searchForMovieByUpc:detectionString];
-                    [self.tabBarController setSelectedIndex:0];
+
                 }
                 return;
             }
@@ -163,15 +177,27 @@
     NSLog(@"Showing no internet connection error");
 }
 
-
+/********************************************************************************************
+ * @method receivedNotification
+ * @abstract checks to see if search is done, if so, hide the activity indicator
+        and reset number to 0 so can search again
+ * @description
+ ********************************************************************************************/
 - (void)receivedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"Search done"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
         
         [self hideActivityIndicator];
+        //reset counter to 0 so can scan again
+        self.number = 0;
     }
 }
 
+/********************************************************************************************
+ * @method hideActivityIndicator
+ * @abstract hides the activity indicator
+ * @description
+ ********************************************************************************************/
 - (void) hideActivityIndicator{
     [self.activityIndicator stopAnimating];
     self.activityIndicator.hidden = YES;
