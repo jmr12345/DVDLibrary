@@ -38,6 +38,7 @@
                                              selector:@selector(receivedNotification:)
                                                  name:@"Search done"
                                                object:nil];
+    self.titleSearchTextField.clearButtonMode = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated
@@ -120,6 +121,13 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     [self searchByTitle];
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    [self.titleSearchTextField performSelector: @selector(resignFirstResponder)
+                        withObject: nil
+                        afterDelay: 0.1];
     return YES;
 }
 
