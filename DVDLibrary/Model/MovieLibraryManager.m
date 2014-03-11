@@ -55,7 +55,7 @@ static MovieLibraryManager *sharedInstance;
     [dictionaryToWrite writeToFile:docfilePath atomically:YES];
 
     NSLog(@">>>>> Movie library successfully written to pList!");
-    NSLog(@">>>>> Posting pList notifcation from MovieLibraryManager");
+    NSLog(@">>>>> Posting pList notification from MovieLibraryManager");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Library written to pList" object:self];
 }
 

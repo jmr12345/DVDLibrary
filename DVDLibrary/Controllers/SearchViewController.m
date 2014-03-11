@@ -34,6 +34,16 @@
                                              selector:@selector(receivedNotification:)
                                                  name:@"Library written to pList"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Search done"
+                                               object:nil];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
 }
 
 /********************************************************************************************
@@ -67,30 +77,22 @@
 
 /********************************************************************************************
  * @method searchByTitleButton
- * @abstract Action activated when user clicks on search button. Then finds movie by 
-            title input by user
+ * @abstract finds movie by title input by user
  * @description
  ********************************************************************************************/
-- (IBAction)searchByTitleButton:(id)sender
-{
+- (IBAction)searchByTitleButton:(id)sender {
+    [self.titleSearchTextField resignFirstResponder];
     [self searchByTitle];
 }
 
-/********************************************************************************************
- * @method searchByTitle
- * @abstract Starts search for title entered
- * @description First checks if there's an internet connection. If not, give an alert, 
-        otherwise kick off the search
- ********************************************************************************************/
-- (void) searchByTitle
-{
+- (void) searchByTitle{
     if ([self isReachable]) {
         
         [self.view bringSubviewToFront:self.activityIndicator];
         self.activityIndicator.hidden = NO;
         [self.activityIndicator startAnimating];
 
-        self.titleSearch = self.inputMovieTItle.text;
+        self.titleSearch = self.titleSearchTextField.text;
         NSString *searchString = [self.titleSearch capitalizedString];
         NSLog(@"Searching for movie titled: %@", searchString);
         self.search = [[SearchResult alloc]initWithMovieTitle:searchString];
@@ -102,43 +104,23 @@
     }
 }
 
-/********************************************************************************************
- * @method receivedNotification
- * @abstract
- * @description
- ********************************************************************************************/
-- (void)receivedNotification:(NSNotification *) notification
-{
-    if ([[notification name] isEqualToString:@"Library written to pList"]) {
-        [self movieAddCompleted];
+- (void)receivedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"Search done"]) {
+        NSLog(@">>>>> Search done notification received by SearchViewController");
+        
+        [self hideActivityIndicator];
     }
 }
 
-/********************************************************************************************
- * @method movieAddCompleted
- * @abstract
- * @description
- ********************************************************************************************/
-- (void)movieAddCompleted
-{
-    NSLog(@">>>>> pList notification received by SearchViewController");
-    
+- (void) hideActivityIndicator{
     [self.activityIndicator stopAnimating];
     self.activityIndicator.hidden = YES;
 }
 
-/********************************************************************************************
- * @method textFieldShouldReturn
- * @abstract
- * @description
- ********************************************************************************************/
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     [self searchByTitle];
     return YES;
 }
-
-
 
 @end
