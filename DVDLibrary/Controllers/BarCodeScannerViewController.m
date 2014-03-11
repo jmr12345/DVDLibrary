@@ -42,6 +42,15 @@
     
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Library written to pList"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Search done"
+                                               object:nil];
 
     _session = [[AVCaptureSession alloc] init];
     _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -66,7 +75,12 @@
     [self.view.layer addSublayer:_prevLayer];
 
     [_session startRunning];
+}
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    self.activityIndicator.hidden = YES;
+    [self.activityIndicator stopAnimating];
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
@@ -95,6 +109,12 @@
                 self.barcodeValue = detectionString;
                 //starts the search
                 if (self.number == 0) {
+                    
+                    // start animating activity indicator
+                    [self.view bringSubviewToFront:self.activityIndicator];
+                    self.activityIndicator.hidden = NO;
+                    [self.activityIndicator startAnimating];
+
                     self.number++;
                     self.search = [[SearchResult alloc]initWithUpc:detectionString];
                     [self.search searchForMovieByUpc:detectionString];
@@ -141,6 +161,20 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     NSLog(@"Showing no internet connection error");
+}
+
+
+- (void)receivedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"Search done"]) {
+        NSLog(@">>>>> Search done notification received by SearchViewController");
+        
+        [self hideActivityIndicator];
+    }
+}
+
+- (void) hideActivityIndicator{
+    [self.activityIndicator stopAnimating];
+    self.activityIndicator.hidden = YES;
 }
 
 @end
