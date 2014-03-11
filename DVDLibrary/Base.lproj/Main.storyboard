@@ -269,6 +269,7 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="OFj-6b-zVL"/>
                     <connections>
                         <outlet property="collectionView" destination="NWJ-PG-o3E" id="wPm-Uc-vfi"/>
                     </connections>
@@ -334,6 +335,7 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="sD7-bP-CjZ"/>
                     <connections>
                         <outlet property="tableView" destination="Qf8-aa-Uif" id="61f-z6-m1e"/>
                     </connections>
