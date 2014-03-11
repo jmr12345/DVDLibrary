@@ -20,17 +20,21 @@
     NSDate *lastRead = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:dateKey];
     if (lastRead == nil)     // App first run: set up user defaults.
     {
-        NSDictionary *appDefaults  = [NSDictionary dictionaryWithObjectsAndKeys:[NSDate date], dateKey, nil];
-        
-        // sync the defaults to disk
-        [[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self setPreferenceDefaults];
         
         MovieData *initialData = [[MovieData alloc]init];
         NSLog(@"Loading initial data for example: %@", initialData);
     }
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:dateKey];
     return YES;
+}
+
+- (void)setPreferenceDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithObject:[NSDate date] forKey:@"Initial Run"];
+    [defaults registerDefaults:appDefaults];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSLog(@"NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
