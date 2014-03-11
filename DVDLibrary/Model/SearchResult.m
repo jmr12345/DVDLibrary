@@ -269,9 +269,14 @@
                 //gets the list of cast members
                 self.foundMovie.cast = [[NSMutableArray alloc] init];
                 NSMutableArray *castMembers = [movieInfo objectForKey:@"cast"];
-                for (NSDictionary *member in castMembers) {
-                    NSString *castName = [member objectForKey:@"name"];
-                    [self.foundMovie.cast addObject:castName];
+                if (castMembers != (NSMutableArray *)[NSNull null]) {
+                    for (NSDictionary *member in castMembers) {
+                        NSString *castName = [member objectForKey:@"name"];
+                        [self.foundMovie.cast addObject:castName];
+                    }
+                }
+                else{
+                    self.foundMovie.cast = nil;
                 }
                 NSLog(@">>>>>Movie cast list: %@", self.foundMovie.cast);
                 
@@ -429,22 +434,31 @@
                 //gets the imdb id
                 self.foundMovie.imdbId = [result objectForKey:@"imdb_id"];
                 NSLog(@">>>>>Imdb id: %@", self.foundMovie.imdbId);
-                
-                //sets the imdb url
-                NSString *imdbUrl = @"http://www.imdb.com/title/";
-                imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbId];
-                self.foundMovie.url = [NSURL URLWithString:imdbUrl];
+                if (self.foundMovie.imdbId != (NSString *)[NSNull null]){
+                    //sets the imdb url
+                    NSString *imdbUrl = @"http://www.imdb.com/title/";
+                    imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbId];
+                    self.foundMovie.url = [NSURL URLWithString:imdbUrl];
+                }
+                else{
+                    self.foundMovie.url = nil;
+                }
                 NSLog(@">>>>>Imdb url: %@", self.foundMovie.url);
                 
                 //gets the genres
                 NSMutableArray *genreResults = [result objectForKey:@"genres"];
-                NSMutableArray *genres = [[NSMutableArray alloc]init];
-                for (NSDictionary *genre in genreResults) {
-                    NSString *category = [genre objectForKey:@"name"];
-                    [genres addObject:category];
+                if (genreResults != (NSMutableArray *)[NSNull null]){
+                    NSMutableArray *genres = [[NSMutableArray alloc]init];
+                    for (NSDictionary *genre in genreResults) {
+                        NSString *category = [genre objectForKey:@"name"];
+                        [genres addObject:category];
+                    }
+                    //put genres into a string
+                    self.foundMovie.genre = [genres componentsJoinedByString:@", "];
                 }
-                //put genres into a string
-                self.foundMovie.genre = [genres componentsJoinedByString:@", "];
+                else{
+                    self.foundMovie.genre = nil;
+                }
                 NSLog(@">>>>>Genres: %@", self.foundMovie.genre);
                 
                 //gets the movie description
@@ -455,15 +469,26 @@
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
                 [dateFormatter setDateFormat:@"yyyy-MM-dd"];
                 NSString *release =[result objectForKey:@"release_date"];
-                self.foundMovie.releaseDate = [dateFormatter dateFromString:release];
+                if (release != (NSString *)[NSNull null]){
+                    self.foundMovie.releaseDate = [dateFormatter dateFromString:release];
+                }
+                else{
+                    self.foundMovie.releaseDate = nil;
+                }
                 NSLog(@">>>>>Release date: %@", self.foundMovie.releaseDate);
                 
                 //gets the url to the image and transforms it to an image object
                 NSString *image = (NSString *)[result objectForKey:@"poster_path"];
-                NSString *imageURL = @"http://image.tmdb.org/t/p/w500";
-                imageURL = [imageURL stringByAppendingString:image];
-                self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
+                if (image != (NSString *)[NSNull null]) {
+                    NSString *imageURL = @"http://image.tmdb.org/t/p/w500";
+                    imageURL = [imageURL stringByAppendingString:image];
+                    self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
+                }
+                else{
+                    self.foundMovie.image = nil;
+                }
                 NSLog(@">>>>>Image: %@", self.foundMovie.image);
+                
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if ([self movieIsNil]) {
@@ -520,13 +545,9 @@
             //saves the plist
             [plistManager saveMovieLibrary:movieLibrary];
             
-            //if it's not the first time launching the app then show alert
-
-//            NSString *dateKey = @"Initial Launch";
-//            NSDate *lastRead = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:dateKey];
-//            if (lastRead == [NSDate date])
-                //show the alert
-                [self movieSuccessfullyAdded];
+            //show the alert
+            [self movieSuccessfullyAdded];
+            
         }
 
     }

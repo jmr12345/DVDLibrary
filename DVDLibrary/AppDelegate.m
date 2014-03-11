@@ -15,19 +15,28 @@
 {
     // Override point for customization after application launch.
     
-    // initialize defaults
+    // checks if this is the first launch
     NSString *dateKey = @"Initial Launch";
     NSDate *lastRead = (NSDate *)[[NSUserDefaults standardUserDefaults] objectForKey:dateKey];
+    
+    //if it is the first launch then set NSUserDefault
     if (lastRead == nil)     // App first run: set up user defaults.
     {
         [self setPreferenceDefaults];
         
+        //load pre-populated data for example purposes for class (if sent to app store, we wouldn't include this)
         MovieData *initialData = [[MovieData alloc]init];
         NSLog(@"Loading initial data for example: %@", initialData);
     }
     return YES;
 }
 
+/********************************************************************************************
+ * @method setPreferenceDefaults
+ * @abstract sets Initial run in nsuser defaults
+ * @description gets NSUserDefaults and sets the initial date of first launch as the Initial
+    Run date
+ ********************************************************************************************/
 - (void)setPreferenceDefaults
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
