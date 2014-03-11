@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A039A9918CFCC6B009CCD07 /* info-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A039A9818CFCC6B009CCD07 /* info-32.png */; };
 		3A067F9D18C6BD220011F9B4 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */; };
 		3A349AD518C2657E007759CE /* MovieData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD418C2657E007759CE /* MovieData.m */; };
 		3A349AD818C28278007759CE /* SuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD718C28278007759CE /* SuggestionViewController.m */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A039A9818CFCC6B009CCD07 /* info-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info-32.png"; sourceTree = "<group>"; };
 		3A067F9B18C6BD220011F9B4 /* CollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeaderView.h; sourceTree = "<group>"; };
 		3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeaderView.m; sourceTree = "<group>"; };
 		3A349AD318C2657E007759CE /* MovieData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieData.h; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				3A649A4618CBCC4D00FEF17A /* film2-26.png */,
 				85EDCAE318C6DD2E006133FD /* movieIcon-80x80.png */,
 				85EDCAE418C6DD2E006133FD /* movieIcon.png */,
+				3A039A9818CFCC6B009CCD07 /* info-32.png */,
 				3A49ABBD18C3E4C3004B0068 /* barcode-32.png */,
 				3A49ABCF18C3ECB6004B0068 /* list-26.png */,
 				3A49ABCD18C3E7E2004B0068 /* slot_machine-32.png */,
@@ -403,6 +406,7 @@
 				3A49ABBA18C3E444004B0068 /* home-32.png in Resources */,
 				3A6E832818BEBD0100F7210C /* Images.xcassets in Resources */,
 				85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */,
+				3A039A9918CFCC6B009CCD07 /* info-32.png in Resources */,
 				3A49ABBE18C3E4C3004B0068 /* barcode-32.png in Resources */,
 				3A49ABC618C3E632004B0068 /* grid-26.png in Resources */,
 				3A49ABD018C3ECB6004B0068 /* list-26.png in Resources */,
