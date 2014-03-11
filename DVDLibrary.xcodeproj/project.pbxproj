@@ -37,6 +37,7 @@
 		3ABBC8CE18C023BA005EFF0E /* MovieTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3ABBC8CD18C023BA005EFF0E /* MovieTableViewCell.m */; };
 		3AEDE90D18C2C174001C235C /* MovieTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEDE90C18C2C174001C235C /* MovieTableViewController.m */; };
 		8553E77A18CC3854007F878D /* BarCodeScannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8553E77918CC3854007F878D /* BarCodeScannerViewController.m */; };
+		8553E78718CEC7B1007F878D /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 8553E78618CEC7B1007F878D /* info.png */; };
 		85D0230718CBEA2B0079BF16 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D0230618CBEA2B0079BF16 /* SearchResult.m */; };
 		85EDCAD918C6CBA7006133FD /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EDCAD818C6CBA7006133FD /* SearchViewController.m */; };
 		85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCADC18C6D06D006133FD /* Settings.bundle */; };
@@ -106,6 +107,7 @@
 		3AEDE90C18C2C174001C235C /* MovieTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieTableViewController.m; sourceTree = "<group>"; };
 		8553E77818CC3853007F878D /* BarCodeScannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BarCodeScannerViewController.h; path = DVDLibrary/Controllers/BarCodeScannerViewController.h; sourceTree = SOURCE_ROOT; };
 		8553E77918CC3854007F878D /* BarCodeScannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BarCodeScannerViewController.m; path = DVDLibrary/Controllers/BarCodeScannerViewController.m; sourceTree = SOURCE_ROOT; };
+		8553E78618CEC7B1007F878D /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		85D0230518CBEA2B0079BF16 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResult.h; sourceTree = "<group>"; };
 		85D0230618CBEA2B0079BF16 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResult.m; sourceTree = "<group>"; };
 		85EDCAD718C6CBA7006133FD /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		3A49ABB618C3E3EE004B0068 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				8553E78618CEC7B1007F878D /* info.png */,
 				85EDCAEC18C6DED7006133FD /* movieMontage-640x960.png */,
 				85EDCAE818C6DD92006133FD /* movieMontage.png */,
 				85EDCAE218C6DD2E006133FD /* movieIcon-58x58.png */,
@@ -403,6 +406,7 @@
 				3A49ABBE18C3E4C3004B0068 /* barcode-32.png in Resources */,
 				3A49ABC618C3E632004B0068 /* grid-26.png in Resources */,
 				3A49ABD018C3ECB6004B0068 /* list-26.png in Resources */,
+				8553E78718CEC7B1007F878D /* info.png in Resources */,
 				3A49ABC418C3E622004B0068 /* list_ingredients-32.png in Resources */,
 				85EDCAE918C6DD92006133FD /* movieMontage.png in Resources */,
 				3A6E831A18BEBD0100F7210C /* InfoPlist.strings in Resources */,
