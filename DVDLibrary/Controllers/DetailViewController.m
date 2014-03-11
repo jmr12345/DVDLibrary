@@ -177,7 +177,7 @@
 - (void)removeMovieSuccess
 {
     NSString *title = @"Movie successfully deleted!";
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     NSLog(@">>>>>Movie successfully deleted alert");
 }
@@ -207,7 +207,21 @@
     
     //shows alert
     [self removeMovieSuccess];
-    [self.tabBarController setSelectedIndex:0];
+}
+/********************************************************************************************
+ * @method alertView clickedButtonAtIndex:
+ * @abstract action when the successful deletion "OK" button is clicked
+ * @description after the delete movie success, the user is taken back to the library page
+ *      when OK is clicked
+ ********************************************************************************************/
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"OK"])
+    {
+        NSLog(@">>>>>OK button clicked on successful deletion");
+        [self.tabBarController setSelectedIndex:0];
+    }
 }
 
 /********************************************************************************************
@@ -219,10 +233,10 @@
 {
     Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
     if(currentReachability.currentReachabilityStatus != NotReachable){
-        NSLog(@"Connected to the internet!");
+        NSLog(@">>>>>Connected to the internet!");
         return true;
     }
-    NSLog(@"Not connected to the internet!");
+    NSLog(@">>>>>Not connected to the internet!");
     return false;
 }
 
