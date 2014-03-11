@@ -188,12 +188,12 @@
                 
                 //gets the movie title (and removes the extra appended information such as "(blu-ray)" and "(digital copy)")
                 NSString *title = (NSString *)[upcMovieResults objectForKey:@"productname"];
-                self.foundMovie.title = [self editTitle:title];
+                title = [self editTitle:title];
                 
-                NSLog(@">>>>>Movie title: %@", self.foundMovie.title);
+                NSLog(@">>>>>Movie title used for search: %@", title);
                 
                 //performs a search by movie title
-                [self searchForMovieByTitle:self.foundMovie.title];
+                [self searchForMovieByTitle:title];
                 
             }] resume];
 }
@@ -245,11 +245,17 @@
                 NSMutableDictionary *result = [[titleMovieResults objectForKey:@"results"] objectAtIndex:0];
                 NSMutableDictionary *movieInfo = [result objectForKey:@"movie"];
                 
+                //set the official movie title
+                self.foundMovie.title = [movieInfo objectForKey:@"title"];
+                NSLog(@">>>>>Movie title: %@", self.foundMovie.title);
+                
                 //gets the mpaa rating
                 self.foundMovie.mpaaRating = [movieInfo objectForKey:@"mpaa"];
+                NSLog(@">>>>>Movie mpaa rating: %@", self.foundMovie.mpaaRating);
                 
                 //gets the movie duration
                 self.foundMovie.duration = [movieInfo objectForKey:@"duration"];
+                NSLog(@">>>>>Movie running time: %@", self.foundMovie.duration);
                 
                 //gets the list of movie directors
                 self.foundMovie.directors = [[NSMutableArray alloc] init];
@@ -258,6 +264,7 @@
                     NSString *category = [director objectForKey:@"name"];
                     [self.foundMovie.directors addObject:category];
                 }
+                NSLog(@">>>>>Movie list of directors: %@", self.foundMovie.directors);
                 
                 //gets the list of cast members
                 self.foundMovie.cast = [[NSMutableArray alloc] init];
@@ -266,6 +273,7 @@
                     NSString *castName = [member objectForKey:@"name"];
                     [self.foundMovie.cast addObject:castName];
                 }
+                NSLog(@">>>>>Movie cast list: %@", self.foundMovie.cast);
                 
                 //gets the movie id
                 [self getMovieIDandInfo:self.foundMovie.title];
