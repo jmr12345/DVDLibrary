@@ -19,7 +19,7 @@
 #import "BarCodeScannerViewController.h"
 #import "Reachability.h"
 #import <AudioToolbox/AudioServices.h>
-#import "LoadingView.h"
+#import "ProcessingView.h"
 
 @interface BarCodeScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -30,7 +30,7 @@
     AVCaptureVideoPreviewLayer *_prevLayer;
 
 }
-@property (strong, nonatomic) LoadingView *loadingView;
+@property (strong, nonatomic) ProcessingView *processingView;
 @end
 
 @implementation BarCodeScannerViewController
@@ -83,15 +83,15 @@
 
     [_session startRunning];
     
-    self.loadingView = [[LoadingView alloc] initWithMessage:@"Searching"];
-    [self.view addSubview:self.loadingView];
-    self.loadingView.hidden = YES;
+    self.processingView = [[ProcessingView alloc] initWithMessage:@"Searching"];
+    [self.view addSubview:self.processingView];
+    self.processingView.hidden = YES;
 }
 
-// make sure loading view is never showing when view appears
+// make sure processing view is never showing when view appears
 - (void) viewDidAppear:(BOOL)animated
 {
-    self.loadingView.hidden = YES;
+    self.processingView.hidden = YES;
 }
 
 /********************************************************************************************
@@ -130,8 +130,8 @@
                 if (self.number == 0) {
                     AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
                     
-                    // show loading view
-                    self.loadingView.hidden = NO;
+                    // show processing view
+                    self.processingView.hidden = NO;
                     
                     self.number++;
                     self.search = [[SearchResult alloc]initWithUpc:detectionString];
@@ -182,7 +182,7 @@
 
 /********************************************************************************************
  * @method receivedNotification
- * @abstract checks to see if search is done, if so, hide the loading view
+ * @abstract checks to see if search is done, if so, hide the processing view
         and reset number to 0 so can search again
  * @description
  ********************************************************************************************/
@@ -190,7 +190,7 @@
     if ([[notification name] isEqualToString:@"Search done"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
         
-        self.loadingView.hidden = YES;
+        self.processingView.hidden = YES;
         //reset counter to 0 so can scan again
         self.number = 0;
     }

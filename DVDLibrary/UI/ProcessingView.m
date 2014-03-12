@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
 
-#import "LoadingView.h"
+#import "ProcessingView.h"
 
-@implementation LoadingView
+@implementation ProcessingView
 
 
 // code modified from http://stackoverflow.com/questions/3490991/big-activity-indicator-on-iphone
