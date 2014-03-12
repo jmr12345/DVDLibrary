@@ -61,10 +61,10 @@
 {
     Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
     if(currentReachability.currentReachabilityStatus != NotReachable){
-        NSLog(@"Connected to the internet!");
+        NSLog(@">>>>>Connected to the internet!");
         return true;
     }
-    NSLog(@"Not connected to the internet!");
+    NSLog(@">>>>>Not connected to the internet!");
     return false;
 }
 
@@ -78,7 +78,7 @@
     NSString *title = @"Sorry! Must be connected to the internet to search!";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    NSLog(@"Showing no internet connection error");
+    NSLog(@">>>>>Showing no internet connection error");
 }
 
 /********************************************************************************************
@@ -86,28 +86,43 @@
  * @abstract finds movie by title input by user
  * @description
  ********************************************************************************************/
-- (IBAction)searchByTitleButton:(id)sender {
+- (IBAction)searchByTitleButton:(id)sender
+{
     [self.titleSearchTextField resignFirstResponder];
     [self searchByTitle];
 }
 
-- (void) searchByTitle{
+/********************************************************************************************
+ * @method searchByTitle
+ * @abstract checks for internet connectivity, and if established, then kicks off search
+ * @description checks internet connectivity, if none, show alert. If have internet, then
+            start search and show spinner
+ ********************************************************************************************/
+- (void) searchByTitle
+{
     if ([self isReachable]) {
-        
+        //shows spinner
         self.processingView.hidden = NO;
-
+        
+        //kicks off search
         self.titleSearch = self.titleSearchTextField.text;
         NSString *searchString = [self.titleSearch capitalizedString];
         NSLog(@"Searching for movie titled: %@", searchString);
         self.search = [[SearchResult alloc]initWithMovieTitle:searchString];
         [self.search titleSearch:searchString];
     }
+    //if no internet connection, show alert
     else{
         [self noInternetError];
         return;
     }
 }
 
+/********************************************************************************************
+ * @method receivedNotification
+ * @abstract checks if received notification that process is finished
+ * @description if process is finished, then clear search text field and hide the spinner
+ ********************************************************************************************/
 - (void)receivedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"Search done"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
@@ -116,12 +131,22 @@
     }
 }
 
+/********************************************************************************************
+ * @method textFieldShouldReturn
+ * @abstract gives functionality to the search button on the keyboard popup
+ * @description hides keyboard and kicks of search by movie title
+ ********************************************************************************************/
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     [self searchByTitle];
     return YES;
 }
 
+/********************************************************************************************
+ * @method textFieldShouldClear
+ * @abstract
+ * @description 
+ ********************************************************************************************/
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     [self.titleSearchTextField performSelector: @selector(resignFirstResponder)
                         withObject: nil

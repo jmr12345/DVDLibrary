@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
 
+/******
+ * This class is used to manage access to the plist movie library data
+ ******/
+
 #import <Foundation/Foundation.h>
 
 @interface MovieLibraryManager : NSObject
