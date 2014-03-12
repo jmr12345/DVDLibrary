@@ -42,7 +42,7 @@
                                                object:nil];
     self.titleSearchTextField.clearButtonMode = YES;
     
-    self.processingView = [[ProcessingView alloc] initWithMessage:@"Searching"];
+    self.processingView = [[ProcessingView alloc] initWithFrame:CGRectMake(110, 264, 100, 100)withMessage:@"Searching"];
     [self.view addSubview:self.processingView];
     self.processingView.hidden = YES;
 }

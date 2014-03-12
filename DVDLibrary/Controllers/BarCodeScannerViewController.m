@@ -83,7 +83,7 @@
 
     [_session startRunning];
     
-    self.processingView = [[ProcessingView alloc] initWithMessage:@"Searching"];
+    self.processingView = [[ProcessingView alloc] initWithFrame:CGRectMake(110, 102, 100, 100)withMessage:@"Searching"];
     [self.view addSubview:self.processingView];
     self.processingView.hidden = YES;
 }

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ProcessingView : UIView
-- (id)initWithMessage:(NSString*)message;
+- (id)initWithFrame:(CGRect)frame withMessage:(NSString*)message;
 @end

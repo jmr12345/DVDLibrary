@@ -12,9 +12,9 @@
 
 
 // code modified from http://stackoverflow.com/questions/3490991/big-activity-indicator-on-iphone
-- (id)initWithMessage:(NSString*)message
+- (id)initWithFrame:(CGRect)frame withMessage:(NSString*)message
 {
-    self = [super initWithFrame:CGRectMake(105, 200, 100, 100)];
+    self = [super initWithFrame:frame];
     if (self) {
         self.layer.cornerRadius = 15;
         self.opaque = NO;
@@ -37,7 +37,8 @@
         
         [self addSubview:spinning];
         
-        self.frame = CGRectMake(105, 200, 100, 100);    }
+        //self.frame = CGRectMake(105, 200, 100, 100);
+    }
     return self;
 }
 

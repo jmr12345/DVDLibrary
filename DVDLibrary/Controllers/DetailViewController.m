@@ -39,7 +39,7 @@
     NSString *urlString = [self.movie.url absoluteString];
     NSLog(@"URL: %@",urlString);
     
-    self.processingView = [[ProcessingView alloc] initWithMessage:@"Deleting"];
+    self.processingView = [[ProcessingView alloc] initWithFrame:CGRectMake(110, 200, 100, 100)withMessage:@"Deleting"];
     [self.view addSubview:self.processingView];
     self.processingView.hidden = YES;
     

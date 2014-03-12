@@ -102,7 +102,7 @@
                                 <rect key="frame" x="20" y="55" width="280" height="459"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <mutableString key="text">Tap on the "By: Titles" or "By: Genres" button on the navigation bar to switch between categorizing by titles or genres.
+                                <string key="text">Tap on the "By: Titles" or "By: Genres" button on the navigation bar to switch between categorizing by titles or genres.
 
 Tap on the list or collection image on the right of the navigation bar to switch between viewing the movies in a list or collection.
 
@@ -114,7 +114,7 @@ In the detail view, tap on the trailer button to be taken to a web view with a Y
 
 Tap on the barcode to add a movie either by entering a movie title in the search bar or scanning a DVD or Blu-ray's UPC barcode.
 
-On the spin tab, click on the spin button to activate the spinner which will select a movie to watch.</mutableString>
+On the spin tab, click on the spin button to activate the spinner which will select a movie to watch.</string>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
