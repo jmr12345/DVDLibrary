@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad
 {
+    NSLog(@"count:%lu",(unsigned long)[self.allMovieData count]);
     [super viewDidLoad];
     
     self.reachability = [Reachability reachabilityForInternetConnection];
@@ -197,31 +198,24 @@
  * @description reads the plist, removes the item and resaves the new library in the plist
  ********************************************************************************************/
 - (IBAction)deleteMovie:(UIBarButtonItem *)sender {
-    NSLog(@">>>>> trash can button clicked");
+    NSLog(@">>>>> Trash can button clicked");
     self.processingView.hidden = NO;
-
-    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_SERIAL);
     
+    [self.allMovieData removeObject:self.movie];
+
+    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_CONCURRENT);
+        
     dispatch_async(queue,^{
         MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
-        //reads current plist
-        NSMutableArray *allMovieData = [plistManager getMovieLibrary];
+        [plistManager saveMovieLibrary:self.allMovieData];
         
-        //finds the right movie and deletes it from list
-        for (int i = 0; i<[allMovieData count]; i++) {
-            Movie *item = [allMovieData objectAtIndex:i];
-            if ([item.title isEqualToString:self.movie.title]) {
-                [allMovieData removeObjectAtIndex:i];
-                break;
-            }
-        }
-        [plistManager saveMovieLibrary:allMovieData];
-    });
-    
-    dispatch_async(queue,^{
-        [self removeMovieSuccess];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self removeMovieSuccess];
+        });
     });
 }
+
+
 /********************************************************************************************
  * @method alertView clickedButtonAtIndex:
  * @abstract action when the successful deletion "OK" button is clicked

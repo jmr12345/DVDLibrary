@@ -108,6 +108,9 @@
     NSString* category = [self.lvc.sections objectAtIndex:selectedIndexPath.section];
     NSArray* arrayForSection = (NSArray*)[self.lvc.filteredMovieData objectForKey:category];
     selectedMovie = (Movie *)[arrayForSection objectAtIndex:selectedIndexPath.row];
+    
+    // Pass all movie data
+    dvc.allMovieData = [((LibraryViewController*)self.parentViewController).allMovieData mutableCopy];
 
     // Pass movie to detail view controller
     dvc.movie = selectedMovie;
