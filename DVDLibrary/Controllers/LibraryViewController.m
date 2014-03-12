@@ -51,10 +51,24 @@
 
     // Get all movie data info and set filtered table data to include everything
     //read data from plist
-    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
-    self.allMovieData = [plistManager getMovieLibrary];
+//    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+//    self.allMovieData = [plistManager getMovieLibrary];
     
-    //self.allMovieData = [[MovieData alloc] init].movieData;
+   
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"launchData" ofType:@"plist"];
+    NSMutableDictionary *readDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    NSMutableArray *readArray = [readDictionary objectForKey:@"list"];
+        
+    //convert each object in read dictionary to a movie object and add to arraylist
+    NSMutableArray *movieLibrary = [[NSMutableArray alloc]init];
+    for (NSData *data in readArray) {
+        Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        [movieLibrary addObject:obj];
+    }
+    self.allMovieData = movieLibrary;
+//<<<<<<<<<<<<<<<<<<<<<<
+
     [self updateDisplayedMovieData:@""];
 
     // Add movie layout controller

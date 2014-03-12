@@ -31,41 +31,41 @@
  ********************************************************************************************/
 - (void)loadInitialData
 {
-    NSString *movieTitle = @"21 Jump Street";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"The Avengers";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"The Incredibles";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Monsters, Inc.";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Atonement";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Star Wars: The Clone Wars";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"This Means War";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Lincoln";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Buffy the Vampire Slayer";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Footloose";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Patriot Games";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Dumb and Dumber";
-    [self fetchMovieData:movieTitle];
+//    NSString *movieTitle = @"21 Jump Street";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"The Avengers";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"The Incredibles";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Monsters, Inc.";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Atonement";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Star Wars: The Clone Wars";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"This Means War";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Lincoln";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Buffy the Vampire Slayer";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Footloose";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Patriot Games";
+//    [self fetchMovieData:movieTitle];
+//    
+//    movieTitle = @"Dumb and Dumber";
+//    [self fetchMovieData:movieTitle];
 }
 
 /********************************************************************************************

@@ -10,6 +10,7 @@
 		3A039A9918CFCC6B009CCD07 /* info-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A039A9818CFCC6B009CCD07 /* info-32.png */; };
 		3A039A9C18CFCF9F009CCD07 /* ProcessingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A039A9B18CFCF9F009CCD07 /* ProcessingView.m */; };
 		3A067F9D18C6BD220011F9B4 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */; };
+		3A0B385218D119C900B2C567 /* launchData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A0B385118D119C900B2C567 /* launchData.plist */; };
 		3A349AD518C2657E007759CE /* MovieData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD418C2657E007759CE /* MovieData.m */; };
 		3A349AD818C28278007759CE /* SuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD718C28278007759CE /* SuggestionViewController.m */; };
 		3A49ABBA18C3E444004B0068 /* home-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A49ABB918C3E444004B0068 /* home-32.png */; };
@@ -72,6 +73,7 @@
 		3A039A9B18CFCF9F009CCD07 /* ProcessingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessingView.m; sourceTree = "<group>"; };
 		3A067F9B18C6BD220011F9B4 /* CollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeaderView.h; sourceTree = "<group>"; };
 		3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeaderView.m; sourceTree = "<group>"; };
+		3A0B385118D119C900B2C567 /* launchData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = launchData.plist; path = ../../../../Desktop/launchData.plist; sourceTree = "<group>"; };
 		3A349AD318C2657E007759CE /* MovieData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieData.h; sourceTree = "<group>"; };
 		3A349AD418C2657E007759CE /* MovieData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieData.m; sourceTree = "<group>"; };
 		3A349AD618C28278007759CE /* SuggestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuggestionViewController.h; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 		3A6E831618BEBD0100F7210C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3A0B385118D119C900B2C567 /* launchData.plist */,
 				85EDCADC18C6D06D006133FD /* Settings.bundle */,
 				3A49ABB618C3E3EE004B0068 /* Icons */,
 				3A6E831718BEBD0100F7210C /* DVDLibrary-Info.plist */,
@@ -421,6 +424,7 @@
 				3A49ABD018C3ECB6004B0068 /* list-26.png in Resources */,
 				8553E78718CEC7B1007F878D /* info.png in Resources */,
 				3A49ABC418C3E622004B0068 /* list_ingredients-32.png in Resources */,
+				3A0B385218D119C900B2C567 /* launchData.plist in Resources */,
 				85EDCAE918C6DD92006133FD /* movieMontage.png in Resources */,
 				3A6E831A18BEBD0100F7210C /* InfoPlist.strings in Resources */,
 				3A49ABCE18C3E7E2004B0068 /* slot_machine-32.png in Resources */,
