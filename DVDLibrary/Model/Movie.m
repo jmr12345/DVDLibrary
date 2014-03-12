@@ -62,7 +62,7 @@
     [encoder encodeObject:self.directors forKey:@"directors"];
     [encoder encodeObject:self.cast forKey:@"cast"];
     [encoder encodeObject:self.trailer forKey:@"trailer"];
-    NSLog(@">>>>>Encoded object to be an NSData object");
+    NSLog(@">>>>>Encoded movie to be an NSData object");
 }
 
 /********************************************************************************************

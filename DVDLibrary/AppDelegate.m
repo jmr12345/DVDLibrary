@@ -36,14 +36,20 @@
     {
         NSLog(@"Application is running for the first time");
         
+        //formats current date
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"dd-MM-yy HH:mm"];
         NSString *dateString = [df stringFromDate:[NSDate date]];
         
+        //sets date
         [defaults setObject:dateString forKey:@"Movie Library Initial Run"];
+        //sets boolean for check when app is run again
+        [defaults setBool:YES forKey:@"MovieLibraryHasRunAppOnce"];
+        //for the pre-populated data <-- suppresses the successfully added alert
+        [defaults setInteger:0 forKey:@"Movie Library initial run counter"];
+        
         [defaults synchronize];
         
-        [defaults setBool:YES forKey:@"MovieLibraryHasRunAppOnce"];
         NSLog(@"NSUserDefaults: %@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
         
         //load pre-populated data for example purposes for class (if sent to app store, we wouldn't include this)
@@ -78,5 +84,7 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
 
 @end

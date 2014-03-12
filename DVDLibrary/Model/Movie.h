@@ -5,6 +5,10 @@
 //  Created by Ming on 2/27/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
+/******
+ * This class defines a movie object and can encode/decode to/from NSData object
+ * as well as compares two movie objects with each other
+ ******/
 
 #import <Foundation/Foundation.h>
 

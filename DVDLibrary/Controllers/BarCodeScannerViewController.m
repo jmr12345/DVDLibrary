@@ -112,7 +112,7 @@
             AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode];
 
 
-    
+    //if there is an internet connection, then proceed
     if ([self isReachable]) {
         for (AVMetadataObject *metadata in metadataObjects) {
             for (NSString *type in barCodeTypes) {
@@ -126,6 +126,7 @@
 
             if (detectionString != nil) {
                 self.barcodeValue = detectionString;
+                NSLog(@">>>>>Detected barcode value of %@", self.barcodeValue);
                 //starts the search
                 if (self.number == 0) {
                     AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
@@ -134,6 +135,8 @@
                     self.processingView.hidden = NO;
                     
                     self.number++;
+                    
+                    NSLog(@">>>>>Starting search by UPC for barcode: %@", self.barcodeValue);
                     self.search = [[SearchResult alloc]initWithUpc:detectionString];
                     [self.search searchForMovieByUpc:detectionString];
                 }
@@ -141,7 +144,7 @@
             }
         }
     }
-
+    //otherwise show alert
     else{
         if (self.number == 0) {
             self.number++;
@@ -160,10 +163,10 @@
 {
     Reachability *currentReachability = [Reachability reachabilityForInternetConnection];
     if(currentReachability.currentReachabilityStatus != NotReachable){
-        NSLog(@"Connected to the internet!");
+        NSLog(@">>>>>Connected to the internet!");
         return true;
     }
-    NSLog(@"Not connected to the internet!");
+    NSLog(@">>>>>Not connected to the internet!");
     return false;
 }
 
@@ -177,7 +180,7 @@
     NSString *title = @"Sorry! Must be connected to the internet to search!";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    NSLog(@"Showing no internet connection error");
+    NSLog(@">>>>>Showing no internet connection error");
 }
 
 /********************************************************************************************

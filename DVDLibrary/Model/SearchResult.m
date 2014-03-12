@@ -243,6 +243,7 @@
                 // Update the Nsmutable Array
                 NSMutableDictionary *titleMovieResults = [[results mutableCopy] objectForKey:@"searchResponse"];
                 NSMutableDictionary *result = [[titleMovieResults objectForKey:@"results"] objectAtIndex:0];
+                //if there are results and it is not null or equal to an empty string, then get movie info
                 if (result != (NSMutableDictionary *)[NSNull null] && ![(NSString *)result  isEqual: @""]) {
                     NSMutableDictionary *movieInfo = [result objectForKey:@"movie"];
                     
@@ -267,6 +268,7 @@
                             [self.foundMovie.directors addObject:category];
                         }
                     }
+                    //otherwise set it to nil
                     else{
                         self.foundMovie.directors = nil;
                     }
@@ -283,6 +285,7 @@
                             [self.foundMovie.cast addObject:castName];
                         }
                     }
+                    //otherwise set it to nil
                     else{
                         self.foundMovie.cast = nil;
                     }
@@ -291,6 +294,7 @@
                     //gets the movie id
                     [self getMovieIDandInfo:self.foundMovie.title];
                 }
+                //otherwise show movie not found alert
                 else{
                     [self movieNotFound];
                     return;
@@ -359,6 +363,7 @@
                 
                 // Update the Nsmutable Array
                 NSMutableArray *movieTitleInfo = [[results mutableCopy] objectForKey:@"results"];
+                //if no movie by that title is found, show alert
                 if ([movieTitleInfo count]==0) {
                     if (self.titleNum == 0) {
                         self.titleNum++;
@@ -366,6 +371,7 @@
                         return;
                     }
                 }
+                //otherwise get movie db id
                 else{
                     NSMutableDictionary *result = [movieTitleInfo objectAtIndex:0];
                     
@@ -403,6 +409,7 @@
                 
                 // Update the Nsmutable Array
                 NSMutableArray *movieTrailerInfo = [[results mutableCopy] objectForKey:@"youtube"];
+                //if there is a movie trailer, add it
                 if ([movieTrailerInfo count]!=0) {
                     NSMutableDictionary *result = [movieTrailerInfo objectAtIndex:0];
                     
@@ -415,6 +422,7 @@
                     self.foundMovie.trailer = [NSURL URLWithString:youtubeUrl];
                     NSLog(@">>>>>Trailer found: %@", self.foundMovie.trailer);
                 }
+                //otherwise set it to nil
                 else{
                     self.foundMovie.trailer = nil;
                     NSLog(@">>>>>Trailer not found,");
@@ -448,12 +456,14 @@
                 //gets the imdb id
                 self.foundMovie.imdbId = [result objectForKey:@"imdb_id"];
                 NSLog(@">>>>>Imdb id: %@", self.foundMovie.imdbId);
+                //if not nil, set it
                 if (self.foundMovie.imdbId != (NSString *)[NSNull null]){
                     //sets the imdb url
                     NSString *imdbUrl = @"http://www.imdb.com/title/";
                     imdbUrl = [imdbUrl stringByAppendingString:self.foundMovie.imdbId];
                     self.foundMovie.url = [NSURL URLWithString:imdbUrl];
                 }
+                //otherwise set it to nil
                 else{
                     self.foundMovie.url = nil;
                 }
@@ -461,6 +471,7 @@
                 
                 //gets the genres
                 NSMutableArray *genreResults = [result objectForKey:@"genres"];
+                //if not nil, set it
                 if (genreResults != (NSMutableArray *)[NSNull null]){
                     NSMutableArray *genres = [[NSMutableArray alloc]init];
                     for (NSDictionary *genre in genreResults) {
@@ -470,6 +481,7 @@
                     //put genres into a string
                     self.foundMovie.genre = [genres componentsJoinedByString:@", "];
                 }
+                //otherwise set it to nil
                 else{
                     self.foundMovie.genre = nil;
                 }
@@ -483,9 +495,11 @@
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
                 [dateFormatter setDateFormat:@"yyyy-MM-dd"];
                 NSString *release =[result objectForKey:@"release_date"];
+                //if not nil, set it
                 if (release != (NSString *)[NSNull null]){
                     self.foundMovie.releaseDate = [dateFormatter dateFromString:release];
                 }
+                //otherwise set it to nil
                 else{
                     self.foundMovie.releaseDate = nil;
                 }
@@ -493,11 +507,13 @@
                 
                 //gets the url to the image and transforms it to an image object
                 NSString *image = (NSString *)[result objectForKey:@"poster_path"];
+                //if not nil, set it
                 if (image != (NSString *)[NSNull null]) {
                     NSString *imageURL = @"http://image.tmdb.org/t/p/w500";
                     imageURL = [imageURL stringByAppendingString:image];
                     self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
                 }
+                //otherwise set it to nil
                 else{
                     self.foundMovie.image = [UIImage imageNamed:@"no_image"];
                 }
@@ -505,12 +521,14 @@
                 
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    //checks if the movie is nil. If so, show alert.
                     if ([self movieIsNil]) {
                         if (self.num==0) {
                             self.num++;
                             [self movieNotFound];
                         }
                     }
+                    //otherwise add object to library after checking if already exists
                     else{
                         if (self.num==0) {
                             self.num++;
@@ -559,9 +577,20 @@
             //saves the plist
             [plistManager saveMovieLibrary:movieLibrary];
             
-            //show the alert
-            [self movieSuccessfullyAdded];
-            
+            //checks to see if it's the first launch and is pre-populating the library
+            NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+            //if it is the first launch, increment the counter
+            if ([defaults integerForKey:@"Movie Library initial run counter"] < 12){
+                int num = [defaults integerForKey:@"Movie Library initial run counter"];
+                num++;
+                [defaults setInteger:num forKey:@"Movie Library initial run counter"];
+                NSLog(@">>>>>Set NSUserDefaults Movie Library initial run counter to: %d", num);
+            }
+            //otherwise show the movie successfully added alert
+            else{
+                //show the alert
+                [self movieSuccessfullyAdded];
+            }
         }
 
     }

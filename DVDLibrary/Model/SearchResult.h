@@ -5,6 +5,12 @@
 //  Created by Amy Chiu on 3/8/14.
 //  Copyright (c) 2014 Ming. All rights reserved.
 //
+/******
+ * This class is used to find all the data for a specific movie based on either
+ * a movie's upc value or title. It accesses several api's to gather all of the
+ * needed information.
+ * API's used: searchupc, rovi and the movieDB
+ ******/
 
 #import <Foundation/Foundation.h>
 #import "Movie.h"
