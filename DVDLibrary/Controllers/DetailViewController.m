@@ -44,7 +44,10 @@
     [self.view addSubview:self.processingView];
     self.processingView.hidden = YES;
     
-    
+    if (self.movie.trailer == nil){
+        self.trailerButton.backgroundColor = [UIColor darkGrayColor];
+        self.trailerButton.enabled = NO;
+    }
 }
 
 #pragma mark - Table view data source
@@ -180,6 +183,8 @@
  * @abstract deletes the current movie showing in the detail view
  * @description reads the plist, removes the item and resaves the new library in the plist
  ********************************************************************************************/
+
+
 - (IBAction)deleteMovie:(UIBarButtonItem *)sender {
     NSLog(@">>>>> Trash can button clicked");
     self.processingView.hidden = NO;
@@ -269,6 +274,12 @@
     
     if ([self.movie.cast count] > 0){
         [self.sectionedData setValue:self.movie.cast forKey:@"Cast"];
+    }
+}
+
+- (IBAction)watchTrailer:(id)sender {
+    if (self.movie.trailer != nil){
+        [self performSegueWithIdentifier: @"TrailerSegue" sender: self];
     }
 }
 

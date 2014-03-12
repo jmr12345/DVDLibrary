@@ -503,13 +503,19 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1x-IS-wbh">
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y1x-IS-wbh">
                                             <rect key="frame" x="133" y="109" width="142" height="51"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                            <state key="normal" title="   TRAILER" image="film2-26.png">
-                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <state key="normal" image="film2-26.png">
+                                                <attributedString key="attributedTitle">
+                                                    <fragment content="   TRAILER">
+                                                        <attributes>
+                                                            <color key="NSColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <font key="NSFont" size="15" name="HelveticaNeue"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                             </state>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -517,7 +523,7 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                             <connections>
-                                                <segue destination="HPg-Lh-6yL" kind="push" identifier="TrailerSegue" id="PHR-6L-Gej"/>
+                                                <action selector="watchTrailer:" destination="jaS-8i-lYV" eventType="touchUpInside" id="BLQ-KA-Aoh"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -572,6 +578,8 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                         <outlet property="movieImageView" destination="3zA-Z5-Ao9" id="KVx-vO-LWp"/>
                         <outlet property="tableView" destination="keN-gA-Hhg" id="ybd-zd-XeH"/>
                         <outlet property="titleLabel" destination="G71-Rn-5c0" id="P3l-Jf-Uc8"/>
+                        <outlet property="trailerButton" destination="y1x-IS-wbh" id="USe-F5-SPV"/>
+                        <segue destination="HPg-Lh-6yL" kind="push" identifier="TrailerSegue" id="wNE-YB-cTE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="toF-1r-8HI" userLabel="First Responder" sceneMemberID="firstResponder"/>
