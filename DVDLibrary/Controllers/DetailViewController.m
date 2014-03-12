@@ -14,9 +14,10 @@
 #import "WebViewController.h"
 #import "MovieLibraryManager.h"
 #import "Reachability.h"
+#import "ProcessingView.h"
 
 @interface DetailViewController ()
-
+@property (strong, nonatomic) ProcessingView *processingView;
 @end
 
 @implementation DetailViewController
@@ -37,6 +38,12 @@
     
     NSString *urlString = [self.movie.url absoluteString];
     NSLog(@"URL: %@",urlString);
+    
+    self.processingView = [[ProcessingView alloc] initWithMessage:@"Deleting"];
+    [self.view addSubview:self.processingView];
+    self.processingView.hidden = YES;
+    
+    
 }
 
 #pragma mark - Table view data source
@@ -176,10 +183,12 @@
  ********************************************************************************************/
 - (void)removeMovieSuccess
 {
+    self.processingView.hidden = YES;
     NSString *title = @"Movie successfully deleted!";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
     NSLog(@">>>>> Movie successfully deleted alert");
+   
 }
 
 /********************************************************************************************
@@ -189,24 +198,29 @@
  ********************************************************************************************/
 - (IBAction)deleteMovie:(UIBarButtonItem *)sender {
     NSLog(@">>>>> trash can button clicked");
-    MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
-    //reads current plist
-    NSMutableArray *allMovieData = [plistManager getMovieLibrary];
+    self.processingView.hidden = NO;
+
+    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_SERIAL);
     
-    //finds the right movie and deletes it from list
-    for (int i = 0; i<[allMovieData count]; i++) {
-        Movie *item = [allMovieData objectAtIndex:i];
-        if ([item.title isEqualToString:self.movie.title]) {
-            [allMovieData removeObjectAtIndex:i];
-            break;
+    dispatch_async(queue,^{
+        MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
+        //reads current plist
+        NSMutableArray *allMovieData = [plistManager getMovieLibrary];
+        
+        //finds the right movie and deletes it from list
+        for (int i = 0; i<[allMovieData count]; i++) {
+            Movie *item = [allMovieData objectAtIndex:i];
+            if ([item.title isEqualToString:self.movie.title]) {
+                [allMovieData removeObjectAtIndex:i];
+                break;
+            }
         }
-    }
+        [plistManager saveMovieLibrary:allMovieData];
+    });
     
-    //resaves the list
-    [plistManager saveMovieLibrary:allMovieData];
-    
-    //shows alert
-    [self removeMovieSuccess];
+    dispatch_async(queue,^{
+        [self removeMovieSuccess];
+    });
 }
 /********************************************************************************************
  * @method alertView clickedButtonAtIndex:
