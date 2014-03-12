@@ -179,7 +179,7 @@
     NSString *title = @"Movie successfully deleted!";
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];
-    NSLog(@">>>>>Movie successfully deleted alert");
+    NSLog(@">>>>> Movie successfully deleted alert");
 }
 
 /********************************************************************************************
@@ -219,8 +219,8 @@
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"OK"])
     {
-        NSLog(@">>>>>OK button clicked on successful deletion");
-        [self.tabBarController setSelectedIndex:0];
+        NSLog(@">>>>> OK button clicked on successful deletion");
+        [self.navigationController popToRootViewControllerAnimated:TRUE];
     }
 }
 
