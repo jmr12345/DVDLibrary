@@ -199,7 +199,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
 }
 
-#pragma mark - Searche Kickoff
+#pragma mark - Search Kickoff
 /********************************************************************************************
  * @method titleSearch
  * @abstract checks to make sure title is not blank. If not then it kicks off the search
@@ -516,7 +516,9 @@
                 if (image != (NSString *)[NSNull null]) {
                     NSString *imageURL = @"http://image.tmdb.org/t/p/w500";
                     imageURL = [imageURL stringByAppendingString:image];
-                    self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
+                    UIImage *largeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
+                    //save smaller image
+                    self.foundMovie.image = [self imageWithImage:largeImage scaledToSize:CGSizeMake(80,120)];
                 }
                 //otherwise set it to nil
                 else{
@@ -602,6 +604,22 @@
         }
 
     }
+}
+
+#pragma mark - Image Resizing
+/********************************************************************************************
+ * @method imageWithImage: scaledToSize:
+ * @abstract resizes image
+ * @description method from http://stackoverflow.com/questions/2658738/the-simplest-way-to-resize-an-uiimage
+ ********************************************************************************************/
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    // In next line, pass 0.0 to use the current device's pixel scaling factor (and thus account for Retina resolution).
+    // Pass 1.0 to force exact pixel size.
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 
