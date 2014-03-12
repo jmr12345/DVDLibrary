@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A039A9918CFCC6B009CCD07 /* info-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A039A9818CFCC6B009CCD07 /* info-32.png */; };
+		3A039A9C18CFCF9F009CCD07 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A039A9B18CFCF9F009CCD07 /* LoadingView.m */; };
 		3A067F9D18C6BD220011F9B4 /* CollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */; };
 		3A349AD518C2657E007759CE /* MovieData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD418C2657E007759CE /* MovieData.m */; };
 		3A349AD818C28278007759CE /* SuggestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A349AD718C28278007759CE /* SuggestionViewController.m */; };
@@ -66,6 +67,8 @@
 
 /* Begin PBXFileReference section */
 		3A039A9818CFCC6B009CCD07 /* info-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info-32.png"; sourceTree = "<group>"; };
+		3A039A9A18CFCF9F009CCD07 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
+		3A039A9B18CFCF9F009CCD07 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		3A067F9B18C6BD220011F9B4 /* CollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionHeaderView.h; sourceTree = "<group>"; };
 		3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionHeaderView.m; sourceTree = "<group>"; };
 		3A349AD318C2657E007759CE /* MovieData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieData.h; sourceTree = "<group>"; };
@@ -284,6 +287,8 @@
 				A5DF858B18C118F300F16C87 /* MovieCollectionViewCell.m */,
 				3A067F9B18C6BD220011F9B4 /* CollectionHeaderView.h */,
 				3A067F9C18C6BD220011F9B4 /* CollectionHeaderView.m */,
+				3A039A9A18CFCF9F009CCD07 /* LoadingView.h */,
+				3A039A9B18CFCF9F009CCD07 /* LoadingView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -439,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85D0230718CBEA2B0079BF16 /* SearchResult.m in Sources */,
+				3A039A9C18CFCF9F009CCD07 /* LoadingView.m in Sources */,
 				85F6C29B18C975B100B0329B /* MovieLibraryManager.m in Sources */,
 				3A92B81918C306FC00F20F41 /* LibraryViewController.m in Sources */,
 				3A067F9D18C6BD220011F9B4 /* CollectionHeaderView.m in Sources */,

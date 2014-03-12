@@ -19,6 +19,7 @@
 #import "BarCodeScannerViewController.h"
 #import "Reachability.h"
 #import <AudioToolbox/AudioServices.h>
+#import "LoadingView.h"
 
 @interface BarCodeScannerViewController () <AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -29,6 +30,7 @@
     AVCaptureVideoPreviewLayer *_prevLayer;
 
 }
+@property (strong, nonatomic) LoadingView *loadingView;
 @end
 
 @implementation BarCodeScannerViewController
@@ -80,13 +82,16 @@
     [self.view.layer addSublayer:_prevLayer];
 
     [_session startRunning];
+    
+    self.loadingView = [[LoadingView alloc] initWithMessage:@"Searching"];
+    [self.view addSubview:self.loadingView];
+    self.loadingView.hidden = YES;
 }
 
-//hides the activity indicator until later
+// make sure loading view is never showing when view appears
 - (void) viewDidAppear:(BOOL)animated
 {
-    self.activityIndicator.hidden = YES;
-    [self.activityIndicator stopAnimating];
+    self.loadingView.hidden = YES;
 }
 
 /********************************************************************************************
@@ -124,15 +129,13 @@
                 //starts the search
                 if (self.number == 0) {
                     AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-                    // start animating activity indicator
-                    [self.view bringSubviewToFront:self.activityIndicator];
-                    self.activityIndicator.hidden = NO;
-                    [self.activityIndicator startAnimating];
-
+                    
+                    // show loading view
+                    self.loadingView.hidden = NO;
+                    
                     self.number++;
                     self.search = [[SearchResult alloc]initWithUpc:detectionString];
                     [self.search searchForMovieByUpc:detectionString];
-
                 }
                 return;
             }
@@ -179,7 +182,7 @@
 
 /********************************************************************************************
  * @method receivedNotification
- * @abstract checks to see if search is done, if so, hide the activity indicator
+ * @abstract checks to see if search is done, if so, hide the loading view
         and reset number to 0 so can search again
  * @description
  ********************************************************************************************/
@@ -187,20 +190,9 @@
     if ([[notification name] isEqualToString:@"Search done"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
         
-        [self hideActivityIndicator];
+        self.loadingView.hidden = YES;
         //reset counter to 0 so can scan again
         self.number = 0;
     }
 }
-
-/********************************************************************************************
- * @method hideActivityIndicator
- * @abstract hides the activity indicator
- * @description
- ********************************************************************************************/
-- (void) hideActivityIndicator{
-    [self.activityIndicator stopAnimating];
-    self.activityIndicator.hidden = YES;
-}
-
 @end

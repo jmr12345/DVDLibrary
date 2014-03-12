@@ -140,11 +140,6 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="aAf-WN-RG5">
-                                <rect key="frame" x="142" y="265" width="37" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="color" red="0.59999999999999998" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                             <containerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KJP-5G-itI">
                                 <rect key="frame" x="0.0" y="162" width="320" height="357"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -195,7 +190,6 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                     </view>
                     <tabBarItem key="tabBarItem" title="Add" image="barcode-32.png" id="8dr-4n-B3X"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="aAf-WN-RG5" id="cuZ-TE-2fw"/>
                         <outlet property="titleSearchTextField" destination="Cy2-ES-Ttf" id="OKK-Uu-Gbe"/>
                     </connections>
                 </viewController>
@@ -589,19 +583,9 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                     <view key="view" contentMode="scaleToFill" id="G7j-GI-rm5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="357"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="8n0-d7-kA9">
-                                <rect key="frame" x="142" y="160" width="37" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="color" red="0.59999999999999998" green="0.59999999999999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <connections>
-                        <outlet property="activityIndicator" destination="8n0-d7-kA9" id="sCg-Cr-w8p"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbt-9D-f7e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

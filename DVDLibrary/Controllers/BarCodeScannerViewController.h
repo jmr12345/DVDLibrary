@@ -16,7 +16,6 @@
 
 @property (strong, nonatomic) Reachability *reachability;
 @property (strong, nonatomic) SearchResult *search;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 //counter to prevent repeat loop
 @property (nonatomic) __block int *number;

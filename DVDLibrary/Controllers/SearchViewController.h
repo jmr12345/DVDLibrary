@@ -21,5 +21,4 @@
 @property (weak, nonatomic) IBOutlet UITextField *titleSearchTextField;
 - (IBAction)searchByTitleButton:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @end
