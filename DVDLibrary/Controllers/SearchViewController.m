@@ -111,7 +111,7 @@
 - (void)receivedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"Search done"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
-        
+        self.titleSearchTextField.text = @"";
         self.processingView.hidden = YES;
     }
 }
