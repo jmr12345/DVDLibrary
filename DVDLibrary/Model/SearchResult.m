@@ -580,19 +580,12 @@
             //checks to see if it's the first launch and is pre-populating the library
             NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
             
-            //starts the spinner
-            if ([defaults integerForKey:@"Movie Library initial run counter"] == 0) {
-                
-            }
-            //stops the spinner
-            if ([defaults integerForKey:@"Movie Library initial run counter"] == 11) {
-                
-            }
             //if it is the first launch, increment the counter
             if ([defaults integerForKey:@"Movie Library initial run counter"] < 12){
                 int num = (int) [defaults integerForKey:@"Movie Library initial run counter"];
                 num++;
                 [defaults setInteger:num forKey:@"Movie Library initial run counter"];
+                [defaults synchronize];
                 NSLog(@">>>>>Set NSUserDefaults Movie Library initial run counter to: %d", num);
             }
             //otherwise show the movie successfully added alert
