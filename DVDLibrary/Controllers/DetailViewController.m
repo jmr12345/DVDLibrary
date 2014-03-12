@@ -71,7 +71,10 @@
 {
     NSString* category = [self.sections objectAtIndex:section];
     NSArray* arrayForSection = (NSArray*)[self.sectionedData objectForKey:category];
-    return [arrayForSection count];
+    if ([category isEqualToString:@"Cast"] && [self.movie.cast count]>10)
+        return 10;
+    else
+        return [arrayForSection count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,7 +123,7 @@
         CGSize strSize = rect.size;
         return (strSize.height+5);
     }
-    else return 50;
+    else return 30;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
