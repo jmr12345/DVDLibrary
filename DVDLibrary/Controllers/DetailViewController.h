@@ -15,6 +15,7 @@
 @property (strong, nonatomic) Reachability *reachability;
 
 @property (strong,nonatomic) Movie *movie;
+@property (strong,nonatomic) NSMutableArray *allMovieData;
 @property (strong, nonatomic) NSMutableArray* sections;
 
 @property (weak, nonatomic) IBOutlet UIImageView *movieImageView;

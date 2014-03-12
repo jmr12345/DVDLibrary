@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad
 {
+    NSLog(@"count:%lu",(unsigned long)[self.allMovieData count]);
     [super viewDidLoad];
     
     self.reachability = [Reachability reachabilityForInternetConnection];
@@ -199,26 +200,14 @@
 - (IBAction)deleteMovie:(UIBarButtonItem *)sender {
     NSLog(@">>>>> trash can button clicked");
     self.processingView.hidden = NO;
-
-    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_SERIAL);
     
+    [self.allMovieData removeObject:self.movie];
+
+    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_CONCURRENT);
+        
     dispatch_async(queue,^{
         MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
-        //reads current plist
-        NSMutableArray *allMovieData = [plistManager getMovieLibrary];
-        
-        //finds the right movie and deletes it from list
-        for (int i = 0; i<[allMovieData count]; i++) {
-            Movie *item = [allMovieData objectAtIndex:i];
-            if ([item.title isEqualToString:self.movie.title]) {
-                [allMovieData removeObjectAtIndex:i];
-                break;
-            }
-        }
-        [plistManager saveMovieLibrary:allMovieData];
-    });
-    
-    dispatch_async(queue,^{
+        [plistManager saveMovieLibrary:self.allMovieData];
         [self removeMovieSuccess];
     });
 }
