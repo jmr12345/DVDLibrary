@@ -30,8 +30,8 @@
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
 
-    self.sections = [[NSMutableArray alloc] initWithObjects:@"Movie Info",@"Synopsis",@"Cast", nil];
-	
+    [self setUpSectionedData];
+    
     self.movieImageView.image = self.movie.image;
     self.titleLabel.text = self.movie.title;
     
@@ -57,27 +57,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.sections count];
+    NSInteger count = 3;
+    
+    for (NSString *section in self.sections){
+        if (!([(NSArray*)[self.sectionedData objectForKey:section] count] > 0)){
+            count--;
+        }
+    }
+    return count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (section){
-        // Movie info
-        case 0:
-            return 3;
-            break;
-        // Synopsis
-        case 1:
-            return 1;
-            break;
-        // Cast
-        case 2:
-            NSLog(@">>>>> Cast: %@",self.movie.cast);
-            return [self.movie.cast count];
-            break;
-    }
-    return 1;
+    NSString* category = [self.sections objectAtIndex:section];
+    NSArray* arrayForSection = (NSArray*)[self.sectionedData objectForKey:category];
+    return [arrayForSection count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,32 +79,13 @@
     static NSString *CellIdentifier = @"BasicCellID";
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    switch (indexPath.section) {
-        // Movie info
-        case 0:
-            if (indexPath.row == 0){
-                cell.textLabel.text = [NSString stringWithFormat:@"Runtime: %@ minutes",self.movie.duration];
-            }
-            if (indexPath.row == 1){
-                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-                [dateFormatter setDateFormat:@"MMMM dd, yyyy"];
-                NSString *release = [dateFormatter stringFromDate:self.movie.releaseDate];
-                cell.textLabel.text = [NSString stringWithFormat:@"Release Date: %@",release];
-            }
-            
-            if (indexPath.row == 2){
-                cell.textLabel.text = [NSString stringWithFormat:@"Genres: %@",self.movie.genre];
-            }
-            break;
-        // Synopsis
-        case 1:
-            cell.textLabel.text = self.movie.description;
-            break;
-        // Cast
-        case 2:
-            cell.textLabel.text = [self.movie.cast objectAtIndex:indexPath.row];
-            break;
-    }
+    // Get text for current position
+    NSString* category = [self.sections objectAtIndex:indexPath.section];
+    NSArray* arrayForSection = (NSArray*)[self.sectionedData objectForKey:category];
+    
+    // Configure cell appearance
+    cell.textLabel.text = [arrayForSection objectAtIndex:indexPath.row];
+    
     return cell;
 }
 
@@ -149,7 +124,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 25;
+    // If no items in section, don't show any header
+    if ([tableView.dataSource tableView:tableView numberOfRowsInSection:section] == 0) {
+        return 0;
+    } else {
+        return 25;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -260,4 +240,33 @@
     [alert show];
     NSLog(@"Showing no internet connection alert");
 }
+
+- (void) setUpSectionedData{
+    self.sections = [[NSMutableArray alloc] initWithObjects:@"Movie Info",@"Synopsis",@"Cast", nil];
+    self.sectionedData = [[NSMutableDictionary alloc] init];
+    
+    NSMutableArray *sectionData1 = [[NSMutableArray alloc] init];
+    if (self.movie.duration != nil){
+        [sectionData1 addObject:[NSString stringWithFormat:@"Runtime: %@ minutes",self.movie.duration]];
+    }
+    if (self.movie.releaseDate != nil){
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+        [dateFormatter setDateFormat:@"MMMM dd, yyyy"];
+        NSString *release = [dateFormatter stringFromDate:self.movie.releaseDate];
+        [sectionData1 addObject: [NSString stringWithFormat:@"Release Date: %@",release]];
+    }
+    if (![self.movie.genre isEqualToString:@""]){
+        [sectionData1 addObject:[NSString stringWithFormat:@"Genres: %@",self.movie.genre]];
+    }
+
+    [self.sectionedData setValue:sectionData1 forKey:@"Movie Info"];
+    
+    NSArray *sectionData2 = @[self.movie.description];
+    [self.sectionedData setValue:sectionData2 forKey:@"Synopsis"];
+    
+    if ([self.movie.cast count] > 0){
+        [self.sectionedData setValue:self.movie.cast forKey:@"Cast"];
+    }
+}
+
 @end
