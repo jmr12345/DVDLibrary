@@ -52,6 +52,7 @@
     self.processingView.hidden = YES;
 }
 
+#pragma mark - Reachability
 /********************************************************************************************
  * @method isReachable
  * @abstract checks to see if have wifi or 3G/LTE connection
@@ -81,6 +82,7 @@
     NSLog(@">>>>>Showing no internet connection error");
 }
 
+#pragma mark - Search by Title
 /********************************************************************************************
  * @method searchByTitleButton:
  * @abstract finds movie by title input by user
@@ -131,6 +133,7 @@
     }
 }
 
+#pragma mark - search title keyboard
 /********************************************************************************************
  * @method textFieldShouldReturn:
  * @abstract gives functionality to the search button on the keyboard popup
