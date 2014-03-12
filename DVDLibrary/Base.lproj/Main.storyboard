@@ -364,7 +364,13 @@ On the spin tab, click on the spin button to activate the spinner which will sel
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Nzg-aj-fni"/>
+                    <navigationItem key="navigationItem" id="Nzg-aj-fni">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="v1b-v3-x87">
+                            <connections>
+                                <action selector="reload" destination="gSd-Kx-jv0" id="auH-wA-miz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="webView" destination="gSd-Kx-jv0" id="fMo-mG-st5"/>
                     </connections>

@@ -31,34 +31,52 @@
  ********************************************************************************************/
 - (void)loadInitialData
 {
-    NSString *movie1Title = @"21 Jump Street";
-    SearchResult *movie1 = [[SearchResult alloc]initWithMovieTitle:movie1Title];
-    [movie1 titleSearch:movie1Title];
+    NSString *movieTitle = @"21 Jump Street";
+    [self fetchMovieData:movieTitle];
     
-    NSString *movie2Title = @"The Avengers";
-    SearchResult *movie2 = [[SearchResult alloc]initWithMovieTitle:movie2Title];
-    [movie2 titleSearch:movie2Title];
+    movieTitle = @"The Avengers";
+    [self fetchMovieData:movieTitle];
     
-    NSString *movie3Title = @"The Incredibles";
-    SearchResult *movie3 = [[SearchResult alloc]initWithMovieTitle:movie3Title];
-    [movie3 titleSearch:movie3Title];
+    movieTitle = @"The Incredibles";
+    [self fetchMovieData:movieTitle];
     
-    NSString *movie4Title = @"Monsters, Inc.";
-    SearchResult *movie4 = [[SearchResult alloc]initWithMovieTitle:movie4Title];
-    [movie4 titleSearch:movie4Title];
+    movieTitle = @"Monsters, Inc.";
+    [self fetchMovieData:movieTitle];
     
-    NSString *movie5Title = @"Atonement";
-    SearchResult *movie5 = [[SearchResult alloc]initWithMovieTitle:movie5Title];
-    [movie5 titleSearch:movie5Title];
+    movieTitle = @"Atonement";
+    [self fetchMovieData:movieTitle];
     
-    NSString *movie6Title = @"Star Wars: The Clone Wars";
-    SearchResult *movie6 = [[SearchResult alloc]initWithMovieTitle:movie6Title];
-    [movie6 titleSearch:movie6Title];
+    movieTitle = @"Star Wars: The Clone Wars";
+    [self fetchMovieData:movieTitle];
     
-    NSString *movie7Title = @"This Means War";
-    SearchResult *movie7 = [[SearchResult alloc]initWithMovieTitle:movie7Title];
-    [movie7 titleSearch:movie7Title];
+    movieTitle = @"This Means War";
+    [self fetchMovieData:movieTitle];
     
+    movieTitle = @"Lincoln";
+    [self fetchMovieData:movieTitle];
+    
+    movieTitle = @"Buffy the Vampire Slayer";
+    [self fetchMovieData:movieTitle];
+    
+    movieTitle = @"Footloose";
+    [self fetchMovieData:movieTitle];
+    
+    movieTitle = @"Patriot Games";
+    [self fetchMovieData:movieTitle];
+    
+    movieTitle = @"Dumb and Dumber";
+    [self fetchMovieData:movieTitle];
+}
+
+/********************************************************************************************
+ * @method fetchMovieData
+ * @abstract searches for a specific movie's information to populate the table
+ * @description
+ ********************************************************************************************/
+- (void)fetchMovieData: (NSString *)movieTitle
+{
+    SearchResult *search = [[SearchResult alloc]initWithMovieTitle:movieTitle];
+    [search titleSearch:movieTitle];
 }
 
 @end
