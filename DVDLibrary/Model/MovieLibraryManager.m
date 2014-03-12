@@ -42,23 +42,7 @@ static MovieLibraryManager *sharedInstance;
     return self;
 }
 
-/********************************************************************************************
- * @method writeToPList
- * @abstract method to write to the plist
- * @description
- ********************************************************************************************/
--(void)writeToPList:(NSDictionary *)dictionaryToWrite
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    NSString *docfilePath = [basePath stringByAppendingPathComponent:@"movieData.plist"];
-    [dictionaryToWrite writeToFile:docfilePath atomically:YES];
-
-    NSLog(@">>>>> Movie library successfully written to pList!");
-    NSLog(@">>>>> Posting pList notification from MovieLibraryManager");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Library written to pList" object:self];
-}
-
+#pragma mark - Reading PList
 /********************************************************************************************
  * @method readFromPList
  * @abstract method to read from the plist
@@ -92,6 +76,7 @@ static MovieLibraryManager *sharedInstance;
     return movieLibrary;
 }
 
+#pragma mark - Writing to PList
 /********************************************************************************************
  * @method writeToMovieLibrary
  * @abstract method to write an array to the plist
@@ -111,6 +96,23 @@ static MovieLibraryManager *sharedInstance;
     //store plist
     NSDictionary *itemToWrite = @{@"list": movieDataArray};
     [self writeToPList:itemToWrite];
+}
+
+/********************************************************************************************
+ * @method writeToPList
+ * @abstract method to write to the plist
+ * @description
+ ********************************************************************************************/
+-(void)writeToPList:(NSDictionary *)dictionaryToWrite
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString *docfilePath = [basePath stringByAppendingPathComponent:@"movieData.plist"];
+    [dictionaryToWrite writeToFile:docfilePath atomically:YES];
+    
+    NSLog(@">>>>> Movie library successfully written to pList!");
+    NSLog(@">>>>> Posting pList notification from MovieLibraryManager");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Library written to pList" object:self];
 }
 
 @end

@@ -20,6 +20,7 @@
 
 @implementation SearchResult
 
+#pragma mark - Initializers
 /********************************************************************************************
  * @method init
  * @abstract general initialize method
@@ -76,35 +77,7 @@
     return self;
 }
 
-/********************************************************************************************
- * @method blankSearch
- * @abstract gives alert view error an empty string is passed
- * @description
- ********************************************************************************************/
-- (void)blankSearch
-{
-    NSString *title = @"Search cannot be blank";
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
-    NSLog(@">>>>>Search cannot be blank alert");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
-}
-
-/********************************************************************************************
- * @method titleSearch
- * @abstract checks to make sure title is not blank. If not then it kicks off the search
- * @description
- ********************************************************************************************/
-- (void)titleSearch: (NSString *)title
-{
-    if (title.length == 0) {
-        [self blankSearch];
-    }
-    else{
-        [self searchForMovieByTitle:title];
-    }
-}
-
+#pragma mark - Helpers
 /********************************************************************************************
  * @method movieIsNil
  * @abstract boolean that determines if the movie was found or not
@@ -118,6 +91,70 @@
     }
     NSLog(@">>>>>Movie is found");
     return false;
+}
+
+/********************************************************************************************
+ * @method editTitle
+ * @abstract edits the title
+ * @description edits the title to remove excess information from the title and trims the string
+ ********************************************************************************************/
+- (NSString *)editTitle: (NSString *)title
+{
+    NSRange range = [title rangeOfString:@"("];
+    NSString *movieTitle;
+    if (range.length != 0) {
+        movieTitle = [title substringToIndex:range.location];
+    }
+    return [movieTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+/********************************************************************************************
+ * @method md5ConversionToSig
+ * @abstract helper method to do a sig conversion to access rovi api
+ * @description creates the sig access key
+ ********************************************************************************************/
+- (NSString *) md5ConversionToSig
+{
+    NSString *sharedSecret = @"rQm5PPRUjg";
+    
+    //gets the current time for the conversion since 1970
+    int unixtime = (int)[[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
+    NSString *time = [NSString stringWithFormat:@"%d", unixtime];
+    NSLog(@">>>>>Time since 1970: %@", time);
+    
+    //combines rovi api key, shared secret and time into a string
+    NSArray *stringsToConvert = [[NSArray alloc] initWithObjects:self.roviApiKey, sharedSecret, time, nil];
+    NSString *concatenatedString = [stringsToConvert componentsJoinedByString:@""];
+    NSLog(@">>>>>String to be converted to sig key: %@", concatenatedString);
+    
+    const char *cStr = [concatenatedString UTF8String];
+    unsigned char digest[16];
+    CC_MD5(cStr, (int)strlen(cStr), digest); // This is the md5 call
+    
+    //the converted
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    NSLog(@">>>>>sig key after concatentated string is converted: %@", output);
+    
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    
+    NSLog(@">>>>>created sig key: %@", output.lowercaseString);
+    return  output.lowercaseString;
+}
+
+#pragma mark - Alert Messages
+/********************************************************************************************
+ * @method blankSearch
+ * @abstract gives alert view error an empty string is passed
+ * @description
+ ********************************************************************************************/
+- (void)blankSearch
+{
+    NSString *title = @"Search cannot be blank";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@">>>>>Search cannot be blank alert");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
 }
 
 /********************************************************************************************
@@ -162,6 +199,23 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Search done" object:self];
 }
 
+#pragma mark - Searche Kickoff
+/********************************************************************************************
+ * @method titleSearch
+ * @abstract checks to make sure title is not blank. If not then it kicks off the search
+ * @description
+ ********************************************************************************************/
+- (void)titleSearch: (NSString *)title
+{
+    if (title.length == 0) {
+        [self blankSearch];
+    }
+    else{
+        [self searchForMovieByTitle:title];
+    }
+}
+
+#pragma mark - Searches
 /********************************************************************************************
  * @method searchForMovieByUpc
  * @abstract downloads the json name from the website
@@ -196,21 +250,6 @@
                 [self searchForMovieByTitle:title];
                 
             }] resume];
-}
-
-/********************************************************************************************
- * @method editTitle
- * @abstract edits the title
- * @description edits the title to remove excess information from the title and trims the string
- ********************************************************************************************/
-- (NSString *)editTitle: (NSString *)title
-{
-    NSRange range = [title rangeOfString:@"("];
-    NSString *movieTitle;
-    if (range.length != 0) {
-        movieTitle = [title substringToIndex:range.location];
-    }
-    return [movieTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 /********************************************************************************************
@@ -302,40 +341,6 @@
                 
                 
             }] resume];
-}
-
-/********************************************************************************************
- * @method md5ConversionToSig
- * @abstract helper method to do a sig conversion to access rovi api
- * @description creates the sig access key
- ********************************************************************************************/
-- (NSString *) md5ConversionToSig
-{
-    NSString *sharedSecret = @"rQm5PPRUjg";
-    
-    //gets the current time for the conversion since 1970
-    int unixtime = (int)[[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
-    NSString *time = [NSString stringWithFormat:@"%d", unixtime];
-    NSLog(@">>>>>Time since 1970: %@", time);
-    
-    //combines rovi api key, shared secret and time into a string
-    NSArray *stringsToConvert = [[NSArray alloc] initWithObjects:self.roviApiKey, sharedSecret, time, nil];
-    NSString *concatenatedString = [stringsToConvert componentsJoinedByString:@""];
-    NSLog(@">>>>>String to be converted to sig key: %@", concatenatedString);
-    
-    const char *cStr = [concatenatedString UTF8String];
-    unsigned char digest[16];
-    CC_MD5(cStr, (int)strlen(cStr), digest); // This is the md5 call
-    
-    //the converted
-    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-    NSLog(@">>>>>sig key after concatentated string is converted: %@", output);
-    
-    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-        [output appendFormat:@"%02x", digest[i]];
-    
-    NSLog(@">>>>>created sig key: %@", output.lowercaseString);
-    return  output.lowercaseString;
 }
 
 /********************************************************************************************
@@ -540,6 +545,7 @@
             }] resume];
 }
 
+#pragma mark - Writing
 /********************************************************************************************
  * @method readAndWritePList
  * @abstract takes found movie and adds it to library if not already in it
