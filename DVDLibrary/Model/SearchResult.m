@@ -243,45 +243,59 @@
                 // Update the Nsmutable Array
                 NSMutableDictionary *titleMovieResults = [[results mutableCopy] objectForKey:@"searchResponse"];
                 NSMutableDictionary *result = [[titleMovieResults objectForKey:@"results"] objectAtIndex:0];
-                NSMutableDictionary *movieInfo = [result objectForKey:@"movie"];
-                
-                //set the official movie title
-                self.foundMovie.title = [movieInfo objectForKey:@"title"];
-                NSLog(@">>>>>Movie title: %@", self.foundMovie.title);
-                
-                //gets the mpaa rating
-                self.foundMovie.mpaaRating = [movieInfo objectForKey:@"mpaa"];
-                NSLog(@">>>>>Movie mpaa rating: %@", self.foundMovie.mpaaRating);
-                
-                //gets the movie duration
-                self.foundMovie.duration = [movieInfo objectForKey:@"duration"];
-                NSLog(@">>>>>Movie running time: %@", self.foundMovie.duration);
-                
-                //gets the list of movie directors
-                self.foundMovie.directors = [[NSMutableArray alloc] init];
-                NSMutableArray *directors = [movieInfo objectForKey:@"directors"];
-                for (NSDictionary *director in directors) {
-                    NSString *category = [director objectForKey:@"name"];
-                    [self.foundMovie.directors addObject:category];
-                }
-                NSLog(@">>>>>Movie list of directors: %@", self.foundMovie.directors);
-                
-                //gets the list of cast members
-                self.foundMovie.cast = [[NSMutableArray alloc] init];
-                NSMutableArray *castMembers = [movieInfo objectForKey:@"cast"];
-                if (castMembers != (NSMutableArray *)[NSNull null]) {
-                    for (NSDictionary *member in castMembers) {
-                        NSString *castName = [member objectForKey:@"name"];
-                        [self.foundMovie.cast addObject:castName];
+                if (result != (NSMutableDictionary *)[NSNull null] && ![(NSString *)result  isEqual: @""]) {
+                    NSMutableDictionary *movieInfo = [result objectForKey:@"movie"];
+                    
+                    //set the official movie title
+                    self.foundMovie.title = [movieInfo objectForKey:@"title"];
+                    NSLog(@">>>>>Movie title: %@", self.foundMovie.title);
+                    
+                    //gets the mpaa rating
+                    self.foundMovie.mpaaRating = [movieInfo objectForKey:@"mpaa"];
+                    NSLog(@">>>>>Movie mpaa rating: %@", self.foundMovie.mpaaRating);
+                    
+                    //gets the movie duration
+                    self.foundMovie.duration = [movieInfo objectForKey:@"duration"];
+                    NSLog(@">>>>>Movie running time: %@", self.foundMovie.duration);
+                    
+                    //gets the list of movie directors
+                    self.foundMovie.directors = [[NSMutableArray alloc] init];
+                    NSMutableArray *directors = [movieInfo objectForKey:@"directors"];
+                    if (directors != (NSMutableArray *)[NSNull null]) {
+                        for (NSDictionary *director in directors) {
+                            NSString *category = [director objectForKey:@"name"];
+                            [self.foundMovie.directors addObject:category];
+                        }
                     }
+                    else{
+                        self.foundMovie.directors = nil;
+                    }
+                    
+                    
+                    NSLog(@">>>>>Movie list of directors: %@", self.foundMovie.directors);
+                    
+                    //gets the list of cast members
+                    self.foundMovie.cast = [[NSMutableArray alloc] init];
+                    NSMutableArray *castMembers = [movieInfo objectForKey:@"cast"];
+                    if (castMembers != (NSMutableArray *)[NSNull null]) {
+                        for (NSDictionary *member in castMembers) {
+                            NSString *castName = [member objectForKey:@"name"];
+                            [self.foundMovie.cast addObject:castName];
+                        }
+                    }
+                    else{
+                        self.foundMovie.cast = nil;
+                    }
+                    NSLog(@">>>>>Movie cast list: %@", self.foundMovie.cast);
+                    
+                    //gets the movie id
+                    [self getMovieIDandInfo:self.foundMovie.title];
                 }
                 else{
-                    self.foundMovie.cast = nil;
+                    [self movieNotFound];
+                    return;
                 }
-                NSLog(@">>>>>Movie cast list: %@", self.foundMovie.cast);
                 
-                //gets the movie id
-                [self getMovieIDandInfo:self.foundMovie.title];
                 
             }] resume];
 }
@@ -485,7 +499,7 @@
                     self.foundMovie.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]]];
                 }
                 else{
-                    self.foundMovie.image = nil;
+                    self.foundMovie.image = [UIImage imageNamed:@"no_image"];
                 }
                 NSLog(@">>>>>Image: %@", self.foundMovie.image);
                 
