@@ -72,12 +72,11 @@
     self.searchBar.hidden = YES;
     self.searchBar.delegate = self;
     
+    // Listen for notification that library has been written to pList (updated)
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedNotification:)
                                                  name:@"Library written to pList"
                                                object:nil];
-
-
 }
 
 /*******************************************************************************
@@ -302,6 +301,11 @@
     }];
 }
 
+/*******************************************************************************
+ * @method      receivedNotification:
+ * @abstract    Refreshes movie data when notification received that pList updated
+ * @description
+ ******************************************************************************/
 - (void)receivedNotification:(NSNotification *) notification {
     if ([[notification name] isEqualToString:@"Library written to pList"]) {
         NSLog(@">>>>> pList notification received by LibraryViewController");
@@ -310,6 +314,11 @@
     }
 }
 
+/*******************************************************************************
+ * @method      refreshMovieData:
+ * @abstract    Refreshes data with current pList
+ * @description
+ ******************************************************************************/
 - (void) refreshMovieData{
     MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
     self.allMovieData = [plistManager getMovieLibrary];

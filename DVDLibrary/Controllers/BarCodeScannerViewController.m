@@ -49,7 +49,7 @@
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
     
-    //The rest of this code in this method is from the original creator of this class
+    // Listen for notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedNotification:)
                                                  name:@"Library written to pList"
