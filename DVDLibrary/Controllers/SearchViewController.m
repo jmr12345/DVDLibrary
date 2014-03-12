@@ -12,10 +12,12 @@
 #import "SearchResult.h"
 #import "MovieLibraryManager.h"
 #import "LibraryViewController.h"
+#import "LoadingView.h"
 
 @interface SearchViewController ()
 
 @property (strong, nonatomic) NSBlockOperation *blockOperation;
+@property (strong, nonatomic) LoadingView *loadingView;
 
 @end
 
@@ -39,12 +41,15 @@
                                                  name:@"Search done"
                                                object:nil];
     self.titleSearchTextField.clearButtonMode = YES;
+    
+    self.loadingView = [[LoadingView alloc] initWithMessage:@"Searching"];
+    [self.view addSubview:self.loadingView];
+    self.loadingView.hidden = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    self.activityIndicator.hidden = YES;
-    [self.activityIndicator stopAnimating];
+    self.loadingView.hidden = YES;
 }
 
 /********************************************************************************************
@@ -89,9 +94,7 @@
 - (void) searchByTitle{
     if ([self isReachable]) {
         
-        [self.view bringSubviewToFront:self.activityIndicator];
-        self.activityIndicator.hidden = NO;
-        [self.activityIndicator startAnimating];
+        self.loadingView.hidden = NO;
 
         self.titleSearch = self.titleSearchTextField.text;
         NSString *searchString = [self.titleSearch capitalizedString];
@@ -109,13 +112,8 @@
     if ([[notification name] isEqualToString:@"Search done"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
         
-        [self hideActivityIndicator];
+        self.loadingView.hidden = YES;
     }
-}
-
-- (void) hideActivityIndicator{
-    [self.activityIndicator stopAnimating];
-    self.activityIndicator.hidden = YES;
 }
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
