@@ -198,7 +198,7 @@
  * @description reads the plist, removes the item and resaves the new library in the plist
  ********************************************************************************************/
 - (IBAction)deleteMovie:(UIBarButtonItem *)sender {
-    NSLog(@">>>>> trash can button clicked");
+    NSLog(@">>>>> Trash can button clicked");
     self.processingView.hidden = NO;
     
     [self.allMovieData removeObject:self.movie];
@@ -208,9 +208,14 @@
     dispatch_async(queue,^{
         MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
         [plistManager saveMovieLibrary:self.allMovieData];
-        [self removeMovieSuccess];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self removeMovieSuccess];
+        });
     });
 }
+
+
 /********************************************************************************************
  * @method alertView clickedButtonAtIndex:
  * @abstract action when the successful deletion "OK" button is clicked
