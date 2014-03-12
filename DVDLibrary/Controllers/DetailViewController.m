@@ -208,11 +208,11 @@
     dispatch_async(queue,^{
         MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
         [plistManager saveMovieLibrary:self.allMovieData];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self removeMovieSuccess];
         });
     });
+
 }
 
 
