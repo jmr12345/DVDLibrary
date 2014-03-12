@@ -119,12 +119,12 @@
     // Set cell size for synopsis to fit synopsis text
     if (indexPath.section==1 & indexPath.row==0)
     {
-        CGRect rect = [self.movie.description boundingRectWithSize:CGSizeMake(300.f, CGFLOAT_MAX)
+        CGRect rect = [self.movie.description boundingRectWithSize:CGSizeMake(280.f, CGFLOAT_MAX)
                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                          attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}
+                                          attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}
                                              context:nil];
         CGSize strSize = rect.size;
-        return (strSize.height+5);
+        return (strSize.height);
     }
     else return 30;
 }
