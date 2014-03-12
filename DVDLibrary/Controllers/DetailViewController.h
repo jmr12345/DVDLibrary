@@ -17,10 +17,13 @@
 @property (strong,nonatomic) Movie *movie;
 @property (strong,nonatomic) NSMutableArray *allMovieData;
 @property (strong, nonatomic) NSMutableArray* sections;
+@property (strong, nonatomic) NSMutableDictionary* sectionedData;
 
 @property (weak, nonatomic) IBOutlet UIImageView *movieImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *trailerButton;
+- (IBAction)watchTrailer:(id)sender;
 - (IBAction)deleteMovie:(UIBarButtonItem *)sender;
 
 @end
