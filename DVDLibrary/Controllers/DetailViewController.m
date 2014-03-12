@@ -24,26 +24,26 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"count:%lu",(unsigned long)[self.allMovieData count]);
     [super viewDidLoad];
     
     self.reachability = [Reachability reachabilityForInternetConnection];
     [self.reachability startNotifier];
 
+    // set up sections for table view
     [self setUpSectionedData];
     
+    // set the image and title
     self.movieImageView.image = self.movie.image;
     self.titleLabel.text = self.movie.title;
     
     self.tableView.sectionFooterHeight = 0.0;
     
-    NSString *urlString = [self.movie.url absoluteString];
-    NSLog(@"URL: %@",urlString);
-    
+    // set up busy processing spinner
     self.processingView = [[ProcessingView alloc] initWithFrame:CGRectMake(110, 200, 100, 100)withMessage:@"Deleting"];
     [self.view addSubview:self.processingView];
     self.processingView.hidden = YES;
     
+    // if no movie trailer, disable button and change to disabled view
     if (self.movie.trailer == nil){
         self.trailerButton.backgroundColor = [UIColor darkGrayColor];
         self.trailerButton.enabled = NO;
@@ -62,6 +62,7 @@
 {
     NSInteger count = 3;
     
+    // Don't count or show section if it is empty
     for (NSString *section in self.sections){
         if (!([(NSArray*)[self.sectionedData objectForKey:section] count] > 0)){
             count--;
@@ -74,6 +75,8 @@
 {
     NSString* category = [self.sections objectAtIndex:section];
     NSArray* arrayForSection = (NSArray*)[self.sectionedData objectForKey:category];
+    
+    // Limit number of cast members shown to 10
     if ([category isEqualToString:@"Cast"] && [self.movie.cast count]>10)
         return 10;
     else
@@ -119,7 +122,7 @@
     // Set cell size for synopsis to fit synopsis text
     if (indexPath.section==1 & indexPath.row==0)
     {
-        CGRect rect = [self.movie.description boundingRectWithSize:CGSizeMake(280.f, CGFLOAT_MAX)
+        CGRect rect = [self.movie.description boundingRectWithSize:CGSizeMake(260.f, CGFLOAT_MAX)
                                              options:NSStringDrawingUsesLineFragmentOrigin
                                           attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}
                                              context:nil];
@@ -144,6 +147,18 @@
 
 #pragma mark - Navigation
 
+/********************************************************************************************
+ * @method watchTrailer:
+ * @abstract performs segue to trailer
+ * @description
+ ********************************************************************************************/
+- (IBAction)watchTrailer:(id)sender {
+    NSLog(@">>>>> Trailer button tapped");
+    if (self.movie.trailer != nil){
+        [self performSegueWithIdentifier: @"TrailerSegue" sender: self];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([self isReachable]) {
@@ -163,28 +178,13 @@
     }
 }
 
-/********************************************************************************************
- * @method removeMovieSuccess
- * @abstract gives alert view when the movie is successfully deleted from the library
- * @description
- ********************************************************************************************/
-- (void)removeMovieSuccess
-{
-    self.processingView.hidden = YES;
-    NSString *title = @"Movie successfully deleted!";
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-    [alert show];
-    NSLog(@">>>>> Movie successfully deleted alert");
-   
-}
+#pragma mark - Movie Deletion
 
 /********************************************************************************************
  * @method deleteMovie
  * @abstract deletes the current movie showing in the detail view
- * @description reads the plist, removes the item and resaves the new library in the plist
+ * @description removes the item and resaves the new library in the plist
  ********************************************************************************************/
-
-
 - (IBAction)deleteMovie:(UIBarButtonItem *)sender {
     NSLog(@">>>>> Trash can button clicked");
     self.processingView.hidden = NO;
@@ -203,6 +203,20 @@
 
 }
 
+/********************************************************************************************
+ * @method removeMovieSuccess
+ * @abstract gives alert view when the movie is successfully deleted from the library
+ * @description
+ ********************************************************************************************/
+- (void)removeMovieSuccess
+{
+    self.processingView.hidden = YES;
+    NSString *title = @"Movie successfully deleted!";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:title delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];
+    NSLog(@">>>>> Movie successfully deleted alert");
+    
+}
 
 /********************************************************************************************
  * @method alertView clickedButtonAtIndex:
@@ -219,6 +233,8 @@
         [self.navigationController popToRootViewControllerAnimated:TRUE];
     }
 }
+
+#pragma mark - Reachability
 
 /********************************************************************************************
  * @method isReachable
@@ -249,10 +265,18 @@
     NSLog(@"Showing no internet connection alert");
 }
 
+#pragma mark
+
+/********************************************************************************************
+ * @method setUpSectionedData
+ * @abstract sets up sections for table view
+ * @description
+ ********************************************************************************************/
 - (void) setUpSectionedData{
     self.sections = [[NSMutableArray alloc] initWithObjects:@"Movie Info",@"Synopsis",@"Cast", nil];
     self.sectionedData = [[NSMutableDictionary alloc] init];
     
+    // Movie info
     NSMutableArray *sectionData1 = [[NSMutableArray alloc] init];
     if (self.movie.duration != nil){
         [sectionData1 addObject:[NSString stringWithFormat:@"Runtime: %@ minutes",self.movie.duration]];
@@ -266,21 +290,15 @@
     if (![self.movie.genre isEqualToString:@""]){
         [sectionData1 addObject:[NSString stringWithFormat:@"Genres: %@",self.movie.genre]];
     }
-
     [self.sectionedData setValue:sectionData1 forKey:@"Movie Info"];
     
+    // Synopsis
     NSArray *sectionData2 = @[self.movie.description];
     [self.sectionedData setValue:sectionData2 forKey:@"Synopsis"];
     
+    // Cast
     if ([self.movie.cast count] > 0){
         [self.sectionedData setValue:self.movie.cast forKey:@"Cast"];
     }
 }
-
-- (IBAction)watchTrailer:(id)sender {
-    if (self.movie.trailer != nil){
-        [self performSegueWithIdentifier: @"TrailerSegue" sender: self];
-    }
-}
-
 @end

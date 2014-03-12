@@ -82,7 +82,7 @@
 }
 
 /********************************************************************************************
- * @method searchByTitleButton
+ * @method searchByTitleButton:
  * @abstract finds movie by title input by user
  * @description
  ********************************************************************************************/
@@ -119,7 +119,7 @@
 }
 
 /********************************************************************************************
- * @method receivedNotification
+ * @method receivedNotification:
  * @abstract checks if received notification that process is finished
  * @description if process is finished, then clear search text field and hide the spinner
  ********************************************************************************************/
@@ -132,7 +132,7 @@
 }
 
 /********************************************************************************************
- * @method textFieldShouldReturn
+ * @method textFieldShouldReturn:
  * @abstract gives functionality to the search button on the keyboard popup
  * @description hides keyboard and kicks of search by movie title
  ********************************************************************************************/
@@ -143,7 +143,7 @@
 }
 
 /********************************************************************************************
- * @method textFieldShouldClear
+ * @method textFieldShouldClear:
  * @abstract
  * @description 
  ********************************************************************************************/

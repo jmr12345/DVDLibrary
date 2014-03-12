@@ -36,8 +36,6 @@
         [spinning startAnimating];
         
         [self addSubview:spinning];
-        
-        //self.frame = CGRectMake(105, 200, 100, 100);
     }
     return self;
 }
