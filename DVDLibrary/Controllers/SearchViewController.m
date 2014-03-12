@@ -12,12 +12,12 @@
 #import "SearchResult.h"
 #import "MovieLibraryManager.h"
 #import "LibraryViewController.h"
-#import "LoadingView.h"
+#import "ProcessingView.h"
 
 @interface SearchViewController ()
 
 @property (strong, nonatomic) NSBlockOperation *blockOperation;
-@property (strong, nonatomic) LoadingView *loadingView;
+@property (strong, nonatomic) ProcessingView *processingView;
 
 @end
 
@@ -42,14 +42,14 @@
                                                object:nil];
     self.titleSearchTextField.clearButtonMode = YES;
     
-    self.loadingView = [[LoadingView alloc] initWithMessage:@"Searching"];
-    [self.view addSubview:self.loadingView];
-    self.loadingView.hidden = YES;
+    self.processingView = [[ProcessingView alloc] initWithMessage:@"Searching"];
+    [self.view addSubview:self.processingView];
+    self.processingView.hidden = YES;
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    self.loadingView.hidden = YES;
+    self.processingView.hidden = YES;
 }
 
 /********************************************************************************************
@@ -94,7 +94,7 @@
 - (void) searchByTitle{
     if ([self isReachable]) {
         
-        self.loadingView.hidden = NO;
+        self.processingView.hidden = NO;
 
         self.titleSearch = self.titleSearchTextField.text;
         NSString *searchString = [self.titleSearch capitalizedString];
@@ -112,7 +112,7 @@
     if ([[notification name] isEqualToString:@"Search done"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
         
-        self.loadingView.hidden = YES;
+        self.processingView.hidden = YES;
     }
 }
 

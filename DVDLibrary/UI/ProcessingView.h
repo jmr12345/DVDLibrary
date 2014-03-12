@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoadingView : UIView
+@interface ProcessingView : UIView
 - (id)initWithMessage:(NSString*)message;
 @end
