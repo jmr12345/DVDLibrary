@@ -28,9 +28,14 @@
     MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
     self.movieArray = [plistManager getMovieLibrary];
     
-    // Double array if under 50 movies in collection
-    if ([self.movieArray count] < 50) {
-         self.movieArray =[self.movieArray arrayByAddingObjectsFromArray:self.movieArray];
+    // if empty library, disable spin button
+    if (!([self.movieArray count]>0)){
+        self.spinButton.enabled = NO;
+    } else {
+        // Double array if under 50 movies in collection
+        if ([self.movieArray count] < 50) {
+             self.movieArray =[self.movieArray arrayByAddingObjectsFromArray:self.movieArray];
+        }
     }
 }
 
