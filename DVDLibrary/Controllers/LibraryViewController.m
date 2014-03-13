@@ -54,7 +54,6 @@
     MovieLibraryManager *plistManager = [MovieLibraryManager sharedInstance];
     self.allMovieData = [plistManager getMovieLibrary];
     
-    //self.allMovieData = [[MovieData alloc] init].movieData;
     [self updateDisplayedMovieData:@""];
 
     // Add movie layout controller

@@ -27,6 +27,13 @@
 //what this class populates
 @property (strong, nonatomic) Movie *foundMovie;
 
+//
+@property (weak, nonatomic) NSURLSession *upcSearch;
+@property (weak, nonatomic) NSURLSession *titleSearch;
+@property (weak, nonatomic) NSURLSession *movieDBSearch;
+@property (weak, nonatomic) NSURLSession *trailerSearch;
+@property (weak, nonatomic) NSURLSession *movieInfoSearch;
+
 //initializer methods
 - (id)initWithUpc: (NSString *)upcSymbol;
 - (id)initWithMovieTitle: (NSString *)title;

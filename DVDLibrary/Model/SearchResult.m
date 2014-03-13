@@ -29,10 +29,7 @@
 - (id) init {
     self = [super init];
     if(self){
-        self.foundMovie = [[Movie alloc]init];
-        self.num = 0;
-        self.loop = 0;
-        self.titleNum = 0;
+        [self initializeSettings];
     }
     return self;
 }
@@ -46,13 +43,8 @@
 {
     self = [self init];
     if(self){
-        self.roviApiKey = @"rc3sf8efxtuv28kf9rj6gbwv";
-        self.movieDbApiKey = @"a9dc5652da0de21c8fbd3004a590931b";
-        self.foundMovie = [[Movie alloc]init];
         self.foundMovie.upc = upcSymbol;
-        self.num = 0;
-        self.loop = 0;
-        self.titleNum = 0;
+        [self initializeSettings];
     }
     return self;
 }
@@ -66,15 +58,24 @@
 {
     self = [self init];
     if(self){
-        self.roviApiKey = @"rc3sf8efxtuv28kf9rj6gbwv";
-        self.movieDbApiKey = @"a9dc5652da0de21c8fbd3004a590931b";
-        self.foundMovie = [[Movie alloc]init];
         self.foundMovie.title = title;
-        self.num = 0;
-        self.loop = 0;
-        self.titleNum = 0;
+        [self initializeSettings];
     }
     return self;
+}
+
+- (void)initializeSettings
+{
+    self.roviApiKey = @"rc3sf8efxtuv28kf9rj6gbwv";
+    self.movieDbApiKey = @"a9dc5652da0de21c8fbd3004a590931b";
+    self.foundMovie = [[Movie alloc]init];
+    self.num = 0;
+    self.loop = 0;
+    self.titleNum = 0;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Entered background"
+                                               object:nil];
 }
 
 #pragma mark - Helpers
@@ -141,6 +142,49 @@
     NSLog(@">>>>>created sig key: %@", output.lowercaseString);
     return  output.lowercaseString;
 }
+
+#pragma mark - Cancel searches
+/********************************************************************************************
+ * @method cancelSearches
+ * @abstract cancels all search threads
+ * @description if the NSURLSessions have been instantiated, then invalidate and cancel them
+ ********************************************************************************************/
+- (void)cancelSearches
+{
+    if(self.upcSearch != (NSURLSession *) [NSNull null]){
+        [self.upcSearch invalidateAndCancel];
+        NSLog(@">>>>>UPC search session ended");
+    }
+    if(self.titleSearch != (NSURLSession *) [NSNull null]){
+        [self.titleSearch invalidateAndCancel];
+        NSLog(@">>>>>Movie title search session ended");
+    }
+    if(self.movieDBSearch != (NSURLSession *) [NSNull null]){
+        [self.movieDBSearch invalidateAndCancel];
+        NSLog(@">>>>>Movie id search session ended");
+    }
+    if(self.trailerSearch != (NSURLSession *) [NSNull null]){
+        [self.trailerSearch invalidateAndCancel];
+        NSLog(@">>>>>Movie trailer search session ended");
+    }
+    if(self.movieInfoSearch != (NSURLSession *) [NSNull null]){
+        [self.movieInfoSearch invalidateAndCancel];
+        NSLog(@">>>>>Movie info search session ended");
+    }
+}
+
+/********************************************************************************************
+ * @method receivedNotification:
+ * @abstract checks if received notification that process is finished
+ * @description if process is finished, then clear search text field and hide the spinner
+ ********************************************************************************************/
+- (void)receivedNotification:(NSNotification *) notification {
+    if ([[notification name] isEqualToString:@"Entered background"]) {
+        [self cancelSearches];
+        NSLog(@">>>>> Entering background notification received by search result");
+    }
+}
+
 
 #pragma mark - Alert Messages
 /********************************************************************************************
@@ -230,8 +274,8 @@
     
     NSLog(@">>>>>Link to searchupc api: %@", query);
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:query]
+    self.upcSearch = [NSURLSession sharedSession];
+    [[self.upcSearch dataTaskWithURL:[NSURL URLWithString:query]
             completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
                 NSError *errorJson = nil;
                 NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
@@ -273,8 +317,8 @@
     NSString *query = [NSString stringWithFormat:@"http://api.rovicorp.com/search/v2.1/amgvideo/search?apikey=%@&sig=%@&query=%@&entitytype=movie&size=1&format=json&include=all", self.roviApiKey, self.sig, searchableTitle];
     NSLog(@">>>>>Link to rovicorp api: %@", query);
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:query]
+    self.titleSearch = [NSURLSession sharedSession];
+    [[self.titleSearch dataTaskWithURL:[NSURL URLWithString:query]
             completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
                 NSError *errorJson = nil;
                 NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
@@ -360,8 +404,8 @@
     NSString *movieQuery = [NSString stringWithFormat:@"http://api.themoviedb.org/3/search/movie?api_key=%@&query=%@", self.movieDbApiKey, searchableTitle];
     NSLog(@">>>>>Link to movieDB api for id: %@", movieQuery);
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
+    self.movieDBSearch = [NSURLSession sharedSession];
+    [[self.movieDBSearch dataTaskWithURL:[NSURL URLWithString:movieQuery]
             completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
                 NSError *errorJson = nil;
                 NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
@@ -406,8 +450,8 @@
     NSString *movieQuery = [NSString stringWithFormat:@"http://api.themoviedb.org/3/movie/%@/trailers?api_key=%@", movieDbId, self.movieDbApiKey];
     NSLog(@">>>>>Link to movieDB api for trailer: %@", movieQuery);
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
+    self.trailerSearch = [NSURLSession sharedSession];
+    [[self.trailerSearch dataTaskWithURL:[NSURL URLWithString:movieQuery]
             completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
                 NSError *errorJson = nil;
                 NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
@@ -449,8 +493,8 @@
     NSString *movieQuery = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@?api_key=%@", movieDbId, self.movieDbApiKey];
     NSLog(@">>>>>Link to movieDB api to get movie info by id: %@", movieQuery);
     
-    NSURLSession *session = [NSURLSession sharedSession];
-    [[session dataTaskWithURL:[NSURL URLWithString:movieQuery]
+    self.movieInfoSearch = [NSURLSession sharedSession];
+    [[self.movieInfoSearch dataTaskWithURL:[NSURL URLWithString:movieQuery]
             completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
                 NSError *errorJson = nil;
                 NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
@@ -533,6 +577,7 @@
                         if (self.num==0) {
                             self.num++;
                             [self movieNotFound];
+                            return;
                         }
                     }
                     //otherwise add object to library after checking if already exists
@@ -576,6 +621,7 @@
         //if movie is found in the dictionary, then that means it's already in the library
         if (movieFound) {
             [self movieAlreadyAdded];
+            return;
         }
         else{
             //add the found movie to the library
@@ -585,22 +631,9 @@
             //saves the plist
             [plistManager saveMovieLibrary:movieLibrary];
             
-            //checks to see if it's the first launch and is pre-populating the library
-            NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+            //show the alert
+            [self movieSuccessfullyAdded];
             
-            //if it is the first launch, increment the counter
-            if ([defaults integerForKey:@"Movie Library initial run counter"] < 12){
-                int num = (int) [defaults integerForKey:@"Movie Library initial run counter"];
-                num++;
-                [defaults setInteger:num forKey:@"Movie Library initial run counter"];
-                [defaults synchronize];
-                NSLog(@">>>>>Set NSUserDefaults Movie Library initial run counter to: %d", num);
-            }
-            //otherwise show the movie successfully added alert
-            else{
-                //show the alert
-                [self movieSuccessfullyAdded];
-            }
         }
 
     }

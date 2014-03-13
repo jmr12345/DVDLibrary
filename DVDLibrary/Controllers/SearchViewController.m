@@ -40,6 +40,15 @@
                                              selector:@selector(receivedNotification:)
                                                  name:@"Search done"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Entered background"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Interrupted"
+                                               object:nil];
+    
     self.titleSearchTextField.clearButtonMode = YES;
     
     self.processingView = [[ProcessingView alloc] initWithFrame:CGRectMake(110, 264, 100, 100)withMessage:@"Searching"];
@@ -126,7 +135,7 @@
  * @description if process is finished, then clear search text field and hide the spinner
  ********************************************************************************************/
 - (void)receivedNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"Search done"]) {
+    if ([[notification name] isEqualToString:@"Search done"] || [[notification name] isEqualToString:@"Entered background"] || [[notification name] isEqualToString:@"Interrupted"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
         self.titleSearchTextField.text = @"";
         self.processingView.hidden = YES;
@@ -147,7 +156,7 @@
 
 /********************************************************************************************
  * @method textFieldShouldClear:
- * @abstract
+ * @abstract hides the keyboard when the x is clicked in the text field
  * @description 
  ********************************************************************************************/
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
