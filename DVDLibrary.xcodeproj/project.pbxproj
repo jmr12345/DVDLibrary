@@ -42,6 +42,7 @@
 		8553E78718CEC7B1007F878D /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 8553E78618CEC7B1007F878D /* info.png */; };
 		85D0230718CBEA2B0079BF16 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 85D0230618CBEA2B0079BF16 /* SearchResult.m */; };
 		85EBF44E18D0145B00D4DCF4 /* no_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EBF44D18D0145B00D4DCF4 /* no_image.png */; };
+		85EBF45018D1352400D4DCF4 /* launchData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85EBF44F18D1352400D4DCF4 /* launchData.plist */; };
 		85EDCAD918C6CBA7006133FD /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 85EDCAD818C6CBA7006133FD /* SearchViewController.m */; };
 		85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCADC18C6D06D006133FD /* Settings.bundle */; };
 		85EDCAE518C6DD2E006133FD /* movieIcon-58x58.png in Resources */ = {isa = PBXBuildFile; fileRef = 85EDCAE218C6DD2E006133FD /* movieIcon-58x58.png */; };
@@ -117,6 +118,7 @@
 		85D0230518CBEA2B0079BF16 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResult.h; sourceTree = "<group>"; };
 		85D0230618CBEA2B0079BF16 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResult.m; sourceTree = "<group>"; };
 		85EBF44D18D0145B00D4DCF4 /* no_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_image.png; sourceTree = "<group>"; };
+		85EBF44F18D1352400D4DCF4 /* launchData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = launchData.plist; path = Model/launchData.plist; sourceTree = "<group>"; };
 		85EDCAD718C6CBA7006133FD /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		85EDCAD818C6CBA7006133FD /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		85EDCADC18C6D06D006133FD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 		3A6E831618BEBD0100F7210C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				85EBF44F18D1352400D4DCF4 /* launchData.plist */,
 				85EDCADC18C6D06D006133FD /* Settings.bundle */,
 				3A49ABB618C3E3EE004B0068 /* Icons */,
 				3A6E831718BEBD0100F7210C /* DVDLibrary-Info.plist */,
@@ -412,6 +415,7 @@
 			files = (
 				85EDCAE618C6DD2E006133FD /* movieIcon-80x80.png in Resources */,
 				3A49ABBA18C3E444004B0068 /* home-32.png in Resources */,
+				85EBF45018D1352400D4DCF4 /* launchData.plist in Resources */,
 				3A6E832818BEBD0100F7210C /* Images.xcassets in Resources */,
 				85EDCADD18C6D06D006133FD /* Settings.bundle in Resources */,
 				3A039A9918CFCC6B009CCD07 /* info-32.png in Resources */,

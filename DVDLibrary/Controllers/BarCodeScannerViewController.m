@@ -58,6 +58,14 @@
                                              selector:@selector(receivedNotification:)
                                                  name:@"Search done"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Entered background"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedNotification:)
+                                                 name:@"Interrupted"
+                                               object:nil];
 
     _session = [[AVCaptureSession alloc] init];
     _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -94,6 +102,7 @@
     self.processingView.hidden = YES;
 }
 
+#pragma mark - Capture output
 /********************************************************************************************
  * @method captureOutput didOutputMetadataObjects: fromConnection:
  * @abstract captures the barcode, translates it to a number and kicks off the search
@@ -154,6 +163,7 @@
     }
 }
 
+#pragma mark - Reachability
 /********************************************************************************************
  * @method isReachable
  * @abstract checks to see if have wifi or 3G/LTE connection
@@ -183,6 +193,7 @@
     NSLog(@">>>>>Showing no internet connection error");
 }
 
+#pragma mark - Notification
 /********************************************************************************************
  * @method receivedNotification
  * @abstract checks to see if search is done, if so, hide the processing view
@@ -190,7 +201,7 @@
  * @description
  ********************************************************************************************/
 - (void)receivedNotification:(NSNotification *) notification {
-    if ([[notification name] isEqualToString:@"Search done"]) {
+    if ([[notification name] isEqualToString:@"Search done"] || [[notification name] isEqualToString:@"Entered background"] || [[notification name] isEqualToString:@"Interrupted"]) {
         NSLog(@">>>>> Search done notification received by SearchViewController");
         
         self.processingView.hidden = YES;

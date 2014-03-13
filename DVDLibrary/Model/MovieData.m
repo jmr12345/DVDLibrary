@@ -11,7 +11,8 @@
  ******/
 
 #import "MovieData.h"
-#import "SearchResult.h"
+#import "Movie.h"
+#import "MovieLibraryManager.h"
 
 @implementation MovieData
 
@@ -26,57 +27,27 @@
 
 /********************************************************************************************
  * @method loadInitialData
- * @abstract pre-populates the movie library the first time the app is launched
- * @description
+ * @abstract prepopulates the movie library
+ * @description populates the movie library with data from an existing pList on first launch
+ for example purposes - if for app store, we would not use this
  ********************************************************************************************/
-- (void)loadInitialData
+-(void)loadInitialData
 {
-    NSString *movieTitle = @"21 Jump Street";
-    [self fetchMovieData:movieTitle];
+    NSString* plistPath = [[NSBundle mainBundle] pathForResource:@"launchData" ofType:@"plist"];
+    NSMutableDictionary *readDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    NSMutableArray *readArray = [readDictionary objectForKey:@"list"];
     
-    movieTitle = @"The Avengers";
-    [self fetchMovieData:movieTitle];
+    //convert each object in read dictionary to a movie object and add to arraylist
+    NSMutableArray *movieLibrary = [[NSMutableArray alloc]init];
+    for (NSData *data in readArray) {
+        Movie *obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        [movieLibrary addObject:obj];
+    }
     
-    movieTitle = @"The Incredibles";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Monsters, Inc.";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Atonement";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Star Wars: The Clone Wars";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"This Means War";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Lincoln";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Buffy the Vampire Slayer";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Footloose";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Patriot Games";
-    [self fetchMovieData:movieTitle];
-    
-    movieTitle = @"Dumb and Dumber";
-    [self fetchMovieData:movieTitle];
-}
-
-/********************************************************************************************
- * @method fetchMovieData
- * @abstract searches for a specific movie's information to populate the table
- * @description
- ********************************************************************************************/
-- (void)fetchMovieData: (NSString *)movieTitle
-{
-    SearchResult *search = [[SearchResult alloc]initWithMovieTitle:movieTitle];
-    [search titleSearch:movieTitle];
+    MovieLibraryManager *plist = [[MovieLibraryManager alloc]init];
+    //save pList to documents plist
+    [plist saveMovieLibrary:movieLibrary];
+    NSLog(@">>>>>Uploaded initial data %@", movieLibrary);
 }
 
 @end
